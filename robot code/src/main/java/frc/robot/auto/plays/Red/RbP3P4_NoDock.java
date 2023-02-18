@@ -3,8 +3,8 @@ package frc.robot.auto.plays.Red;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveAtPath;
-import frc.robot.commands.ResetDrivePose;
+import frc.robot.commands.Drive.DriveAtPath;
+import frc.robot.commands.Drive.ResetDrivePose;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.util.AutoChooser;
 
