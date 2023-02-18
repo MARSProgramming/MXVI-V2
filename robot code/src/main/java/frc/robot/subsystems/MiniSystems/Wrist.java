@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.MiniSystems;
 
 //WristSubsystem: 
 //Position Control via REV Encoder (limits?)
@@ -26,8 +26,6 @@ public class Wrist extends SubsystemBase{
         mWristMotor.config_kP(0, Constants.Wrist.kP);
         mWristMotor.config_kI(0, Constants.Wrist.kI);
         mWristMotor.config_kD(0, Constants.Wrist.kD);
-
-
     }
     
     public void setPosition(double pos){
