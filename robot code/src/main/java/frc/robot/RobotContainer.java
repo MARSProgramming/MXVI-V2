@@ -106,9 +106,10 @@ public class RobotContainer {
   }
 
   public void configureTestBindings(){
-    mPilot.a().whileTrue(mElevator.runTestMode(() -> 0.2));
-    mPilot.x().whileTrue(mPivot.runTestMode(() -> 0.2));
-    mPilot.y().whileTrue(mPivot.runTestMode(() -> -0.2));
+    mPilot.leftTrigger(0.2).whileTrue(mElevator.runTestMode(() -> -mPilot.getLeftTriggerAxis()));
+    mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getLeftTriggerAxis()));
+    mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
+    mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
 
     System.out.println("Test Bindings Configured");
     mPilot.povUp().whileTrue(mWrist.runTestMode(() -> 0.2));
