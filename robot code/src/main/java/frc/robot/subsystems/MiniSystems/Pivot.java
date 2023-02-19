@@ -1,6 +1,6 @@
 // This subsystem is to pivot the arm, and has constraints for how far the arm can turn. 
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.MiniSystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
