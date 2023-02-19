@@ -45,15 +45,8 @@ public class RobotContainer {
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final Elevator mElevator = new Elevator();
-<<<<<<< Updated upstream
   private final Pivot mPivot = new Pivot();
-=======
-<<<<<<< HEAD
   private final Wrist mWrist = new Wrist();
-=======
-  private final Pivot mPivot = new Pivot();
->>>>>>> 611df988b2cb1af3d6a43e11fc791c2cb5fd298f
->>>>>>> Stashed changes
   //private final Manipulator mManipulator = new Manipulator();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
@@ -110,10 +103,10 @@ public class RobotContainer {
     mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getLeftTriggerAxis()));
     mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
     mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
-
-    System.out.println("Test Bindings Configured");
     mPilot.povUp().whileTrue(mWrist.runTestMode(() -> 0.2));
     mPilot.povDown().whileTrue(mWrist.runTestMode(() -> -0.2));
+
+    System.out.println("Test Bindings Configured");
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

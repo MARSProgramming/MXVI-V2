@@ -48,10 +48,14 @@ public class Wrist extends SubsystemBase{
     }
     
     public CommandBase runTestMode(DoubleSupplier d) {
-        return run(
+        return runEnd(
           () -> {
             mWrist.set(ControlMode.PercentOutput, d.getAsDouble());
-          }).withName("Test Elevator");
+          },
+          () -> {
+            mWrist.set(ControlMode.PercentOutput, 0.0);
+          }
+          ).withName("Test Wrist");
     }
 
     public double distanceToSetpoint(double setpoint){
