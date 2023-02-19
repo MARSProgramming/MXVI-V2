@@ -23,6 +23,7 @@ import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.MiniSystems.Elevator;
+import frc.robot.subsystems.MiniSystems.Pivot;
 import frc.robot.util.AutoChooser;
 
 
@@ -44,6 +45,7 @@ public class RobotContainer {
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final Elevator mElevator = new Elevator();
+  private final Pivot mPivot = new Pivot();
   //private final Manipulator mManipulator = new Manipulator();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
@@ -97,6 +99,9 @@ public class RobotContainer {
 
   public void configureTestBindings(){
     mPilot.a().whileTrue(mElevator.runTestMode(() -> 0.2));
+    mPilot.x().whileTrue(mPivot.runTestMode(() -> 0.2));
+    mPilot.y().whileTrue(mPivot.runTestMode(() -> -0.2));
+
     System.out.println("Test Bindings Configured");
   }
   /**

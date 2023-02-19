@@ -39,11 +39,17 @@ public class Pivot extends SubsystemBase{
         pivot.set(ControlMode.Position, angle * kRadianstoNativeUnits);
     }
  
+
+
     public CommandBase runTestMode(DoubleSupplier d) {
-        return run(
-          () -> {
-            pivot.set(ControlMode.PercentOutput, d.getAsDouble());
-          }).withName("Test Pivot");
+        return runEnd(
+            () -> {
+                pivot.set(ControlMode.PercentOutput, d.getAsDouble());
+              }, 
+            () -> {
+                pivot.set(ControlMode.PercentOutput, 0.0);
+              }
+            ).withName("Test Pivot");
     }
 
     public double distanceToSetpoint(double setpoint){
