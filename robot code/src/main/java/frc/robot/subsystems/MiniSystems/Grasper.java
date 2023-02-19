@@ -27,15 +27,20 @@ public class Grasper extends SubsystemBase{
     }
 
     public void RunGrasperIntake(){
-
         double Average = 0;
+        double Sdev;
         for(int i = 0; i <= PositionTable.length; i++){
             Average += PositionTable[i];
         }
+          Average = Average / PositionTable.length;
 
-        Average = Average / PositionTable.length;
+        for(int i = 0; i <= PositionTable.length; i++){
+            Sdev += Math.pow(PositionTable[i] - Average, 2);
+        }
+        Sdev = Math.sqrt(Sdev);
+      
 
-        if(Math.abs(BeltController.getSelectedSensorPosition() - Average) < 500){
+        if(Math.abs(BeltController.getSelectedSensorPosition() - Average) < Sdev*2){
             return;
         }
 
