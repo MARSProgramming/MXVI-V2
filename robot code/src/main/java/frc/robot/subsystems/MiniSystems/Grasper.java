@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,7 +20,7 @@ import frc.robot.Constants;
 public class Grasper extends SubsystemBase{
 
     private TalonFX BeltController = new TalonFX(Constants.Grasper.motorID);
-    private double[] PositionTable = new double[]{10000,10000,10000,10000,10000,10000,10000,10000,10000,10000};
+    private double[] PositionTable = new double[]{5000,5000,5000,5000,5000,5000,5000,5000,5000,5000};
     private int count = 0;
     public Grasper() {
         BeltController.configFactoryDefault();
@@ -65,9 +66,14 @@ public class Grasper extends SubsystemBase{
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {
-        return run(
+        return runEnd(
           () -> {
             BeltController.set(ControlMode.PercentOutput, d.getAsDouble());
-          }).withName("Test Grasper");
+          },
+          () -> {
+            BeltController.set(ControlMode.PercentOutput, 0);
+          }
+          ).withName("Test Grasper");
     }
+    
 }
