@@ -78,7 +78,13 @@ public final class Constants {
     }
 
     public static class Elevator{
-        public static double forwardSoftLimitInches = 12.0;
+        public static double forwradLimitInches = 12.0;
+        public static double reverseLimitInches = -12.0;
+
+        public static double kP = 0.0;
+        public static double kI = 0.0;
+        public static double kD = 0.0;
+
         public static int masterMotorID = 8;
         public static int followerMotorID = 9;
     }
@@ -88,5 +94,26 @@ public final class Constants {
         public static double kP = 0.0;
         public static double kI = 0.0;
         public static double kD = 0.0;
+
+        public static double forwardLimit = 1;
+        public static double reverseLimit = -1;
+    }
+
+    public static class Pivot{
+        public static int motorID = 11;
+        public static double kP = 0.0;
+        public static double kI = 0.0;
+        public static double kD = 0.0;
+
+        public static double forwardLimit = 1;
+        public static double reverseLimit = -1;
+    }
+
+    public static class Grasper{
+        public static int motorID = 13;
+    }
+
+    public static class Manipulator{
+        
     }
 }

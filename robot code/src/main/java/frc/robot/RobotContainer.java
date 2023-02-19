@@ -19,8 +19,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
-import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.MiniSystems.BottomSolenoids;
 import frc.robot.util.AutoChooser;
 import frc.robot.util.CustomXboxController;
 
@@ -43,6 +44,7 @@ public class RobotContainer {
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem);
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
+  //private final Manipulator mManipulator = new Manipulator();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
 
@@ -94,6 +96,7 @@ public class RobotContainer {
   }
 
   public void configureTestBindings(){
+    //mPilot.getAButtonObject().onTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getLeftX()));
     System.out.println("Test Bindings Configured");
   }
   /**

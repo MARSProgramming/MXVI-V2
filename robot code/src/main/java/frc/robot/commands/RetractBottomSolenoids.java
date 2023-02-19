@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.BottomSolenoids;
+import frc.robot.subsystems.MiniSystems.BottomSolenoids;
 
 public class RetractBottomSolenoids extends CommandBase{
     private BottomSolenoids mBottomSolenoids;

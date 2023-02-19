@@ -3,20 +3,26 @@
 
 package frc.robot.subsystems.MiniSystems;
 
+import java.util.function.DoubleSupplier;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 
 public class Grasper extends SubsystemBase{
 
-    private TalonFX BeltController = new TalonFX(9);
+    private TalonFX BeltController = new TalonFX(Constants.Grasper.motorID);
     private double[] PositionTable = new double[]{10000,10000,10000,10000,10000,10000,10000,10000,10000,10000};
     private int count = 0;
     public Grasper() {
+        BeltController.configFactoryDefault();
         BeltController.setNeutralMode(NeutralMode.Brake);
     }
 
@@ -49,4 +55,14 @@ public class Grasper extends SubsystemBase{
         BeltController.set(TalonFXControlMode.PercentOutput, -0.3);
     }
 
+    public void setPercentOutput(double v){
+        BeltController.set(ControlMode.PercentOutput, v);
+    }
+
+    public CommandBase runTestMode(DoubleSupplier d) {
+        return run(
+          () -> {
+            BeltController.set(ControlMode.PercentOutput, d.getAsDouble());
+          }).withName("Test Grasper");
+    }
 }

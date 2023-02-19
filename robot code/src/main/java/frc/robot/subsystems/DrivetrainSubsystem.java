@@ -83,11 +83,14 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
 
   public void zeroSwerves(boolean run) {
    if(run){
-        File swerveZeros = new File(Filesystem.getDeployDirectory().toPath().resolve("constants/SwerveZeros.txt").toString());
-        System.out.println(Filesystem.getDeployDirectory().toPath().resolve("constants/SwerveZeros.txt").toString());
+        File swerveZeros = new File("/home/lvuser/constants/SwerveZeros.txt");
+        swerveZeros.setExecutable(true);
+        swerveZeros.setReadable(true);
+        swerveZeros.setWritable(true);
+        System.out.println("/home/lvuser/constants/SwerveZeros.txt");
         try{
             swerveZeros.createNewFile();
-            FileWriter writer = new FileWriter(Filesystem.getDeployDirectory().toPath().resolve("constants/SwerveZeros.txt").toString());
+            FileWriter writer = new FileWriter("/home/lvuser/constants/SwerveZeros.txt");
             writer.write(MoreMath.floorMod(Math.toDegrees(m_frontLeftModule.getSteerAngle()-Constants.Drive.FRONT_LEFT_MODULE_STEER_OFFSET), 360) + "\n");
             writer.write(MoreMath.floorMod(Math.toDegrees(m_frontRightModule.getSteerAngle()-Constants.Drive.FRONT_RIGHT_MODULE_STEER_OFFSET), 360) + "\n");
             writer.write(MoreMath.floorMod(Math.toDegrees(m_backLeftModule.getSteerAngle()-Constants.Drive.BACK_LEFT_MODULE_STEER_OFFSET), 360) + "\n");
@@ -123,7 +126,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         double fl = 0;
         double br = 0;
         double bl = 0;
-        File swerveZeros = new File(Filesystem.getDeployDirectory().toPath().resolve("constants/SwerveZeros.txt").toString());
+        File swerveZeros = new File("/home/lvuser/constants/SwerveZeros.txt");
             if (swerveZeros.exists()) {
                 try{
                     Scanner sc = new Scanner(swerveZeros);

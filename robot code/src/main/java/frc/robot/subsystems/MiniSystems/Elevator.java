@@ -1,9 +1,12 @@
 package frc.robot.subsystems.MiniSystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,15 +36,18 @@ public class Elevator extends SubsystemBase{
         master.configFactoryDefault();
         follower.configFactoryDefault();
 
-        master.configForwardSoftLimitThreshold(Constants.Elevator.forwardSoftLimitInches * inchesToNativeUnits);
+        master.configForwardSoftLimitThreshold(Constants.Elevator.forwradLimitInches * inchesToNativeUnits);
+        master.configForwardSoftLimitEnable(true);
+
+        master.configForwardSoftLimitThreshold(Constants.Elevator.reverseLimitInches * inchesToNativeUnits);
         master.configForwardSoftLimitEnable(true);
         
         master.setNeutralMode(NeutralMode.Brake);
         follower.setNeutralMode(NeutralMode.Brake);
         
-        master.config_kP(0, 0.0);
-        master.config_kI(0, 0.0);
-        master.config_kD(0, 0.0);
+        master.config_kP(0, Constants.Pivot.kP);
+        master.config_kI(0, Constants.Pivot.kI);
+        master.config_kD(0, Constants.Pivot.kD);
 
         follower.follow(master);
         
@@ -55,4 +61,14 @@ public class Elevator extends SubsystemBase{
         master.set(ControlMode.PercentOutput, v);
     }
 
+    public CommandBase runTestMode(DoubleSupplier d) {
+        return run(
+          () -> {
+            master.set(ControlMode.PercentOutput, d.getAsDouble());
+          }).withName("Test Elevator");
+    }
+  
+    public double distanceToSetpoint(double setpoint){
+        return master.getSelectedSensorPosition() / inchesToNativeUnits - setpoint;
+    }
 }
