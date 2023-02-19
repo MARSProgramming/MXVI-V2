@@ -16,11 +16,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.MiniSystems.BottomSolenoids;
+import frc.robot.subsystems.BottomSolenoids;
+import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.util.AutoChooser;
 
 
@@ -41,6 +43,7 @@ public class RobotContainer {
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem);
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
+  private final Elevator mElevator = new Elevator();
   //private final Manipulator mManipulator = new Manipulator();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
@@ -93,7 +96,7 @@ public class RobotContainer {
   }
 
   public void configureTestBindings(){
-    
+    mPilot.a().whileTrue(mElevator.runTestMode(() -> 0.2));
     System.out.println("Test Bindings Configured");
   }
   /**

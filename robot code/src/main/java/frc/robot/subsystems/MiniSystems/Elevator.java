@@ -62,10 +62,14 @@ public class Elevator extends SubsystemBase{
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {
-        return run(
+        return runEnd(
           () -> {
             master.set(ControlMode.PercentOutput, d.getAsDouble());
-          }).withName("Test Elevator");
+          },
+          () -> {
+            master.set(ControlMode.PercentOutput, 0);
+          }
+          ).withName("Test Elevator");
     }
   
     public double distanceToSetpoint(double setpoint){
