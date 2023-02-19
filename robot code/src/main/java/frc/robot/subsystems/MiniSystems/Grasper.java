@@ -28,7 +28,7 @@ public class Grasper extends SubsystemBase{
 
     public void RunGrasperIntake(){
         double Average = 0;
-        double Sdev;
+        double Sdev = 0;
         for(int i = 0; i <= PositionTable.length; i++){
             Average += PositionTable[i];
         }
