@@ -16,14 +16,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Drive.DefaultDriveCommand;
-import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.MiniSystems.BottomSolenoids;
 import frc.robot.util.AutoChooser;
-import frc.robot.util.CustomXboxController;
 
 
 /**
@@ -37,8 +35,7 @@ public class RobotContainer {
   
   private final DrivetrainSubsystem mDrivetrainSubsystem = new DrivetrainSubsystem();
 
-  private final CustomXboxController mPilot = new CustomXboxController(0);
-  private final CustomXboxController mCoPilot = new CustomXboxController(1);
+  private final CommandXboxController mPilot = new CommandXboxController(0);
 
   private HashMap<String, Pose2d> mPointPositionMap;
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem);
@@ -91,12 +88,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureTeleopBindings() {
-    mPilot.getYButtonObject().onTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
+    
     System.out.println("Teleop Bindings Configured");
   }
 
   public void configureTestBindings(){
-    //mPilot.getAButtonObject().onTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getLeftX()));
+    
     System.out.println("Test Bindings Configured");
   }
   /**
@@ -132,9 +129,5 @@ public class RobotContainer {
     //value = Math.round(value * 5.0)/5.0;
 
     return value;
-  }
-
-  public XboxController getPilot(){
-    return mPilot;
   }
 }
