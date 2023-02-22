@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -28,32 +29,35 @@ public class Elevator extends SubsystemBase{
     private TalonFX follower;
     private final double kGearRatio = 49;
     private final double inchesPerRotation = 1;
-    private final double inchesToNativeUnits = 2048 * kGearRatio * inchesPerRotation;
+    private final double inchesToNativeUnits = 2048 * kGearRatio / inchesPerRotation;
     public Elevator(){
-        master = new TalonFX(Constants.Elevator.followerMotorID);
-        follower = new TalonFX(Constants.Elevator.masterMotorID);
+        master = new TalonFX(Constants.Elevator.masterMotorID);
+        follower = new TalonFX(Constants.Elevator.followerMotorID);
 
         master.configFactoryDefault();
         follower.configFactoryDefault();
 
-        master.configForwardSoftLimitThreshold(Constants.Elevator.forwradLimitInches * inchesToNativeUnits);
+        master.configForwardSoftLimitThreshold(Constants.Elevator.forwardLimitInches * inchesToNativeUnits);
         master.configForwardSoftLimitEnable(true);
 
-        master.configForwardSoftLimitThreshold(Constants.Elevator.reverseLimitInches * inchesToNativeUnits);
-        master.configForwardSoftLimitEnable(true);
+        master.configReverseSoftLimitThreshold(Constants.Elevator.reverseLimitInches * inchesToNativeUnits);
+        master.configReverseSoftLimitEnable(true);
         
-        master.setNeutralMode(NeutralMode.Brake);
-        follower.setNeutralMode(NeutralMode.Brake);
+        master.setNeutralMode(NeutralMode.Coast);
+        follower.setNeutralMode(NeutralMode.Coast);
+        master.setInverted(true);
+        follower.setInverted(false);
         
-        master.config_kP(0, Constants.Pivot.kP);
-        master.config_kI(0, Constants.Pivot.kI);
-        master.config_kD(0, Constants.Pivot.kD);
+        master.config_kP(0, Constants.Elevator.kP);
+        master.config_kI(0, Constants.Elevator.kI);
+        master.config_kD(0, Constants.Elevator.kD);
 
         follower.follow(master);
         
     }
 
     public void setPosition(double inches){
+        SmartDashboard.putNumber("ElevatorSetPos", inches * inchesToNativeUnits);
         master.set(ControlMode.Position, inches * inchesToNativeUnits);
     }
 
@@ -71,8 +75,24 @@ public class Elevator extends SubsystemBase{
           }
           ).withName("Test Elevator");
     }
+
+    public CommandBase testSetpoint() {
+        return runEnd(
+          () -> {
+            setPosition(2 * inchesToNativeUnits);
+          },
+          () -> {
+            master.set(ControlMode.PercentOutput, 0);
+          }
+          ).withName("Test Elevator Setpoints");
+    }
   
     public double distanceToSetpoint(double setpoint){
         return master.getSelectedSensorPosition() / inchesToNativeUnits - setpoint;
+    }
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("ElevatorPos", master.getSelectedSensorPosition());
     }
 }

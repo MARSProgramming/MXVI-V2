@@ -16,16 +16,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.Drive;
 import frc.robot.commands.Drive.DefaultDriveCommand;
+import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
-import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.BottomSolenoids;
+import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.subsystems.MiniSystems.Pivot;
-import frc.robot.util.AutoChooser;
 import frc.robot.subsystems.MiniSystems.Wrist;
+import frc.robot.util.AutoChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,8 +46,8 @@ public class RobotContainer {
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final Elevator mElevator = new Elevator();
-  private final Pivot mPivot = new Pivot();
-  private final Wrist mWrist = new Wrist();
+  //private final Pivot mPivot = new Pivot();
+  //private final Wrist mWrist = new Wrist();
   //private final Manipulator mManipulator = new Manipulator();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
@@ -94,17 +95,18 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureTeleopBindings() {
-    
+    mPilot.y().onTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
     System.out.println("Teleop Bindings Configured");
   }
 
   public void configureTestBindings(){
     mPilot.leftTrigger(0.2).whileTrue(mElevator.runTestMode(() -> -mPilot.getLeftTriggerAxis()));
-    mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getLeftTriggerAxis()));
-    mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
+    mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getRightTriggerAxis()));
+    mPilot.y().whileTrue(mElevator.testSetpoint());
+    /*mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
     mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
     mPilot.povUp().whileTrue(mWrist.runTestMode(() -> 0.2));
-    mPilot.povDown().whileTrue(mWrist.runTestMode(() -> -0.2));
+    mPilot.povDown().whileTrue(mWrist.runTestMode(() -> -0.2));*/
 
     System.out.println("Test Bindings Configured");
   }

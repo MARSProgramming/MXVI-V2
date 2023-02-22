@@ -72,16 +72,11 @@ public final class Constants {
         public static final double kTriggerThreshold = 0.6;
     }
 
-    public static class Arm{
-        public static final int kElbowMotorID = 8;
-        public static final int kShoulderMotorID = 9;
-    }
-
     public static class Elevator{
-        public static double forwradLimitInches = 12.0;
-        public static double reverseLimitInches = -12.0;
+        public static double forwardLimitInches = 5;
+        public static double reverseLimitInches = -5;
 
-        public static double kP = 0.0;
+        public static double kP = 0.0001;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
