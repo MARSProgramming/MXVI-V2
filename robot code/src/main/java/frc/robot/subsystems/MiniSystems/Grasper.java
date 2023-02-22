@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.UtilityFunctions;
 
 
 
@@ -59,6 +60,15 @@ public class Grasper extends SubsystemBase{
 
     public void RunGrasperEject(){
         BeltController.set(TalonFXControlMode.PercentOutput, -0.3);
+    }
+
+
+    public void RunGrasperStallcheck() {
+        if (UtilityFunctions.isStalling(BeltController.getSelectedSensorPosition(), 500)) {
+            BeltController.set(TalonFXControlMode.PercentOutput, 0);
+        } else {
+            BeltController.set(TalonFXControlMode.PercentOutput, 0.3);
+        }
     }
 
     public void setPercentOutput(double v){
