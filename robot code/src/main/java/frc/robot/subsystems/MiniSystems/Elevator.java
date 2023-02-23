@@ -28,7 +28,7 @@ public class Elevator extends SubsystemBase{
     private TalonFX master;
     private TalonFX follower;
     private final double kGearRatio = 49;
-    private final double inchesPerRotation = 1;
+    private final double inchesPerRotation = 2 * Math.PI;
     private final double inchesToNativeUnits = 2048 * kGearRatio / inchesPerRotation;
     public Elevator(){
         master = new TalonFX(Constants.Elevator.masterMotorID);

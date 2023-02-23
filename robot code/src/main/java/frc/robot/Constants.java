@@ -73,8 +73,8 @@ public final class Constants {
     }
 
     public static class Elevator{
-        public static double forwardLimitInches = 5;
-        public static double reverseLimitInches = -5;
+        public static double forwardLimitInches = 100;
+        public static double reverseLimitInches = -100;
 
         public static double kP = 0.0001;
         public static double kI = 0.0;

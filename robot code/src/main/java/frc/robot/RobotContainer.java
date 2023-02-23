@@ -102,7 +102,7 @@ public class RobotContainer {
   public void configureTestBindings(){
     mPilot.leftTrigger(0.2).whileTrue(mElevator.runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getRightTriggerAxis()));
-    mPilot.y().whileTrue(mElevator.testSetpoint());
+    //mPilot.y().whileTrue(mElevator.testSetpoint());
     /*mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
     mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
     mPilot.povUp().whileTrue(mWrist.runTestMode(() -> 0.2));
