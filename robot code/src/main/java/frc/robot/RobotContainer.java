@@ -17,13 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.Drive;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.MiniSystems.Elevator;
+import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Pivot;
 import frc.robot.subsystems.MiniSystems.Wrist;
 import frc.robot.util.AutoChooser;
@@ -46,8 +46,9 @@ public class RobotContainer {
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final Elevator mElevator = new Elevator();
-  //private final Pivot mPivot = new Pivot();
-  //private final Wrist mWrist = new Wrist();
+  private final Pivot mPivot = new Pivot();
+  private final Wrist mWrist = new Wrist();
+  private final Grasper mGrasper = new Grasper();
   //private final Manipulator mManipulator = new Manipulator();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
@@ -102,7 +103,9 @@ public class RobotContainer {
   public void configureTestBindings(){
     mPilot.leftTrigger(0.2).whileTrue(mElevator.runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getRightTriggerAxis()));
-    //mPilot.y().whileTrue(mElevator.testSetpoint());
+    mPilot.y().whileTrue(mElevator.testSetpoint());
+    mPilot.povUp().whileTrue(mGrasper.runTestMode(() -> 0.5));
+    mPilot.povDown().whileTrue(mGrasper.runTestMode(() -> -0.5));
     /*mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
     mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
     mPilot.povUp().whileTrue(mWrist.runTestMode(() -> 0.2));

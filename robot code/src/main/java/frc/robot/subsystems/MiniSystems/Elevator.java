@@ -79,7 +79,7 @@ public class Elevator extends SubsystemBase{
     public CommandBase testSetpoint() {
         return runEnd(
           () -> {
-            setPosition(2 * inchesToNativeUnits);
+            setPosition(12 * inchesToNativeUnits);
           },
           () -> {
             master.set(ControlMode.PercentOutput, 0);
