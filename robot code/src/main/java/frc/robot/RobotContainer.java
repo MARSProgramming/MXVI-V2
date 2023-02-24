@@ -25,6 +25,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Pivot;
+import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Wrist;
 import frc.robot.util.AutoChooser;
 
@@ -40,6 +41,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem mDrivetrainSubsystem = new DrivetrainSubsystem();
 
   private final CommandXboxController mPilot = new CommandXboxController(0);
+  private final CommandXboxController mCopilot = new CommandXboxController(1);
 
   private HashMap<String, Pose2d> mPointPositionMap;
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem);
@@ -109,7 +111,7 @@ public class RobotContainer {
     /*mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
     mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
     mPilot.povUp().whileTrue(mWrist.runTestMode(() -> 0.2));
-    mPilot.povDown().whileTrue(mWrist.runTestMode(() -> -0.2));*/
+    mPilot.povDown().whileTrue(mWrist.runTestMode(() -> -0.2));
 
     System.out.println("Test Bindings Configured");
   }
