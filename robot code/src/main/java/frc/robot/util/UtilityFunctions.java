@@ -1,12 +1,15 @@
 package frc.robot.util;
 
-public class UtilityFunctions {
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class UtilityFunctions extends SubsystemBase{
     
     public UtilityFunctions() {
 
     }
     
-    private static double[] lastPositions;
+    private static double[] lastPositions = new double[10];
 
     public static boolean isStalling(double encoderPosition, double threshold) {
         
@@ -22,7 +25,7 @@ public class UtilityFunctions {
             }
            
             double posAvg = pos_sum / lastPositions.length;
-            return (Math.abs(encoderPosition - posAvg) > threshold);
+            return (Math.abs(encoderPosition - posAvg) < threshold);
     
         } else {
             return false;
@@ -30,5 +33,9 @@ public class UtilityFunctions {
         
 
     } 
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumberArray("lastpositions", lastPositions);
+    }
  }
 

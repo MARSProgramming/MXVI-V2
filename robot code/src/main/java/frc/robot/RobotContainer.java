@@ -28,6 +28,7 @@ import frc.robot.subsystems.MiniSystems.Pivot;
 import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Wrist;
 import frc.robot.util.AutoChooser;
+import frc.robot.util.UtilityFunctions;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -51,6 +52,7 @@ public class RobotContainer {
   private final Pivot mPivot = new Pivot();
   private final Wrist mWrist = new Wrist();
   private final Grasper mGrasper = new Grasper();
+  private final UtilityFunctions utilityFunctions = new UtilityFunctions();
   //private final Manipulator mManipulator = new Manipulator();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
@@ -60,7 +62,7 @@ public class RobotContainer {
   }
 
   public void startCompressor(){
-    mCompressor.enableAnalog(100, 110);
+    //mCompressor.enableAnalog(100, 110);
   }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -106,12 +108,13 @@ public class RobotContainer {
     mPilot.leftTrigger(0.2).whileTrue(mElevator.runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getRightTriggerAxis()));
     mPilot.y().whileTrue(mElevator.testSetpoint());
-    mPilot.povUp().whileTrue(mGrasper.runTestMode(() -> 0.5));
-    mPilot.povDown().whileTrue(mGrasper.runTestMode(() -> -0.5));
-    /*mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
+    mPilot.x().whileTrue(mWrist.testSetpoint());
+    mPilot.povUp().whileTrue(mGrasper.runTestMode(() -> 0.3));
+    mPilot.povDown().whileTrue(mGrasper.runTestMode(() -> -0.3));
+    mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
     mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
-    mPilot.povUp().whileTrue(mWrist.runTestMode(() -> 0.2));
-    mPilot.povDown().whileTrue(mWrist.runTestMode(() -> -0.2));
+    mPilot.povRight().whileTrue(mWrist.runTestMode(() -> 0.2));
+    mPilot.povLeft().whileTrue(mWrist.runTestMode(() -> -0.2));
 
     System.out.println("Test Bindings Configured");
   }

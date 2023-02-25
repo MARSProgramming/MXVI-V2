@@ -8,6 +8,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,29 +21,29 @@ public class Pivot extends SubsystemBase{
     private final double kGearRatio = 81;
     private TalonFX pivot = new TalonFX(Constants.Pivot.motorID);
     private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
-
+    private final DutyCycleEncoder mEncoder = new DutyCycleEncoder(0);
+    private final ProfiledPIDController mController = new ProfiledPIDController(Constants.Pivot.kP, Constants.Pivot.kI, Constants.Pivot.kD, new TrapezoidProfile.Constraints(1, 1));
+    
     public Pivot() {
         pivot.configFactoryDefault();
         pivot.setNeutralMode(NeutralMode.Brake);
-        pivot.config_kP(0, Constants.Pivot.kP);
-        pivot.config_kI(0, Constants.Pivot.kI);
-        pivot.config_kD(0, Constants.Pivot.kD);
-
-        // Set constraints for how far forward/reverse the TalonFX can go
-        pivot.configForwardSoftLimitThreshold(Constants.Pivot.forwardLimit, 0);
-        pivot.configReverseSoftLimitThreshold(Constants.Pivot.reverseLimit, 0);
-        pivot.configForwardSoftLimitEnable(true, 0);
-        pivot.configReverseSoftLimitEnable(true, 0);
+        pivot.setInverted(true);
+    
+        mEncoder.setDistancePerRotation(Math.PI * 2);
+        mEncoder.reset();
     }
     public void Run(double voltage) {
-        pivot.set(ControlMode.PercentOutput, voltage);
+        if(mEncoder.getDistance() > Constants.Pivot.forwardLimit || mEncoder.getDistance() < Constants.Pivot.reverseLimit){
+            pivot.set(ControlMode.PercentOutput, 0);
+        }
+        else{
+            pivot.set(ControlMode.PercentOutput, voltage);
+        }
     } 
 
     public void setpos(double angle) {
-        pivot.set(ControlMode.Position, angle * kRadianstoNativeUnits);
+        Run(mController.calculate(mEncoder.getDistance(), angle * kRadianstoNativeUnits));
     }
- 
-
 
     public CommandBase runTestMode(DoubleSupplier d) {
         return runEnd(
@@ -54,6 +58,11 @@ public class Pivot extends SubsystemBase{
 
     public double distanceToSetpoint(double setpoint){
         return pivot.getSelectedSensorPosition() / kRadianstoNativeUnits - setpoint;
+    }
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("Pivot Position", mEncoder.getDistance());
     }
 }
 

@@ -86,12 +86,12 @@ public final class Constants {
 
     public static class Wrist{
         public static int motorID = 12;
-        public static double kP = 0.0;
+        public static double kP = 0.03;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
-        public static double forwardLimit = 1;
-        public static double reverseLimit = -1;
+        public static double forwardLimit = 2.75;
+        public static double reverseLimit = -2.75;
     }
 
     public static class Pivot{
@@ -100,8 +100,8 @@ public final class Constants {
         public static double kI = 0.0;
         public static double kD = 0.0;
 
-        public static double forwardLimit = 1;
-        public static double reverseLimit = -1;
+        public static double forwardLimit = 100;
+        public static double reverseLimit = -100;
     }
 
     public static class Grasper{

@@ -21,53 +21,21 @@ import frc.robot.util.UtilityFunctions;
 public class Grasper extends SubsystemBase{
 
     private TalonFX BeltController = new TalonFX(Constants.Grasper.motorID);
-    private double[] PositionTable = new double[]{5000,5000,5000,5000,5000,5000,5000,5000,5000,5000};
-    private int count = 0;
     public Grasper() {
         BeltController.configFactoryDefault();
-        BeltController.setNeutralMode(NeutralMode.Brake);
-    }
-
-    public void RunGrasperIntake(){
-        double Average = 0;
-        double Sdev = 0;
-        for(int i = 0; i <= PositionTable.length; i++){
-            Average += PositionTable[i];
-        }
-          Average = Average / PositionTable.length;
-
-        for(int i = 0; i <= PositionTable.length; i++){
-            Sdev += Math.pow(PositionTable[i] - Average, 2);
-        }
-        Sdev = Math.sqrt(Sdev);
-      
-
-        if(Math.abs(BeltController.getSelectedSensorPosition() - Average) < Sdev*2){
-            return;
-        }
-
-        BeltController.set(TalonFXControlMode.PercentOutput, 0.3);
-
-        PositionTable[count] = BeltController.getSelectedSensorPosition();
-
-        if(count % PositionTable.length == 0 && !(count == 0)){
-            count = 0;
-        }
-        else{
-            count++;
-        }
+        BeltController.setNeutralMode(NeutralMode.Coast);
+        BeltController.setInverted(true);
     }
 
     public void RunGrasperEject(){
         BeltController.set(TalonFXControlMode.PercentOutput, -0.3);
     }
 
-
     public void RunGrasperStallcheck() {
-        if (UtilityFunctions.isStalling(BeltController.getSelectedSensorPosition(), 500)) {
+        if (UtilityFunctions.isStalling(BeltController.getSelectedSensorPosition(), 500) && BeltController.getMotorOutputPercent() != 0) {
             BeltController.set(TalonFXControlMode.PercentOutput, 0);
         } else {
-            BeltController.set(TalonFXControlMode.PercentOutput, 0.3);
+            BeltController.set(TalonFXControlMode.PercentOutput, 0.5);
         }
     }
 
@@ -78,7 +46,7 @@ public class Grasper extends SubsystemBase{
     public CommandBase runTestMode(DoubleSupplier d) {
         return runEnd(
           () -> {
-            BeltController.set(ControlMode.PercentOutput, d.getAsDouble());
+            RunGrasperStallcheck();
           },
           () -> {
             BeltController.set(ControlMode.PercentOutput, 0);
