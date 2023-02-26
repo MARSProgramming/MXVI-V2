@@ -3,13 +3,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.commands.Manipulator.ElevatorIntake;
-import frc.robot.commands.Manipulator.PivotToIntake;
-import frc.robot.commands.Manipulator.WristCarry;
-import frc.robot.commands.Manipulator.WristIntake;
+import frc.robot.commands.Manipulator.Elevator.ElevatorIntake;
+import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
+import frc.robot.commands.Manipulator.Wrist.WristCarry;
+import frc.robot.commands.Manipulator.Wrist.WristIntake;
 import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Pivot;
@@ -34,35 +32,24 @@ public class Manipulator extends SubsystemBase{
         return mWrist;
     }
 
-    public Manipulator(){
-
-    }
+    private CommandBase intakeCommand = Commands.sequence(
+        new WristCarry(this), 
+        new ParallelCommandGroup(
+            new ElevatorIntake(this), 
+            new PivotToIntake(this), 
+            new WristIntake(this)
+        )
+    );
     
-    public CommandBase goToScore() {
-        return run(
-          () -> {
-            if(Math.abs(mPivot.distanceToSetpoint(Constants.Pivot.scorePos)) < 0.1){
-                mWrist.goToScore();
-            }
-            else{
-                if(Math.abs(mWrist.distanceToSetpoint(Constants.Wrist.carryPos)) < 0.1){
-                    mPivot.goToScore();
-                }
-                else{
-                    mWrist.goToCarry();
-                }
-            }
-
-          }
-          ).withName("To Scoring Position");
+    public Manipulator(){
+        intakeCommand.addRequirements(this);
     }
 
-    private CommandBase intakeCommand = Commands.sequence(new ParallelCommandGroup(new WristCarry(this), new ElevatorIntake(this)), new ParallelCommandGroup(new PivotToIntake(this), new WristIntake(this)));
     public CommandBase goToIntake() {
         return intakeCommand;
     }
 
-    public CommandBase cancelCommands(){
+    public CommandBase cancelSetpointCommands(){
         return runOnce(
             () -> {
                 intakeCommand.cancel();

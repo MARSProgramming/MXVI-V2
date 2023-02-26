@@ -1,4 +1,4 @@
-package frc.robot.commands.Manipulator;
+package frc.robot.commands.Manipulator.Wrist;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -8,7 +8,6 @@ public class WristCarry extends CommandBase{
     private Manipulator manipulator;
     public WristCarry(Manipulator m){
         manipulator = m;
-        addRequirements(m);
     }
 
     @Override

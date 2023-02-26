@@ -1,4 +1,4 @@
-package frc.robot.commands.Manipulator;
+package frc.robot.commands.Manipulator.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -8,7 +8,6 @@ public class ElevatorIntake extends CommandBase{
     private Manipulator manipulator;
     public ElevatorIntake(Manipulator m){
         manipulator = m;
-        addRequirements(m);
     }
 
     @Override
@@ -21,8 +20,8 @@ public class ElevatorIntake extends CommandBase{
         manipulator.getElevator().setPercentOutput(0);
     }
 
-    @Override
+    /*@Override
     public boolean isFinished(){
         return Math.abs(manipulator.getElevator().distanceToSetpoint(Constants.Elevator.intakePos)) < 0.1;
-    }
+    }*/
 }

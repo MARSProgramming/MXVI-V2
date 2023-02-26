@@ -1,4 +1,4 @@
-package frc.robot.commands.Manipulator;
+package frc.robot.commands.Manipulator.Wrist;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -20,10 +20,5 @@ public class WristIntake extends CommandBase{
     @Override
     public void end(boolean interrupted){
         manipulator.getWrist().setPercentOutput(0);
-    }
-
-    @Override
-    public boolean isFinished(){
-        return Math.abs(manipulator.getWrist().distanceToSetpoint(Constants.Wrist.intakeBackPos)) < 0.1;
     }
 }

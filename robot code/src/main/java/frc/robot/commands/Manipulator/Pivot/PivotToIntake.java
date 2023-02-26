@@ -1,4 +1,4 @@
-package frc.robot.commands.Manipulator;
+package frc.robot.commands.Manipulator.Pivot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
