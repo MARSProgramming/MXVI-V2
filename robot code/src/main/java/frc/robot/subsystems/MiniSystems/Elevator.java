@@ -3,6 +3,7 @@ package frc.robot.subsystems.MiniSystems;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -43,22 +44,32 @@ public class Elevator extends SubsystemBase{
         master.configReverseSoftLimitThreshold(Constants.Elevator.reverseLimitInches * inchesToNativeUnits);
         master.configReverseSoftLimitEnable(true);
         
-        master.setNeutralMode(NeutralMode.Coast);
-        follower.setNeutralMode(NeutralMode.Coast);
-        master.setInverted(true);
-        follower.setInverted(false);
+        master.setNeutralMode(NeutralMode.Brake);
+        follower.setNeutralMode(NeutralMode.Brake);
+        master.setInverted(false);
+        follower.setInverted(true);
         
         master.config_kP(0, Constants.Elevator.kP);
         master.config_kI(0, Constants.Elevator.kI);
         master.config_kD(0, Constants.Elevator.kD);
 
+        master.configPeakOutputForward(Constants.Elevator.peakOutForward);
+        master.configPeakOutputReverse(Constants.Elevator.peakOutReverse);
+
+        master.setSelectedSensorPosition(0);
         follower.follow(master);
         
     }
 
+    public void goToBottom(){
+      setPosition(1);
+    }
+    public void goToIntake(){
+      setPosition(Constants.Elevator.intakePos);
+    }
     public void setPosition(double inches){
         SmartDashboard.putNumber("ElevatorSetPos", inches * inchesToNativeUnits);
-        master.set(ControlMode.Position, inches * inchesToNativeUnits);
+        master.set(ControlMode.Position, inches * inchesToNativeUnits, DemandType.ArbitraryFeedForward, 0.05);
     }
 
     public void setPercentOutput(double v){
@@ -79,7 +90,7 @@ public class Elevator extends SubsystemBase{
     public CommandBase testSetpoint() {
         return runEnd(
           () -> {
-            setPosition(12 * inchesToNativeUnits);
+            setPosition(12);
           },
           () -> {
             master.set(ControlMode.PercentOutput, 0);
@@ -93,6 +104,7 @@ public class Elevator extends SubsystemBase{
 
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("ElevatorPos", master.getSelectedSensorPosition());
+        SmartDashboard.putNumber("ElevatorPos", master.getSelectedSensorPosition() / inchesToNativeUnits);
+      SmartDashboard.putNumber("Elevator Output", master.getMotorOutputPercent());
     }
 }

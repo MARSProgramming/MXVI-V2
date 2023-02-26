@@ -17,9 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
+import frc.robot.commands.Manipulator.PivotToIntake;
+import frc.robot.commands.Manipulator.WristCarry;
+import frc.robot.commands.Manipulator.WristIntake;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.MiniSystems.Elevator;
@@ -48,10 +52,7 @@ public class RobotContainer {
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem);
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
-  private final Elevator mElevator = new Elevator();
-  private final Pivot mPivot = new Pivot();
-  private final Wrist mWrist = new Wrist();
-  private final Grasper mGrasper = new Grasper();
+  private final Manipulator mManipulator = new Manipulator();
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
   //private final Manipulator mManipulator = new Manipulator();
 
@@ -62,7 +63,7 @@ public class RobotContainer {
   }
 
   public void startCompressor(){
-    //mCompressor.enableAnalog(100, 110);
+    mCompressor.enableAnalog(100, 110);
   }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -105,16 +106,18 @@ public class RobotContainer {
   }
 
   public void configureTestBindings(){
-    mPilot.leftTrigger(0.2).whileTrue(mElevator.runTestMode(() -> -mPilot.getLeftTriggerAxis()));
-    mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getRightTriggerAxis()));
-    mPilot.y().whileTrue(mElevator.testSetpoint());
-    mPilot.x().whileTrue(mWrist.testSetpoint());
-    mPilot.povUp().whileTrue(mGrasper.runTestMode(() -> 0.3));
-    mPilot.povDown().whileTrue(mGrasper.runTestMode(() -> -0.3));
-    mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
-    mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
-    mPilot.povRight().whileTrue(mWrist.runTestMode(() -> 0.2));
-    mPilot.povLeft().whileTrue(mWrist.runTestMode(() -> -0.2));
+    mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
+    mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
+    mPilot.y().whileTrue(mManipulator.goToIntake());
+    mPilot.x().whileTrue(new WristCarry(mManipulator));
+    mPilot.a().whileTrue(new WristIntake(mManipulator));
+    mPilot.b().whileTrue(new PivotToIntake(mManipulator));
+    mPilot.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
+    mPilot.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
+    mPilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
+    mPilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
+    mPilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
+    mPilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
 
     System.out.println("Test Bindings Configured");
   }

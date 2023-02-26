@@ -10,10 +10,9 @@ public class UtilityFunctions extends SubsystemBase{
     }
     
     private static double[] lastPositions = new double[10];
-
+    private static int index = 0;
     public static boolean isStalling(double encoderPosition, double threshold) {
         
-        int index = 0;
         lastPositions[index] = encoderPosition;
         index = index + 1;
         index = index % 10;

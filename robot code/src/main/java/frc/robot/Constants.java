@@ -73,15 +73,20 @@ public final class Constants {
     }
 
     public static class Elevator{
-        public static double forwardLimitInches = 100;
-        public static double reverseLimitInches = -100;
+        public static double forwardLimitInches = 40;
+        public static double reverseLimitInches = -0.05;
 
-        public static double kP = 0.0001;
+        public static double kP = 0.03;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
         public static int masterMotorID = 8;
         public static int followerMotorID = 9;
+
+        public static double peakOutForward = 0.25;
+        public static double peakOutReverse = -0.25;
+
+        public static double intakePos = 12;
     }
 
     public static class Wrist{
@@ -90,18 +95,25 @@ public final class Constants {
         public static double kI = 0.0;
         public static double kD = 0.0;
 
-        public static double forwardLimit = 2.75;
-        public static double reverseLimit = -2.75;
+        public static double forwardLimit = 10.75;
+        public static double reverseLimit = -10.75;
+
+        public static double intakeBackPos = 1.8;
+        public static double scorePos = -2.3;
+        public static double carryPos = -1.0;
     }
 
     public static class Pivot{
         public static int motorID = 11;
-        public static double kP = 0.0;
+        public static double kP = 1.0;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
-        public static double forwardLimit = 100;
-        public static double reverseLimit = -100;
+        public static double forwardLimit = 2;
+        public static double reverseLimit = -2;
+
+        public static double intakeBackPos = 1.7;
+        public static double scorePos = -0.9;
     }
 
     public static class Grasper{

@@ -51,6 +51,18 @@ public class Wrist extends SubsystemBase{
         mWrist.set(ControlMode.PercentOutput, v);
     }
     
+    public void goToIntake(){
+      setPosition(Constants.Wrist.intakeBackPos);
+    }
+
+    public void goToScore(){
+      setPosition(Constants.Wrist.scorePos);
+    }
+
+    public void goToCarry(){
+      setPosition(Constants.Wrist.carryPos);
+    }
+
     public CommandBase runTestMode(DoubleSupplier d) {
         return runEnd(
           () -> {
@@ -62,15 +74,37 @@ public class Wrist extends SubsystemBase{
           ).withName("Test Wrist");
     }
 
-    public CommandBase testSetpoint() {
+    public CommandBase testCarry() {
         return runEnd(
           () -> {
-            setPosition(2);
+            goToCarry();
           },
           () -> {
             mWrist.set(ControlMode.PercentOutput, 0);
           }
-          ).withName("Test Wrist Setpoints");
+          ).withName("Test Carry Setpoint");
+    }
+
+    public CommandBase testIntake() {
+      return runEnd(
+        () -> {
+          goToIntake();
+        },
+        () -> {
+          mWrist.set(ControlMode.PercentOutput, 0);
+        }
+        ).withName("Test Intake Setpoint");
+  }
+
+  public CommandBase testScore() {
+    return runEnd(
+      () -> {
+        goToScore();
+      },
+      () -> {
+        mWrist.set(ControlMode.PercentOutput, 0);
+      }
+      ).withName("Test Score Setpoint");
     }
 
     public double distanceToSetpoint(double setpoint){

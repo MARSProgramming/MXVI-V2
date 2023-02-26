@@ -25,7 +25,7 @@ public class DriveAtPath extends CommandBase {
     public DriveAtPath(DrivetrainSubsystem subsystem, Trajectory traj, double rotation, double timeout) {
         mTrajectory = traj;
         mDrivetrainSubsystem = subsystem;
-        mController = new HolonomicDriveController(new PIDController(Constants.Auto.holonomicXkP, Constants.Auto.holonomicXkI, Constants.Auto.holonomicXkD), new PIDController(Constants.Auto.holonomicYkP, Constants.Auto.holonomicYkI, Constants.Auto.holonomicYkD), new ProfiledPIDController(Constants.Auto.holonomicOkP, Constants.Auto.holonomicOkI, Constants.Auto.holonomicOkD, new TrapezoidProfile.Constraints(Constants.Auto.holonomicOMaxVelocity, Constants.Auto.holonomicOMaxAcceleration)));
+        mController = subsystem.getDrivePathController();
         mTimer = new Timer();
         mEndRotation = new Rotation2d(Math.toRadians(rotation));
         this.timeout = timeout;

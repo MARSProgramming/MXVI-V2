@@ -28,11 +28,11 @@ public class Grasper extends SubsystemBase{
     }
 
     public void RunGrasperEject(){
-        BeltController.set(TalonFXControlMode.PercentOutput, -0.3);
+        BeltController.set(TalonFXControlMode.PercentOutput, -0.5);
     }
 
     public void RunGrasperStallcheck() {
-        if (UtilityFunctions.isStalling(BeltController.getSelectedSensorPosition(), 500) && BeltController.getMotorOutputPercent() != 0) {
+        if (UtilityFunctions.isStalling(BeltController.getSelectedSensorPosition(), 1000) && BeltController.getMotorOutputPercent() != 0) {
             BeltController.set(TalonFXControlMode.PercentOutput, 0);
         } else {
             BeltController.set(TalonFXControlMode.PercentOutput, 0.5);
@@ -43,7 +43,7 @@ public class Grasper extends SubsystemBase{
         BeltController.set(ControlMode.PercentOutput, v);
     }
 
-    public CommandBase runTestMode(DoubleSupplier d) {
+    public CommandBase runTestMode() {
         return runEnd(
           () -> {
             RunGrasperStallcheck();
@@ -52,6 +52,17 @@ public class Grasper extends SubsystemBase{
             BeltController.set(ControlMode.PercentOutput, 0);
           }
           ).withName("Test Grasper");
+    }
+
+    public CommandBase runSpitMode() {
+        return runEnd(
+          () -> {
+            RunGrasperEject();
+          },
+          () -> {
+            BeltController.set(ControlMode.PercentOutput, 0);
+          }
+          ).withName("Test Outtake Grasper");
     }
     
 }

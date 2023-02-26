@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -32,8 +33,16 @@ public class Pivot extends SubsystemBase{
         mEncoder.setDistancePerRotation(Math.PI * 2);
         mEncoder.reset();
     }
+
+    public double getEncoderPos(){
+        return -mEncoder.getDistance();
+    }
+
     public void Run(double voltage) {
-        if(mEncoder.getDistance() > Constants.Pivot.forwardLimit || mEncoder.getDistance() < Constants.Pivot.reverseLimit){
+        if(getEncoderPos() > Constants.Pivot.forwardLimit && voltage > 0){
+            pivot.set(ControlMode.PercentOutput, 0);
+        }
+        else if(getEncoderPos() < Constants.Pivot.reverseLimit && voltage < 0){
             pivot.set(ControlMode.PercentOutput, 0);
         }
         else{
@@ -42,13 +51,20 @@ public class Pivot extends SubsystemBase{
     } 
 
     public void setpos(double angle) {
-        Run(mController.calculate(mEncoder.getDistance(), angle * kRadianstoNativeUnits));
+        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
+    }
+
+    public void goToScore(){
+        setpos(Constants.Pivot.scorePos);
+    }
+    public void goToIntake(){
+        setpos(Constants.Pivot.intakeBackPos);
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {
         return runEnd(
             () -> {
-                pivot.set(ControlMode.PercentOutput, d.getAsDouble());
+                Run(d.getAsDouble());
               }, 
             () -> {
                 pivot.set(ControlMode.PercentOutput, 0.0);
@@ -56,13 +72,34 @@ public class Pivot extends SubsystemBase{
             ).withName("Test Pivot");
     }
 
+    public CommandBase goToScoreCommand() {
+        return runEnd(
+            () -> {
+                goToScore();
+              }, 
+            () -> {
+                pivot.set(ControlMode.PercentOutput, 0.0);
+              }
+            ).withName("Test Pivot Setpoint");
+    }
+    public CommandBase goToIntakeCommand() {
+        return runEnd(
+            () -> {
+                goToIntake();
+              }, 
+            () -> {
+                pivot.set(ControlMode.PercentOutput, 0.0);
+              }
+            ).withName("Test Pivot Setpoint");
+    }
+
     public double distanceToSetpoint(double setpoint){
-        return pivot.getSelectedSensorPosition() / kRadianstoNativeUnits - setpoint;
+        return getEncoderPos() - setpoint;
     }
 
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Pivot Position", mEncoder.getDistance());
+        SmartDashboard.putNumber("Pivot Position", getEncoderPos());
     }
 }
 
