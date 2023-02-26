@@ -55,8 +55,11 @@ public class Wrist extends SubsystemBase{
       setPosition(Constants.Wrist.intakeBackPos);
     }
 
-    public void goToScore(){
-      setPosition(Constants.Wrist.scorePos);
+    public void goToScoreHigh(){
+      setPosition(Constants.Wrist.scoreHighPos);
+    }
+    public void goToScoreMid(){
+      setPosition(Constants.Wrist.scoreMidPos);
     }
 
     public void goToCarry(){
@@ -99,13 +102,24 @@ public class Wrist extends SubsystemBase{
   public CommandBase testScore() {
     return runEnd(
       () -> {
-        goToScore();
+        goToScoreHigh();
       },
       () -> {
         mWrist.set(ControlMode.PercentOutput, 0);
       }
       ).withName("Test Score Setpoint");
     }
+
+    public CommandBase zero() {
+      return runEnd(
+        () -> {
+          setPosition(0);
+        },
+        () -> {
+          mWrist.set(ControlMode.PercentOutput, 0);
+        }
+        ).withName("Zero Wrist");
+      }
 
     public double distanceToSetpoint(double setpoint){
         return mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits - setpoint;

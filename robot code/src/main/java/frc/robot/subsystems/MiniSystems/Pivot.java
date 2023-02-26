@@ -31,11 +31,11 @@ public class Pivot extends SubsystemBase{
         pivot.setInverted(true);
     
         mEncoder.setDistancePerRotation(Math.PI * 2);
-        mEncoder.reset();
+        mEncoder.setPositionOffset(0.96);
     }
 
     public double getEncoderPos(){
-        return -mEncoder.getDistance();
+        return -(mEncoder.getDistance());
     }
 
     public void Run(double voltage) {
@@ -54,8 +54,8 @@ public class Pivot extends SubsystemBase{
         Run(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
     }
 
-    public void goToScore(){
-        setpos(Constants.Pivot.scorePos);
+    public void goToScoreHigh(){
+        setpos(Constants.Pivot.scoreHighPos);
     }
     public void goToIntake(){
         setpos(Constants.Pivot.intakeBackPos);
@@ -75,7 +75,7 @@ public class Pivot extends SubsystemBase{
     public CommandBase goToScoreCommand() {
         return runEnd(
             () -> {
-                goToScore();
+                goToScoreHigh();
               }, 
             () -> {
                 pivot.set(ControlMode.PercentOutput, 0.0);

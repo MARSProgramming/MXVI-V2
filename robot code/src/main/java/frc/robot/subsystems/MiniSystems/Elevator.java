@@ -62,10 +62,16 @@ public class Elevator extends SubsystemBase{
     }
 
     public void goToBottom(){
-      setPosition(1);
+      setPosition(Constants.Elevator.bottomPos);
     }
     public void goToIntake(){
       setPosition(Constants.Elevator.intakePos);
+    }
+    public void goToScoreHigh(){
+      setPosition(Constants.Elevator.scoreHighPos);
+    }
+    public void goToScoreMid(){
+      setPosition(Constants.Elevator.scoreMidPos);
     }
     public void setPosition(double inches){
         SmartDashboard.putNumber("ElevatorSetPos", inches * inchesToNativeUnits);
@@ -90,13 +96,24 @@ public class Elevator extends SubsystemBase{
     public CommandBase testSetpoint() {
         return runEnd(
           () -> {
-            setPosition(12);
+            goToIntake();
           },
           () -> {
             master.set(ControlMode.PercentOutput, 0);
           }
           ).withName("Test Elevator Setpoints");
     }
+
+    public CommandBase testBottomSetpoint() {
+      return runEnd(
+        () -> {
+          goToBottom();
+        },
+        () -> {
+          master.set(ControlMode.PercentOutput, 0);
+        }
+        ).withName("Test Elevator Setpoints");
+  }
   
     public double distanceToSetpoint(double setpoint){
         return master.getSelectedSensorPosition() / inchesToNativeUnits - setpoint;

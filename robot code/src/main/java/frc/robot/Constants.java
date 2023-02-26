@@ -86,7 +86,10 @@ public final class Constants {
         public static double peakOutForward = 0.25;
         public static double peakOutReverse = -0.25;
 
-        public static double intakePos = 12;
+        public static double intakePos = 0;
+        public static double bottomPos = 0;
+        public static double scoreHighPos = 32;
+        public static double scoreMidPos = 16.8;
     }
 
     public static class Wrist{
@@ -98,8 +101,10 @@ public final class Constants {
         public static double forwardLimit = 10.75;
         public static double reverseLimit = -10.75;
 
-        public static double intakeBackPos = 1.8;
-        public static double scorePos = -2.3;
+        public static double intakeBackPos = 2.7;
+        public static double scoreHighPos = -3.3;
+        public static double scoreMidPos = -3.82;
+        public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;
     }
 
@@ -109,11 +114,13 @@ public final class Constants {
         public static double kI = 0.0;
         public static double kD = 0.0;
 
-        public static double forwardLimit = 2;
-        public static double reverseLimit = -2;
+        public static double forwardLimit = 1000;
+        public static double reverseLimit = -1000;
 
-        public static double intakeBackPos = 1.7;
-        public static double scorePos = -0.9;
+        public static double intakeBackPos = 1.90;
+        public static double scoreHighPos = -0.9;
+
+        public static double zero = 0.96;
     }
 
     public static class Grasper{

@@ -20,9 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
+import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
+import frc.robot.commands.Manipulator.Pivot.PivotToScore;
 import frc.robot.commands.Manipulator.Wrist.WristCarry;
 import frc.robot.commands.Manipulator.Wrist.WristIntake;
+import frc.robot.commands.Manipulator.Wrist.WristScoreHigh;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Manipulator;
@@ -82,7 +85,6 @@ public class RobotContainer {
     SmartDashboard.putData(CommandScheduler.getInstance());
     mPointPositionMap = new HashMap<>();
     mPointPositionMap.put("A", new Pose2d(0, 0, new Rotation2d(Math.toRadians(0.0))));
-    configureTeleopBindings();
   }
 
   public void initializeSolenoids(){
@@ -103,10 +105,12 @@ public class RobotContainer {
   public void configureTestBindings(){
     mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
-    mPilot.y().whileTrue(mManipulator.goToIntake());
+    mPilot.y().onTrue(mManipulator.goToIntake());
+    mPilot.start().whileTrue(mManipulator.goToZero());
+    mPilot.back().whileTrue(mManipulator.getWrist().zero());
     mPilot.x().whileTrue(new WristCarry(mManipulator));
-    mPilot.a().whileTrue(new WristIntake(mManipulator));
-    mPilot.b().whileTrue(new PivotToIntake(mManipulator));
+    mPilot.a().whileTrue(mManipulator.goToScoreMid());
+    mPilot.b().whileTrue(mManipulator.goToScoreHigh());
     mPilot.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
     mPilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
