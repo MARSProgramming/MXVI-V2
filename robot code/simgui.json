@@ -3,8 +3,16 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Pre-Match/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Arm Sim": "Mechanism2d",
       "/SmartDashboard/Scheduler": "Scheduler",
       "/SmartDashboard/Zero Swerves": "Command"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "open": true
+      }
     }
   }
 }

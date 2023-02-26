@@ -24,8 +24,7 @@ import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.subsystems.MiniSystems.Grasper;
-import frc.robot.subsystems.MiniSystems.Pivot;
-import frc.robot.subsystems.MiniSystems.Wrist;
+import frc.robot.subsystems.MiniSystems.Arm;
 import frc.robot.util.AutoChooser;
 
 /**
@@ -46,8 +45,7 @@ public class RobotContainer {
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final Elevator mElevator = new Elevator();
-  private final Pivot mPivot = new Pivot();
-  private final Wrist mWrist = new Wrist();
+  private final Arm mArm = new Arm();
   private final Grasper mGrasper = new Grasper();
   //private final Manipulator mManipulator = new Manipulator();
 
@@ -104,12 +102,12 @@ public class RobotContainer {
     mPilot.leftTrigger(0.2).whileTrue(mElevator.runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mElevator.runTestMode(() -> mPilot.getRightTriggerAxis()));
     mPilot.y().whileTrue(mElevator.testSetpoint());
-    mPilot.povUp().whileTrue(mGrasper.runTestMode(() -> 0.5));
-    mPilot.povDown().whileTrue(mGrasper.runTestMode(() -> -0.5));
-    /*mPilot.leftBumper().whileTrue(mPivot.runTestMode(() -> -0.2));
-    mPilot.rightBumper().whileTrue(mPivot.runTestMode(() -> 0.2));
-    mPilot.povUp().whileTrue(mWrist.runTestMode(() -> 0.2));
-    mPilot.povDown().whileTrue(mWrist.runTestMode(() -> -0.2));*/
+    mPilot.povLeft().whileTrue(mGrasper.runTestMode(() -> 0.5));
+    mPilot.povRight().whileTrue(mGrasper.runTestMode(() -> -0.5));
+    mPilot.leftBumper().whileTrue(mArm.runPivotManual(() -> -0.2));
+    mPilot.rightBumper().whileTrue(mArm.runPivotManual(() -> 0.2));
+    mPilot.povUp().whileTrue(mArm.runWristManual(() -> 0.2));
+    mPilot.povDown().whileTrue(mArm.runWristManual(() -> -0.2));
 
     System.out.println("Test Bindings Configured");
   }
