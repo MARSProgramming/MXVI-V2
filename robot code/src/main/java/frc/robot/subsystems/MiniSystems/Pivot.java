@@ -32,6 +32,7 @@ public class Pivot extends SubsystemBase{
     
         mEncoder.setDistancePerRotation(Math.PI * 2);
         mEncoder.setPositionOffset(0.96);
+        //mEncoder.reset();
     }
 
     public double getEncoderPos(){
@@ -51,14 +52,20 @@ public class Pivot extends SubsystemBase{
     } 
 
     public void setpos(double angle) {
-        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
+        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.2, 0.2) + Math.sin(getEncoderPos()) * -0.07);
     }
 
     public void goToScoreHigh(){
         setpos(Constants.Pivot.scoreHighPos);
     }
+    public void goToIntakeHigh(){
+        setpos(Constants.Pivot.intakeUpPos);
+    }
     public void goToIntake(){
         setpos(Constants.Pivot.intakeBackPos);
+    }
+    public void goToLoad(){
+        setpos(Constants.Pivot.loadPos);
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {

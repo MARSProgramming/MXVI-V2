@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -16,18 +17,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Drive.DefaultDriveCommand;
+import frc.robot.commands.Drive.DriveAtPath;
+import frc.robot.commands.Drive.DriveToPoint;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
-import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
-import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
-import frc.robot.commands.Manipulator.Pivot.PivotToScore;
 import frc.robot.commands.Manipulator.Wrist.WristCarry;
-import frc.robot.commands.Manipulator.Wrist.WristIntake;
-import frc.robot.commands.Manipulator.Wrist.WristScoreHigh;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.util.AutoChooser;
 import frc.robot.util.UtilityFunctions;
@@ -50,9 +50,9 @@ public class RobotContainer {
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem);
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
-  private final Manipulator mManipulator = new Manipulator();
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
-  //private final Manipulator mManipulator = new Manipulator();
+  //private final Limelight mLimelight = new Limelight();
+  private final Manipulator mManipulator = new Manipulator();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
 
@@ -99,17 +99,37 @@ public class RobotContainer {
    */
   public void configureTeleopBindings() {
     mPilot.y().onTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
+    mPilot.x().whileTrue(new DriveToPoint(mDrivetrainSubsystem, new Pose2d(2.74, 2.66, new Rotation2d(0))));
+    mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
+    mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
+    mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
+    mCopilot.a().whileTrue(mManipulator.goToScoreMid());
+    mCopilot.b().whileTrue(mManipulator.goToCubeIntake());
+    mCopilot.y().onTrue(mManipulator.goToHighIntake());
+    mCopilot.x().onTrue(mManipulator.goToIntake());
+
+    mCopilot.povUp().whileTrue(mManipulator.goToLoadCommand());
+    mCopilot.povDown().whileTrue(mManipulator.goToScoreHigh());
+
+    mCopilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
+    mCopilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
+    mCopilot.start().whileTrue(new SequentialCommandGroup(new WristCarry(mManipulator), mManipulator.goToZero()));
+    mCopilot.back().whileTrue(mManipulator.getWrist().zero());
+    mCopilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
+    mCopilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
+    mCopilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mCopilot.getLeftTriggerAxis()));
+    mCopilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mCopilot.getRightTriggerAxis()));
     System.out.println("Teleop Bindings Configured");
   }
 
   public void configureTestBindings(){
     mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
-    mPilot.y().onTrue(mManipulator.goToIntake());
-    mPilot.start().whileTrue(mManipulator.goToZero());
+    mPilot.y().onTrue(mManipulator.goToHighIntake());
+    mPilot.start().whileTrue(new SequentialCommandGroup(new WristCarry(mManipulator), mManipulator.goToZero()));
     mPilot.back().whileTrue(mManipulator.getWrist().zero());
-    mPilot.x().whileTrue(new WristCarry(mManipulator));
-    mPilot.a().whileTrue(mManipulator.goToScoreMid());
+    mPilot.x().whileTrue(mManipulator.goToIntake());
+    mPilot.a().onTrue(mManipulator.getGrasper().runTestCurrent());
     mPilot.b().whileTrue(mManipulator.goToScoreHigh());
     mPilot.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
@@ -117,6 +137,7 @@ public class RobotContainer {
     mPilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
     mPilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     mPilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
+
 
     System.out.println("Test Bindings Configured");
   }
@@ -144,7 +165,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value) {
     // Deadband
-    value = deadband(value, 0.1);
+    value = deadband(value, 0.05);
 
     // Square the axis
     value = Math.copySign(value * value, value);

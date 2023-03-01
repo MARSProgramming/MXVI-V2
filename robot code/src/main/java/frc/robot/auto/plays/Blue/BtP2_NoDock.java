@@ -1,6 +1,7 @@
 package frc.robot.auto.plays.Blue;
 
-import edu.wpi.first.math.trajectory.Trajectory;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.DriveAtPath;
@@ -12,8 +13,8 @@ public class BtP2_NoDock extends SequentialCommandGroup{
     public BtP2_NoDock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        Trajectory MarkertoP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2.wpilib.json");
-        Trajectory P2toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P2-M.wpilib.json");
+        PathPlannerTrajectory MarkertoP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2");
+        PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P2-M");
         addCommands(
             new ResetDrivePose(drivetrain, 1.81, 4.36, 0),
             new ParallelCommandGroup(

@@ -1,10 +1,11 @@
 package frc.robot.util;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -12,7 +13,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.auto.plays.DoNothing;
-import frc.robot.auto.plays.TestAutoPlay;
 import frc.robot.auto.plays.Blue.BBottomLeaveCommunity;
 import frc.robot.auto.plays.Blue.BMidLeaveCommunity;
 import frc.robot.auto.plays.Blue.BSetBottomPose;
@@ -119,16 +119,9 @@ public class AutoChooser {
         return autoChooser.getSelected();
     }
 
-    public static Trajectory openTrajectoryFile(String name){
-        try{
-            Trajectory t = new Trajectory();
-            Path path = Filesystem.getDeployDirectory().toPath().resolve("pathplanner/generatedJSON/" + name);
-            t = TrajectoryUtil.fromPathweaverJson(path);
+    public static PathPlannerTrajectory openTrajectoryFile(String name){
+            System.out.println(name);
+            PathPlannerTrajectory t = PathPlanner.loadPath(name, new PathConstraints(0.5, 4));
             return t;
-        }
-        catch(IOException ex){
-            DriverStation.reportError("Unable to open trajectory: " + name, ex.getStackTrace());
-            return null;
-        }
     }
 }

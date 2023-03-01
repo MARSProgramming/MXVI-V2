@@ -1,6 +1,7 @@
 package frc.robot.auto.plays.Blue;
 
-import edu.wpi.first.math.trajectory.Trajectory;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.DriveAtPath;
@@ -12,11 +13,11 @@ public class BtP1P2_Dock extends SequentialCommandGroup{
     public BtP1P2_Dock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        Trajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1.wpilib.json");
-        Trajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-M.wpilib.json");
-        Trajectory MarkertoP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2.wpilib.json");
-        Trajectory P2toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P2-M.wpilib.json");
-        Trajectory MarkerToDock = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-C.wpilib.json");
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1");
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-M");
+        PathPlannerTrajectory MarkertoP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2");
+        PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P2-M");
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-C");
         addCommands(
             new ResetDrivePose(drivetrain, 1.81, 4.36, 0),
             new ParallelCommandGroup(

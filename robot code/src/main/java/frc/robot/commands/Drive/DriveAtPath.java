@@ -1,28 +1,27 @@
 
 package frc.robot.commands.Drive;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+
 import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class DriveAtPath extends CommandBase {
     private final DrivetrainSubsystem mDrivetrainSubsystem;
-    private Trajectory mTrajectory;
+    private PathPlannerTrajectory mTrajectory;
     private HolonomicDriveController mController;
     private Timer mTimer;
     private Rotation2d mEndRotation;
     private double timeout;
 
-    public DriveAtPath(DrivetrainSubsystem subsystem, Trajectory traj, double rotation, double timeout) {
+    public DriveAtPath(DrivetrainSubsystem subsystem, PathPlannerTrajectory traj, double rotation, double timeout) {
         mTrajectory = traj;
         mDrivetrainSubsystem = subsystem;
         mController = subsystem.getDrivePathController();
@@ -43,10 +42,11 @@ public class DriveAtPath extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        mDrivetrainSubsystem.drive(mController.calculate(mDrivetrainSubsystem.getPose(), mTrajectory.sample(mTimer.get()), mTrajectory.sample(mTimer.get()).poseMeters.getRotation()));
+        var state = (PathPlannerState) mTrajectory.sample(mTimer.get());
+        mDrivetrainSubsystem.drive(mController.calculate(mDrivetrainSubsystem.getPose(), mTrajectory.sample(mTimer.get()), state.holonomicRotation));
         SmartDashboard.putNumber("desiredX", mTrajectory.sample(mTimer.get()).poseMeters.getX());
         SmartDashboard.putNumber("desiredY", mTrajectory.sample(mTimer.get()).poseMeters.getY());
-        SmartDashboard.putNumber("desiredrot", mTrajectory.sample(mTimer.get()).poseMeters.getRotation().getDegrees());
+        SmartDashboard.putNumber("desiredrot", state.holonomicRotation.getDegrees());
     }
 
     // Called once the command ends or is interrupted.

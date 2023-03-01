@@ -1,6 +1,7 @@
 package frc.robot.auto.plays.Red;
 
-import edu.wpi.first.math.trajectory.Trajectory;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.DriveAtPath;
@@ -11,11 +12,11 @@ import frc.robot.util.AutoChooser;
 public class RbP3P4_Dock extends SequentialCommandGroup{
     public RbP3P4_Dock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
-        Trajectory MarkertoP3 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P3.wpilib.json");
-        Trajectory P3toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P3-M.wpilib.json");
-        Trajectory MarkertoP4 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P4.wpilib.json");
-        Trajectory P4toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P4-M.wpilib.json");
-        Trajectory MarkerToDock = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-C.wpilib.json");
+        PathPlannerTrajectory MarkertoP3 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P3");
+        PathPlannerTrajectory P3toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P3-M");
+        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P4");
+        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P4-M");
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-C");
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 0.45, 0),
             new ParallelCommandGroup(

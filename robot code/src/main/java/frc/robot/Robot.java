@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +28,9 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+  AddressableLED m_led = new AddressableLED(0);
+  AddressableLEDBuffer m_ledBuffer;
+
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
@@ -35,6 +40,16 @@ public class Robot extends TimedRobot {
     Logger.configureLoggingAndConfig(m_robotContainer, false);
     m_robotContainer.startCompressor();
     m_robotContainer.initializeSolenoids();
+
+    // Reuse buffer
+    // Default to a length of 60, start empty output
+    // Length is expensive to set, so only set it once, then just update data
+    m_ledBuffer = new AddressableLEDBuffer(60);
+    m_led.setLength(m_ledBuffer.getLength());
+
+    // Set the data
+    m_led.setData(m_ledBuffer);
+    m_led.start();
   }
 
   @Override
@@ -42,6 +57,14 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     Logger.updateEntries();
     SmartDashboard.putNumber("psi", m_robotContainer.getPressure());
+
+    
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_ledBuffer.setRGB(i, 255, 0, 0);
+   }
+   
+   m_led.setData(m_ledBuffer);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

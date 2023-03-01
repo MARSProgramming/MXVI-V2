@@ -7,12 +7,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntake;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
+import frc.robot.commands.Manipulator.Pivot.PivotToHighIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
+import frc.robot.commands.Manipulator.Pivot.PivotToLoad;
 import frc.robot.commands.Manipulator.Pivot.PivotToScore;
 import frc.robot.commands.Manipulator.Wrist.WristCarry;
+import frc.robot.commands.Manipulator.Wrist.WristCubeIntake;
+import frc.robot.commands.Manipulator.Wrist.WristHighIntake;
 import frc.robot.commands.Manipulator.Wrist.WristIntake;
 import frc.robot.commands.Manipulator.Wrist.WristScoreHigh;
 import frc.robot.commands.Manipulator.Wrist.WristScoreMid;
+import frc.robot.commands.Manipulator.Wrist.WristToLoad;
 import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Pivot;
@@ -45,6 +50,22 @@ public class Manipulator extends SubsystemBase{
             new WristIntake(this)
         )
     );
+    private CommandBase intakeHighCommand = Commands.sequence(
+        new WristCarry(this), 
+        new ParallelCommandGroup(
+            new ElevatorIntake(this), 
+            new PivotToHighIntake(this), 
+            new WristHighIntake(this)
+        )
+    );
+    private CommandBase intakeCubeCommand = Commands.sequence(
+        new WristCarry(this), 
+        new ParallelCommandGroup(
+            new ElevatorIntake(this), 
+            new PivotToHighIntake(this), 
+            new WristCubeIntake(this)
+        )
+    );
 
     private CommandBase scoreHighCommand = Commands.sequence(
         new WristCarry(this), 
@@ -64,10 +85,22 @@ public class Manipulator extends SubsystemBase{
         )
     );
     
+    private CommandBase loadCommand = Commands.sequence(
+        new WristCarry(this), 
+        new ParallelCommandGroup(
+            new ElevatorIntake(this), 
+            new PivotToLoad(this), 
+            new WristToLoad(this)
+        )
+    );
+    
     public Manipulator(){
         intakeCommand.addRequirements(this);
         scoreHighCommand.addRequirements(this);
         scoreMidCommand.addRequirements(this);
+        intakeHighCommand.addRequirements(this);
+        intakeCubeCommand.addRequirements(this);
+        loadCommand.addRequirements(this);
     }
 
     public CommandBase goToIntake() {
@@ -78,8 +111,20 @@ public class Manipulator extends SubsystemBase{
         return scoreHighCommand;
     }
 
+    public CommandBase goToHighIntake() {
+        return intakeHighCommand;
+    }
+
     public CommandBase goToScoreMid() {
         return scoreMidCommand;
+    }
+
+    public CommandBase goToCubeIntake() {
+        return intakeCubeCommand;
+    }
+
+    public CommandBase goToLoadCommand() {
+        return loadCommand;
     }
 
     public CommandBase cancelSetpointCommands(){
@@ -88,6 +133,9 @@ public class Manipulator extends SubsystemBase{
                 intakeCommand.cancel();
                 scoreHighCommand.cancel();
                 scoreMidCommand.cancel();
+                intakeHighCommand.cancel();
+                intakeCubeCommand.cancel();
+                loadCommand.cancel();
             }
         );
     }

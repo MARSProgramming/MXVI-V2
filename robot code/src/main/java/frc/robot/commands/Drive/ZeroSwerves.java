@@ -10,7 +10,6 @@ public class ZeroSwerves extends CommandBase{
     }
     @Override
     public void initialize() {
-        mSub.zeroSwerves(true);
     }
     @Override
     public void execute(){
@@ -18,6 +17,5 @@ public class ZeroSwerves extends CommandBase{
     }
     @Override
     public void end(boolean interrupted){
-        mSub.zeroSwerves(true);
     }
 }

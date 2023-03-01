@@ -83,8 +83,8 @@ public final class Constants {
         public static int masterMotorID = 8;
         public static int followerMotorID = 9;
 
-        public static double peakOutForward = 0.25;
-        public static double peakOutReverse = -0.25;
+        public static double peakOutForward = 0.4;
+        public static double peakOutReverse = -0.4;
 
         public static double intakePos = 0;
         public static double bottomPos = 0;
@@ -101,11 +101,14 @@ public final class Constants {
         public static double forwardLimit = 10.75;
         public static double reverseLimit = -10.75;
 
-        public static double intakeBackPos = 2.7;
+        public static double intakeBackPos = 2.9;
+        public static double intakeUpPos = 3.6;
+        public static double intakeCubePos = 3.8;
         public static double scoreHighPos = -3.3;
         public static double scoreMidPos = -3.82;
         public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;
+        public static double loadPos = 0.68;
     }
 
     public static class Pivot{
@@ -117,14 +120,21 @@ public final class Constants {
         public static double forwardLimit = 1000;
         public static double reverseLimit = -1000;
 
-        public static double intakeBackPos = 1.90;
+        public static double intakeBackPos = 1.855;
         public static double scoreHighPos = -0.9;
+        public static double intakeUpPos = 1.65;
+        public static double loadPos = 1.45;
 
         public static double zero = 0.96;
     }
 
     public static class Grasper{
         public static int motorID = 13;
+
+        public static double kP = 0.02;
+        public static double kF = 0.17;
+        public static double kI = 0.0;
+        public static double kD = 0.0;
     }
 
     public static class Manipulator{

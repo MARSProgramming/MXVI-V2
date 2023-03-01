@@ -1,6 +1,7 @@
 package frc.robot.auto.plays.Red;
 
-import edu.wpi.first.math.trajectory.Trajectory;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.DriveAtPath;
@@ -12,7 +13,7 @@ public class RMidLeaveCommunity extends SequentialCommandGroup{
     public RMidLeaveCommunity(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        Trajectory LeaveCommunity = AutoChooser.openTrajectoryFile("RED_MiddleLeaveCommunity.wpilib.json");
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("RED_MiddleLeaveCommunity");
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 2.69, 0),
             new ParallelCommandGroup(

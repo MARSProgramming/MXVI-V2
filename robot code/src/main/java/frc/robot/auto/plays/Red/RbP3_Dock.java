@@ -1,6 +1,7 @@
 package frc.robot.auto.plays.Red;
 
-import edu.wpi.first.math.trajectory.Trajectory;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.DriveAtPath;
@@ -12,9 +13,9 @@ public class RbP3_Dock extends SequentialCommandGroup{
     public RbP3_Dock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        Trajectory MarkertoP3 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P3.wpilib.json");
-        Trajectory P3toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P3-M.wpilib.json");
-        Trajectory MarkerToDock = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-C.wpilib.json");
+        PathPlannerTrajectory MarkertoP3 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P3");
+        PathPlannerTrajectory P3toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P3-M");
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-C");
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 0.45, 0),
             new ParallelCommandGroup(
