@@ -14,8 +14,8 @@ public class RbP3_NoDock extends SequentialCommandGroup{
     public RbP3_NoDock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory MarkertoP3 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P3", new PathConstraints(4, 3));
-        PathPlannerTrajectory P3toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P3-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkertoP3 = AutoChooser.openRedTrajectoryFile("BLUE_BottomMarker_M-P3", new PathConstraints(4, 3));
+        PathPlannerTrajectory P3toMarker = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_P3-M", new PathConstraints(4, 3));
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 0.45, 0),
             new ParallelCommandGroup(
