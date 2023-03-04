@@ -18,7 +18,7 @@ public class RtP1_Dock extends SequentialCommandGroup{
         PathPlannerTrajectory P1toMarker = AutoChooser.openRedTrajectoryFile("BLUE_TopMarker_P1-M", new PathConstraints(4, 3));
         PathPlannerTrajectory MarkerToDock = AutoChooser.openRedTrajectoryFile("BLUE_TopMarker_M-C", new PathConstraints(4, 3));
         addCommands(
-            new ResetDrivePose(drivetrain, 14.71, 4.37, 0),
+            new ResetDrivePose(drivetrain, 14.71, 4.31, 0),
             new ParallelCommandGroup(
                 new DriveAtPath(drivetrain, MarkertoP1, 0, 10)
                 // Code for extending intake

@@ -12,7 +12,7 @@ public class RtScoreGiven extends SequentialCommandGroup{
         addRequirements(drivetrain);
 
         addCommands(
-            new ResetDrivePose(drivetrain, 14.71, 4.37, 0),
+            new ResetDrivePose(drivetrain, 14.71, 4.31, 0),
             new ParallelCommandGroup(
                 // Move the arm to scoring position
                 // Add stuff here to score given piece

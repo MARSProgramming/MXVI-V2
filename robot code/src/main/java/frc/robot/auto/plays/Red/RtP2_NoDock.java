@@ -14,10 +14,10 @@ public class RtP2_NoDock extends SequentialCommandGroup{
     public RtP2_NoDock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory MarkertoP2 = AutoChooser.openTrajectoryFile("RED_TopMarker_M-P2", new PathConstraints(4, 3));
-        PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFile("RED_TopMarker_P2-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkertoP2 = AutoChooser.openRedTrajectoryFile("BLUE_TopMarker_M-P2", new PathConstraints(4, 3));
+        PathPlannerTrajectory P2toMarker = AutoChooser.openRedTrajectoryFile("BLUE_TopMarker_P2-M", new PathConstraints(4, 3));
         addCommands(
-            new ResetDrivePose(drivetrain, 14.71, 4.37, 0),
+            new ResetDrivePose(drivetrain, 14.71, 4.31, 0),
             new ParallelCommandGroup(
                 new DriveAtPath(drivetrain, MarkertoP2, 0, 10)
                 // Code for extending intake

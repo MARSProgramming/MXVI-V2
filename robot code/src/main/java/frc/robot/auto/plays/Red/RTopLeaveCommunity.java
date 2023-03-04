@@ -14,9 +14,9 @@ public class RTopLeaveCommunity extends SequentialCommandGroup{
     public RTopLeaveCommunity(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("RED_TopLeaveCommunity", new PathConstraints(4, 3));
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openRedTrajectoryFile("BLUE_TopLeaveCommunity", new PathConstraints(4, 3));
         addCommands(
-            new ResetDrivePose(drivetrain, 14.71, 4.37, 0),
+            new ResetDrivePose(drivetrain, 14.71, 4.31, 0),
             new ParallelCommandGroup(
                 new DriveAtPath(drivetrain, LeaveCommunity, 0, 10)
             )
