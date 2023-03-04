@@ -35,8 +35,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    Match = Shuffleboard.getTab("Match");
-    Match.addCamera("Limelight", "LIMELIGHT_CAM", "url PLACEHOLDER");
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     LiveWindow.disableAllTelemetry();

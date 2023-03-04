@@ -3,60 +3,195 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class LED {
-  private static final int LED_COUNT = 60;
-  private static final int LED_PORT = 0; // replace with the actual port number
+enum LEDState {
+  RAINBOW,
+  RED,
+  PURPLE,
+  FLASHING_PURPLE,
+  YELLOW,
+  FLASHING_YELLOW
+  }  
 
-  private AddressableLED led;
-  private AddressableLEDBuffer ledBuffer;
-  private boolean running = false;
+public class LED extends SubsystemBase {
+  LEDState state = LEDState.RAINBOW;
+  AddressableLED m_led = new AddressableLED(0);
+  AddressableLEDBuffer m_ledBuffer;
 
   public LED() {
-    led = new AddressableLED(LED_PORT);
-    ledBuffer = new AddressableLEDBuffer(LED_COUNT);
-    led.setLength(LED_COUNT);
-    led.setData(ledBuffer);
+    // Reuse buffer
+    // Default to a length of 60, start empty output
+    // Length is expensive to set, so only set it once, then just update data
+    m_ledBuffer = new AddressableLEDBuffer(60);
+    m_led.setLength(m_ledBuffer.getLength());
+
+    // Set the data
+    m_led.setData(m_ledBuffer);
+    m_led.start();
+    //leds.start();
+
   }
 
-  public void start() {
-    running = true;
-    Thread t = new Thread(() -> {
-      while (running) {
-        flamePattern();
+  public CommandBase setRainbow(){
+    return runOnce(
+      () -> {
+        state = LEDState.RAINBOW;
       }
-      reset();
-    });
-    t.start();
+    );
   }
 
-  public void stop() {
-    running = false;
+  public CommandBase setRed(){
+    return runOnce(
+      () -> {
+        state = LEDState.RED;
+      }
+    );
   }
 
-  private void reset() {
-    for (int i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 0, 0, 0);
-    }
-    led.setData(ledBuffer);
+  
+  public CommandBase setYellow(){
+    return runOnce(
+      () -> {
+        state = LEDState.YELLOW;
+      }
+    );
   }
 
-  private void flamePattern() {
-    int[] colors = new int[LED_COUNT];
-    for (int i = 0; i < LED_COUNT; i++) {
-      double rand = Math.random() * 0.2 + 0.8; // random brightness between 0.8 and 1.0
-      colors[i] = (int) (rand * 255);
-    }
-    for (int i = 0; i < LED_COUNT - 1; i++) {
-      colors[i] = (colors[i] + colors[i + 1]) / 2;
-    }
-    colors[LED_COUNT - 1] = colors[LED_COUNT - 2]; // last LED has same color as second-to-last
-    for (int i = 0; i < LED_COUNT; i++) {
-      int color = colors[i];
-      ledBuffer.setRGB(i, color, color / 3, 0); // red, orange, and yellow
-    }
-    led.setData(ledBuffer);
-    Timer.delay(0.05); // adjust delay time to change flame speed
+  public CommandBase setYellowFlashing(){
+    return runOnce(
+      () -> {
+        state = LEDState.FLASHING_YELLOW;
+      }
+    );
   }
-}
+
+  public CommandBase setPurple(){
+    return runOnce(
+      () -> {
+        state = LEDState.PURPLE;
+      }
+    );
+  }
+
+  public CommandBase setPurpleFlashing(){
+    return runOnce(
+      () -> {
+        state = LEDState.FLASHING_PURPLE;
+      }
+    );
+  }
+
+  
+
+
+  @Override
+  public void periodic() {
+        /*for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_ledBuffer.setRGB(i, 0, 255, 0);
+   }
+   
+   m_led.setData(m_ledBuffer);*/
+   if (state == LEDState.RAINBOW) {
+    rainbow();
+   } 
+   else if (state == LEDState.RED) {
+    red();
+   }
+   else if (state == LEDState.PURPLE) {
+    purple();
+   }
+   else if (state == LEDState.FLASHING_PURPLE) {
+    purple_flash();
+  }
+   else if (state == LEDState.YELLOW) {
+    yellow();
+   }
+   else if (state == LEDState.FLASHING_YELLOW){
+    yellow_flash();
+  }
+   rainbow();
+   m_led.setData(m_ledBuffer);
+  }
+
+  double m_rainbowFirstPixelHue = 0;
+
+  private void rainbow() {
+    // For every pixel
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      // Set the value
+      m_ledBuffer.setHSV(i, (int) hue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    m_rainbowFirstPixelHue += 3;
+    // Check bounds
+    m_rainbowFirstPixelHue %= 180;
+  }
+
+  private void red() {
+    // For every pixel
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_ledBuffer.setRGB(i, 34, 178, 23);
+   }
+   
+   m_led.setData(m_ledBuffer);
+    }
+
+    private void purple() {
+      // For every pixel
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        // Sets the specified LED to the RGB values for red
+        m_ledBuffer.setRGB(i, 0, 128, 128);
+      }
+      m_led.setData(m_ledBuffer);
+    }
+    
+    private int iterations = 0;
+
+    private void purple_flash() {
+
+      // For every pixel
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        // Sets the specified LED to the RGB values for red
+        if ((iterations / 25) % 2 == 0) {
+          m_ledBuffer.setRGB(i, 0, 128, 128);
+        } else {
+          m_ledBuffer.setRGB(i, 0,0,0);
+        }
+
+     }
+     iterations++;
+    }
+
+    private void yellow_flash() {
+
+      // For every pixel
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        // Sets the specified LED to the RGB values for red
+        if ((iterations / 25) % 2 == 0) {
+          m_ledBuffer.setRGB(i, 207, 245, 34);
+        } else {
+          m_ledBuffer.setRGB(i, 0,0,0);
+        }
+
+     }
+     iterations++;
+    }
+      private void yellow() {
+        // For every pixel
+        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+          // Sets the specified LED to the RGB values for red
+          m_ledBuffer.setRGB(i, 207, 245, 34);
+       }
+       
+       m_led.setData(m_ledBuffer);
+        }
+    
+  }
 

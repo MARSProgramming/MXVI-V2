@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -52,6 +53,9 @@ public class RobotContainer {
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
 
   private ShuffleboardTab Match = Shuffleboard.getTab("Match");
+  private ShuffleboardLayout PilotControlsList = Match.getLayout("Pilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(6,0);
+  private ShuffleboardLayout CopilotControlsList = Match.getLayout("Copilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(8,0);
+
   public double getPressure(){
     return mCompressor.getPressure();
   }
@@ -65,8 +69,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    Match.add("Zero Swerves", new ZeroSwerves(mDrivetrainSubsystem));
-
+    configureDashboard();
     /*mDrivetrainSubsystem.setDefaultCommand(new DriveSnapRotation(
             mDrivetrainSubsystem,
             () -> -modifyAxis(mPilot.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
@@ -174,5 +177,34 @@ public class RobotContainer {
     //value = Math.round(value * 5.0)/5.0;
 
     return value;
+    
+  }
+
+  public void configureDashboard() {
+    Match.addCamera("Camera Stream", "Limelight", "10.26.14.5000").withSize(2,2).withPosition(1,1);
+    PilotControlsList.addString("Drive Translation", () -> "Left Joystick X/Y");
+    PilotControlsList.addString("Drive Rotation", () -> "Right Joystick X");
+    PilotControlsList.addString("Run Grasper Outtake", () -> "Right Trigger");
+    PilotControlsList.addString("Run Grasper Hold Cube", () -> "Right Bumper");
+    PilotControlsList.addString("Run Grasper Intake", () -> "Left Bumper");
+    PilotControlsList.addString("Align to Score", () -> "X Button");
+    PilotControlsList.addString("Zero Yaw", () -> "Y Button");
+    CopilotControlsList.addString("Setpoint Shoot Cube High", () -> "Right Joystick Push");
+    CopilotControlsList.addString("Setpoint Shoot Mid", () -> "Left Joystick Push");
+    CopilotControlsList.addString("Pivot Back", () -> "Left Bumper");
+    CopilotControlsList.addString("Pivot Forward", () -> "Left Trigger");
+    CopilotControlsList.addString("Run Elevator Up", () -> "Right Trigger");
+    CopilotControlsList.addString("Setpoint Tilted Cone Intake", () -> "X Button");
+    CopilotControlsList.addString("Setpoint Upright Cone Intake", () -> "Y Button");
+    CopilotControlsList.addString("Setpoint Score Mid", () -> "A Button");
+    CopilotControlsList.addString("Setpoint Cube Intake", () -> "B Button");
+    CopilotControlsList.addString("HP Station Setpoint", () -> "D-Pad Up");
+    CopilotControlsList.addString("Setpoint Score High", () -> "D-Pad Down");
+    CopilotControlsList.addString("Run Wrist", () -> "D-Pad Right/Left");
+
+
+
+
+
   }
 }

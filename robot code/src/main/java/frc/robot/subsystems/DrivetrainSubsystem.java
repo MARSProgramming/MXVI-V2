@@ -49,10 +49,10 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
 
 
 
-  private GenericEntry XPos =  Match.add("Robot X Position", 0).getEntry();
-  private GenericEntry YPos =  Match.add("Robot Y Position", 0).getEntry();
-  private GenericEntry Rotation = Match.add("Robot Rotation", 0).getEntry();
-  private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).getEntry();
+  private GenericEntry XPos =  Match.add("Robot X Position", 0).withSize(2,1).withPosition(0, 3).getEntry();
+  private GenericEntry YPos =  Match.add("Robot Y Position", 0).withSize(2,1).withPosition(2, 3).getEntry();
+  private GenericEntry Rotation = Match.add("Robot Rotation", 0).withSize(2,1).withPosition(0, 4).getEntry();
+  private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).withSize(2,1).withPosition(2, 4).getEntry();
 
   
   public static DrivetrainSubsystem getInstance(){
