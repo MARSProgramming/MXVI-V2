@@ -215,6 +215,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     double[] botpose;
     if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false)){
         botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[7]);
+        SmartDashboard.putNumber("LL latency", botpose[6]);
         mPoseEstimator.addVisionMeasurement(
                 new Pose2d(botpose[0], botpose[1], new Rotation2d(botpose[3], botpose[4])),
                 Timer.getFPGATimestamp()-botpose[6]);
