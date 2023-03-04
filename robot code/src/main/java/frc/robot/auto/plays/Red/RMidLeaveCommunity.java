@@ -14,7 +14,7 @@ public class RMidLeaveCommunity extends SequentialCommandGroup{
     public RMidLeaveCommunity(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("RED_MiddleLeaveCommunity", new PathConstraints(4, 3));
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openRedTrajectoryFile("BLUE_MiddleLeaveCommunity", new PathConstraints(4, 3));
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 2.69, 0),
             new ParallelCommandGroup(
