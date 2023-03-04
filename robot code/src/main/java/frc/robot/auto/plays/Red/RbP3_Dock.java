@@ -14,9 +14,9 @@ public class RbP3_Dock extends SequentialCommandGroup{
     public RbP3_Dock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory MarkertoP3 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P3", new PathConstraints(4, 3));
-        PathPlannerTrajectory P3toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P3-M", new PathConstraints(4, 3));
-        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-C", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkertoP3 = AutoChooser.openRedTrajectoryFile("BLUE_BottomMarker_M-P3", new PathConstraints(4, 3));
+        PathPlannerTrajectory P3toMarker = AutoChooser.openRedTrajectoryFile("BLUE_BottomMarker_P3-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openRedTrajectoryFile("BLUE_BottomMarker_M-C", new PathConstraints(4, 3));
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 0.45, 0),
             new ParallelCommandGroup(

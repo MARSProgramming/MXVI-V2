@@ -14,7 +14,7 @@ public class RBottomLeaveCommunity extends SequentialCommandGroup{
     public RBottomLeaveCommunity(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("RED_BottomLeaveCommunity", new PathConstraints(4, 3));
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openRedTrajectoryFile("BLUE_BottomLeaveCommunity", new PathConstraints(4, 3));
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 0.45, 0),
             new ParallelCommandGroup(
