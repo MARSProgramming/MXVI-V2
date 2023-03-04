@@ -119,8 +119,7 @@ public class AutoChooser {
     }
 
     public static PathPlannerTrajectory openTrajectoryFile(String name, PathConstraints constraints){
-            System.out.println(name);
-            PathPlannerTrajectory t = PathPlanner.loadPath(name, constraints);
-            return t;
+        PathPlannerTrajectory t = PathPlanner.loadPath(name, constraints);
+        return t;
     }
 }

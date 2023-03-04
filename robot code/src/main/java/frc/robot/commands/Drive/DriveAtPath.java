@@ -63,6 +63,6 @@ public class DriveAtPath extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.sample(mTrajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) < 0.00000001 || mTimer.get() > timeout || mDrivetrainSubsystem.finishedBalanceFar();
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.sample(mTrajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) < 0.03 || mTimer.get() > timeout || mDrivetrainSubsystem.finishedBalanceFar();
     }
 }
