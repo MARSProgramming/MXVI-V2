@@ -5,11 +5,6 @@
 package frc.robot;
 
 
-import java.util.HashMap;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -17,14 +12,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.Drive.AlignToScore;
 import frc.robot.commands.Drive.DefaultDriveCommand;
-import frc.robot.commands.Drive.DriveAtPath;
-import frc.robot.commands.Drive.DriveToPoint;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
-import frc.robot.commands.Manipulator.Wrist.WristCarry;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -46,20 +38,21 @@ public class RobotContainer {
   private final CommandXboxController mPilot = new CommandXboxController(0);
   private final CommandXboxController mCopilot = new CommandXboxController(1);
 
-  private HashMap<String, Pose2d> mPointPositionMap;
-  private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem);
-
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
+  private final Limelight mLimelight = new Limelight(mDrivetrainSubsystem);
   //private final Limelight mLimelight = new Limelight();
   private final Manipulator mManipulator = new Manipulator();
+  private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
 
   public double getPressure(){
     return mCompressor.getPressure();
   }
-
+  public void resetPose(){
+    mLimelight.resetPose();
+  }
   public void startCompressor(){
     mCompressor.enableAnalog(100, 110);
   }
@@ -83,8 +76,6 @@ public class RobotContainer {
     ));
     SmartDashboard.putData("Zero Swerves", new ZeroSwerves(mDrivetrainSubsystem).withTimeout(1).ignoringDisable(true));
     SmartDashboard.putData(CommandScheduler.getInstance());
-    mPointPositionMap = new HashMap<>();
-    mPointPositionMap.put("A", new Pose2d(0, 0, new Rotation2d(Math.toRadians(0.0))));
   }
 
   public void initializeSolenoids(){
@@ -99,7 +90,7 @@ public class RobotContainer {
    */
   public void configureTeleopBindings() {
     mPilot.y().onTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
-    mPilot.x().whileTrue(new DriveToPoint(mDrivetrainSubsystem, new Pose2d(2.74, 2.66, new Rotation2d(0))));
+    mPilot.x().whileTrue(new AlignToScore(mDrivetrainSubsystem));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
@@ -113,8 +104,10 @@ public class RobotContainer {
 
     mCopilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     mCopilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
-    mCopilot.start().whileTrue(new SequentialCommandGroup(new WristCarry(mManipulator), mManipulator.goToZero()));
+    mCopilot.start().whileTrue(mManipulator.goToZero());
     mCopilot.back().whileTrue(mManipulator.getWrist().zero());
+    mCopilot.leftStick().onTrue(mManipulator.goToShoot());
+    mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
     mCopilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
     mCopilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
     mCopilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mCopilot.getLeftTriggerAxis()));
@@ -126,7 +119,7 @@ public class RobotContainer {
     mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
     mPilot.y().onTrue(mManipulator.goToHighIntake());
-    mPilot.start().whileTrue(new SequentialCommandGroup(new WristCarry(mManipulator), mManipulator.goToZero()));
+    mPilot.start().whileTrue(mManipulator.goToZero());
     mPilot.back().whileTrue(mManipulator.getWrist().zero());
     mPilot.x().whileTrue(mManipulator.goToIntake());
     mPilot.a().onTrue(mManipulator.getGrasper().runTestCurrent());

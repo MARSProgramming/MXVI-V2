@@ -1,5 +1,6 @@
 package frc.robot.auto.plays.Blue;
 
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -13,7 +14,7 @@ public class BMidLeaveCommunity extends SequentialCommandGroup{
     public BMidLeaveCommunity(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_MiddleLeaveCommunity");
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_MiddleLeaveCommunity", new PathConstraints(4, 3));
         addCommands(
             new ResetDrivePose(drivetrain, 1.81, 2.69, 0),
             new ParallelCommandGroup(

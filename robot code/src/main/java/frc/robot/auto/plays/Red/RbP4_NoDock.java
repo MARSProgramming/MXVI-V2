@@ -1,5 +1,6 @@
 package frc.robot.auto.plays.Red;
 
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -13,8 +14,8 @@ public class RbP4_NoDock extends SequentialCommandGroup{
     public RbP4_NoDock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P4");
-        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P4-M");
+        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFile("RED_BottomMarker_M-P4", new PathConstraints(4, 3));
+        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFile("RED_BottomMarker_P4-M", new PathConstraints(4, 3));
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 0.45, 0),
             new ParallelCommandGroup(

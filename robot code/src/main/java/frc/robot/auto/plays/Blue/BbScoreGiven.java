@@ -4,20 +4,21 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.ResetDrivePose;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Manipulator;
 
 public class BbScoreGiven extends SequentialCommandGroup{
     private DrivetrainSubsystem mDrivetrain;
-    public BbScoreGiven(DrivetrainSubsystem drivetrain){
+    private Manipulator mManipulator;
+    public BbScoreGiven(DrivetrainSubsystem drivetrain, Manipulator manipulator){
         mDrivetrain = drivetrain;
-        addRequirements(drivetrain);
+        mManipulator = manipulator;
+        addRequirements(drivetrain, manipulator);
 
         addCommands(
             new ResetDrivePose(drivetrain, 1.81, 4.36, 0),
-            new ParallelCommandGroup(
-                // Move the arm to scoring position
-                // Add stuff here to score given piece
-                // Possibly add stuff here to move bot to an ideal position
-            )
+                mManipulator.goToScoreMid().withTimeout(6),
+                mManipulator.getGrasper().runSpitMode().withTimeout(2),
+                mManipulator.goToZero()
          );
     }
 }

@@ -4,22 +4,21 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Log;
 
-public class Limelight extends SubsystemBase implements Loggable{
-    @Log
+public class Limelight extends SubsystemBase{
     double[] botpose;
-    public Limelight(){}
+    private DrivetrainSubsystem dt;
+    public Limelight(DrivetrainSubsystem drive){
+        dt = drive;
+    }
 
-    @Override
-    public void periodic(){
-        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false)){
-            botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[6]);
+    public void resetPose(){
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1.0 && dt.getPose().getX() < 2.6){
+            botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
             double x = botpose[0];
             double y = botpose[1];
             double z = botpose[2];
-            DrivetrainSubsystem.getInstance().addVisionMeasurement(new Pose2d(x, y, new Rotation2d(botpose[3], botpose[4])));
+            dt.addVisionMeasurement(new Pose2d(x, y, dt.getGyroscopeRotation()));
         }
     }
 }

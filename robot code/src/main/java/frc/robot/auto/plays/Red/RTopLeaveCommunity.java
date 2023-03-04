@@ -1,5 +1,6 @@
 package frc.robot.auto.plays.Red;
 
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -13,7 +14,7 @@ public class RTopLeaveCommunity extends SequentialCommandGroup{
     public RTopLeaveCommunity(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("RED_TopLeaveCommunity");
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("RED_TopLeaveCommunity", new PathConstraints(4, 3));
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 4.37, 0),
             new ParallelCommandGroup(

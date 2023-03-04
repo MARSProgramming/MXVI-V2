@@ -60,12 +60,26 @@ public class Elevator extends SubsystemBase{
         follower.follow(master);
         
     }
+    public CommandBase disableLimits() {
+      return runOnce(
+        () -> {
+          master.configForwardSoftLimitEnable(false);
+          master.configReverseSoftLimitEnable(false);
+        }
+        ).withName("Disable Elevator Limits");
+  }
 
+    public double getPosition(){
+      return master.getSelectedSensorPosition() / inchesToNativeUnits;
+    }
     public void goToBottom(){
       setPosition(Constants.Elevator.bottomPos);
     }
     public void goToIntake(){
       setPosition(Constants.Elevator.intakePos);
+    }
+    public void goToIntakeHigh(){
+      setPosition(Constants.Elevator.intakeHighPos);
     }
     public void goToScoreHigh(){
       setPosition(Constants.Elevator.scoreHighPos);

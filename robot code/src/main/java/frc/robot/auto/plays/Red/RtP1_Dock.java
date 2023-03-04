@@ -1,5 +1,6 @@
 package frc.robot.auto.plays.Red;
 
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -13,9 +14,9 @@ public class RtP1_Dock extends SequentialCommandGroup{
     public RtP1_Dock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("RED_TopMarker_M-P1");
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("RED_TopMarker_P1-M");
-        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("RED_TopMarker_M-C");
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("RED_TopMarker_M-P1", new PathConstraints(4, 3));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("RED_TopMarker_P1-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("RED_TopMarker_M-C", new PathConstraints(4, 3));
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 4.37, 0),
             new ParallelCommandGroup(

@@ -1,34 +1,32 @@
 
 package frc.robot.commands.Drive;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import com.pathplanner.lib.PathPoint;
 
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class DriveAtPath extends CommandBase {
+public class AlignToScore extends CommandBase {
     private final DrivetrainSubsystem mDrivetrainSubsystem;
     private PathPlannerTrajectory mTrajectory;
     private HolonomicDriveController mController;
     private Timer mTimer;
-    private Rotation2d mEndRotation;
-    private double timeout;
 
-    public DriveAtPath(DrivetrainSubsystem subsystem, PathPlannerTrajectory traj, double rotation, double timeout) {
-        mTrajectory = traj;
+    public AlignToScore(DrivetrainSubsystem subsystem) {
         mDrivetrainSubsystem = subsystem;
         mController = subsystem.getDrivePathController();
         mTimer = new Timer();
-        mEndRotation = new Rotation2d(Math.toRadians(rotation));
-        this.timeout = timeout;
         mController.setTolerance(new Pose2d(0.03, 0.03, new Rotation2d(0.05)));
         
         addRequirements(subsystem);
@@ -37,6 +35,11 @@ public class DriveAtPath extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        mTrajectory = PathPlanner.generatePath(
+      new PathConstraints(0.8, 0.5), 
+      new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI)),
+      new PathPoint(new Translation2d(1.84, mDrivetrainSubsystem.getAlignY()), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
+        );
         mTimer.reset();
         mTimer.start();
     }
@@ -63,6 +66,6 @@ public class DriveAtPath extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.sample(mTrajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) < 0.00000001 || mTimer.get() > timeout || mDrivetrainSubsystem.finishedBalanceFar();
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.sample(mTrajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) < 0.0003;
     }
 }

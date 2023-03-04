@@ -70,6 +70,9 @@ public class Wrist extends SubsystemBase{
     public void goToLoad(){
       setPosition(Constants.Wrist.loadPos);
     }
+    public void goToShoot(){
+      setPosition(Constants.Wrist.shootPos);
+    }
 
     public void goToCarry(){
       setPosition(Constants.Wrist.carryPos);

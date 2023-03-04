@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LED;
 import io.github.oblarg.oblog.Logger;
 
 /**
@@ -50,23 +51,41 @@ public class Robot extends TimedRobot {
     // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
+    //leds.start();
   }
 
+  //LED leds = new LED();
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     Logger.updateEntries();
     SmartDashboard.putNumber("psi", m_robotContainer.getPressure());
 
-    
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+    /*for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 255, 0, 0);
+      m_ledBuffer.setRGB(i, 0, 255, 0);
    }
    
-   m_led.setData(m_ledBuffer);
+   m_led.setData(m_ledBuffer);*/
+    rainbow();
+    m_led.setData(m_ledBuffer);
   }
 
+  double m_rainbowFirstPixelHue = 0;
+  private void rainbow() {
+    // For every pixel
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      // Set the value
+      m_ledBuffer.setHSV(i, (int) hue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    m_rainbowFirstPixelHue += 3;
+    // Check bounds
+    m_rainbowFirstPixelHue %= 180;
+  }
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}
@@ -104,6 +123,7 @@ public class Robot extends TimedRobot {
   }
   @Override
   public void teleopPeriodic() {
+    m_robotContainer.resetPose();
   }
 
   @Override

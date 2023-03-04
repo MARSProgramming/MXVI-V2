@@ -45,7 +45,7 @@ public class Grasper extends SubsystemBase{
         //if (UtilityFunctions.isStalling(BeltController.getSelectedSensorPosition(), 1000) && BeltController.getMotorOutputPercent() != 0) {
             //BeltController.set(TalonFXControlMode.PercentOutput, 0);
         //} else {
-            BeltController.set(TalonFXControlMode.PercentOutput, 0.6);
+            BeltController.set(TalonFXControlMode.PercentOutput, 1);
         //}
     }
 

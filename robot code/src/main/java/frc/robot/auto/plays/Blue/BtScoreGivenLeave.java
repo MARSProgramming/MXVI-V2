@@ -1,23 +1,28 @@
 package frc.robot.auto.plays.Blue;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Drive.DriveAtPath;
 import frc.robot.commands.Drive.ResetDrivePose;
+import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.util.AutoChooser;
 
 public class BtScoreGivenLeave extends SequentialCommandGroup{
     private DrivetrainSubsystem mDrivetrain;
-    public BtScoreGivenLeave(DrivetrainSubsystem drivetrain){
+    public BtScoreGivenLeave(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         mDrivetrain = drivetrain;
         addRequirements(drivetrain);
-        // Add stuff here to leave community
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_TopLeaveCommunity", new PathConstraints(0.5, 0.5));
         addCommands(
-            new ResetDrivePose(drivetrain, 1.81, 4.36, 0),
-            new ParallelCommandGroup(
-                // Move the arm to scoring position
-                // Add stuff here to score given piece
-                // Possibly add stuff here to move bot to an ideal position
-            )
+            new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
+            new ResetDrivePose(drivetrain, 1.81, 4.31, 0),
+            mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
+            mManipulator.getGrasper().runSpitMode().withTimeout(2),
+            new DriveAtPath(drivetrain, LeaveCommunity, 0, 10).deadlineWith(mManipulator.goToZero())
          );
     }
 }

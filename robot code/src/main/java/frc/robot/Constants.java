@@ -22,7 +22,7 @@ public final class Constants {
     public static class Drive{
         public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.57;
         public static final double DRIVETRAIN_WHEELBASE_METERS = 0.57;
-        public static final double MAX_SPEED_MULTIPLIER = 0.2; 
+        public static final double MAX_SPEED_MULTIPLIER = 0.5; 
 
         public static final int DRIVETRAIN_PIGEON_ID = 31; 
         public static final String kDriveCANivore = "Drivetrain";
@@ -55,10 +55,10 @@ public final class Constants {
     }
 
     public static class Auto{
-        public static final double holonomicXkP = 1.0;
+        public static final double holonomicXkP = 2.0;
         public static final double holonomicXkI = 0;
         public static final double holonomicXkD = 0;
-        public static final double holonomicYkP = 1.0;
+        public static final double holonomicYkP = 2.0;
         public static final double holonomicYkI = 0;
         public static final double holonomicYkD = 0;
         public static final double holonomicOkP = 2.5;
@@ -83,13 +83,14 @@ public final class Constants {
         public static int masterMotorID = 8;
         public static int followerMotorID = 9;
 
-        public static double peakOutForward = 0.4;
-        public static double peakOutReverse = -0.4;
+        public static double peakOutForward = 1;
+        public static double peakOutReverse = -1;
 
-        public static double intakePos = 0;
+        public static double intakeHighPos = 12;
+        public static double intakePos = 8.5;
         public static double bottomPos = 0;
-        public static double scoreHighPos = 32;
-        public static double scoreMidPos = 16.8;
+        public static double scoreHighPos = 34;
+        public static double scoreMidPos = 15.3;
     }
 
     public static class Wrist{
@@ -101,13 +102,14 @@ public final class Constants {
         public static double forwardLimit = 10.75;
         public static double reverseLimit = -10.75;
 
-        public static double intakeBackPos = 2.9;
+        public static double intakeBackPos = 3.3;
         public static double intakeUpPos = 3.6;
-        public static double intakeCubePos = 3.8;
-        public static double scoreHighPos = -3.3;
+        public static double intakeCubePos = 4.8;
+        public static double scoreHighPos = -3.5;
         public static double scoreMidPos = -3.82;
         public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;
+        public static double shootPos = -2.0;
         public static double loadPos = 0.68;
     }
 
@@ -120,12 +122,14 @@ public final class Constants {
         public static double forwardLimit = 1000;
         public static double reverseLimit = -1000;
 
-        public static double intakeBackPos = 1.855;
+        public static double intakeBackPos = 2.2;
         public static double scoreHighPos = -0.9;
-        public static double intakeUpPos = 1.65;
+        public static double cubePos = 1.65;
+        public static double intakeHighPos = 2.0;
         public static double loadPos = 1.45;
 
         public static double zero = 0.96;
+        public static double shootHighPos = -0.5;
     }
 
     public static class Grasper{

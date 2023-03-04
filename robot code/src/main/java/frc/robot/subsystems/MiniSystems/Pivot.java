@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -52,20 +53,26 @@ public class Pivot extends SubsystemBase{
     } 
 
     public void setpos(double angle) {
-        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.2, 0.2) + Math.sin(getEncoderPos()) * -0.07);
+        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -1, 1) + Math.sin(getEncoderPos()) * -0.07);
     }
 
     public void goToScoreHigh(){
         setpos(Constants.Pivot.scoreHighPos);
     }
     public void goToIntakeHigh(){
-        setpos(Constants.Pivot.intakeUpPos);
+        setpos(Constants.Pivot.intakeHighPos);
     }
     public void goToIntake(){
         setpos(Constants.Pivot.intakeBackPos);
     }
     public void goToLoad(){
         setpos(Constants.Pivot.loadPos);
+    }
+    public void goToShootHigh(){
+        setpos(Constants.Pivot.shootHighPos);
+    }
+    public void goToIntakeCube(){
+        setpos(Constants.Pivot.cubePos);
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {
@@ -79,25 +86,15 @@ public class Pivot extends SubsystemBase{
             ).withName("Test Pivot");
     }
 
-    public CommandBase goToScoreCommand() {
+    public CommandBase goToZeroCommand() {
         return runEnd(
             () -> {
-                goToScoreHigh();
+                setpos(0);
               }, 
             () -> {
                 pivot.set(ControlMode.PercentOutput, 0.0);
               }
-            ).withName("Test Pivot Setpoint");
-    }
-    public CommandBase goToIntakeCommand() {
-        return runEnd(
-            () -> {
-                goToIntake();
-              }, 
-            () -> {
-                pivot.set(ControlMode.PercentOutput, 0.0);
-              }
-            ).withName("Test Pivot Setpoint");
+            ).withName("Zero Pivot").until(() -> Math.abs(distanceToSetpoint(0)) < 0.1);
     }
 
     public double distanceToSetpoint(double setpoint){

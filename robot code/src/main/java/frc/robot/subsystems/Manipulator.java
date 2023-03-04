@@ -3,14 +3,19 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntake;
+import frc.robot.commands.Manipulator.Elevator.ElevatorIntakeHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
+import frc.robot.commands.Manipulator.Pivot.PivotToCubeIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToHighIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToLoad;
 import frc.robot.commands.Manipulator.Pivot.PivotToScore;
+import frc.robot.commands.Manipulator.Pivot.PivotToShootHigh;
 import frc.robot.commands.Manipulator.Wrist.WristCarry;
 import frc.robot.commands.Manipulator.Wrist.WristCubeIntake;
 import frc.robot.commands.Manipulator.Wrist.WristHighIntake;
@@ -18,6 +23,7 @@ import frc.robot.commands.Manipulator.Wrist.WristIntake;
 import frc.robot.commands.Manipulator.Wrist.WristScoreHigh;
 import frc.robot.commands.Manipulator.Wrist.WristScoreMid;
 import frc.robot.commands.Manipulator.Wrist.WristToLoad;
+import frc.robot.commands.Manipulator.Wrist.WristToShoot;
 import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Pivot;
@@ -42,111 +48,108 @@ public class Manipulator extends SubsystemBase{
         return mWrist;
     }
 
-    private CommandBase intakeCommand = Commands.sequence(
+    public Manipulator(){
+    }
+
+    public CommandBase goToIntake() {
+        CommandBase intakeCommand = Commands.sequence(
         new WristCarry(this), 
         new ParallelCommandGroup(
             new ElevatorIntake(this), 
             new PivotToIntake(this), 
             new WristIntake(this)
         )
-    );
-    private CommandBase intakeHighCommand = Commands.sequence(
-        new WristCarry(this), 
-        new ParallelCommandGroup(
-            new ElevatorIntake(this), 
-            new PivotToHighIntake(this), 
-            new WristHighIntake(this)
-        )
-    );
-    private CommandBase intakeCubeCommand = Commands.sequence(
-        new WristCarry(this), 
-        new ParallelCommandGroup(
-            new ElevatorIntake(this), 
-            new PivotToHighIntake(this), 
-            new WristCubeIntake(this)
-        )
-    );
-
-    private CommandBase scoreHighCommand = Commands.sequence(
-        new WristCarry(this), 
-        new ElevatorScoreHigh(this),
-        new ParallelCommandGroup( 
-            new PivotToScore(this), 
-            new WristScoreHigh(this)
-        )
-    );
-
-    private CommandBase scoreMidCommand = Commands.sequence(
-        new ParallelCommandGroup(new WristCarry(this), 
-        new ElevatorScoreMid(this)),
-        new ParallelCommandGroup( 
-            new PivotToScore(this), 
-            new WristScoreMid(this)
-        )
-    );
-    
-    private CommandBase loadCommand = Commands.sequence(
-        new WristCarry(this), 
-        new ParallelCommandGroup(
-            new ElevatorIntake(this), 
-            new PivotToLoad(this), 
-            new WristToLoad(this)
-        )
-    );
-    
-    public Manipulator(){
+        );
         intakeCommand.addRequirements(this);
-        scoreHighCommand.addRequirements(this);
-        scoreMidCommand.addRequirements(this);
-        intakeHighCommand.addRequirements(this);
-        intakeCubeCommand.addRequirements(this);
-        loadCommand.addRequirements(this);
-    }
-
-    public CommandBase goToIntake() {
         return intakeCommand;
+    }
+    public CommandBase goToShoot() {
+        CommandBase shootCommand = Commands.sequence(
+        new WristCarry(this),
+        mPivot.goToZeroCommand(),
+        new WristToShoot(this)
+        );
+        shootCommand.addRequirements(this);
+        return shootCommand;
     }
 
     public CommandBase goToScoreHigh() {
+        CommandBase scoreHighCommand = Commands.sequence(
+            new ParallelCommandGroup(new WristScoreHigh(this), new ParallelCommandGroup(new ElevatorScoreHigh(this), new PivotToScore(this)))
+        );
+        scoreHighCommand.addRequirements(this);
+
+        return scoreHighCommand;
+    }
+    
+    public CommandBase goToCubeShootHigh() {
+        CommandBase scoreHighCommand = Commands.sequence(
+            new ParallelCommandGroup(new ElevatorScoreMid(this), new SequentialCommandGroup(new WaitCommand(1),
+            new PivotToShootHigh(this).alongWith(new WristToShoot(this)))
+        ));
+        scoreHighCommand.addRequirements(this);
+
         return scoreHighCommand;
     }
 
     public CommandBase goToHighIntake() {
+        CommandBase intakeHighCommand = Commands.sequence(
+        new WristCarry(this), 
+        new ParallelCommandGroup(
+            new ElevatorIntakeHigh(this), 
+            new PivotToHighIntake(this), 
+            new WristHighIntake(this)
+        )
+        );    
+        intakeHighCommand.addRequirements(this);
         return intakeHighCommand;
     }
 
     public CommandBase goToScoreMid() {
+        CommandBase scoreMidCommand = Commands.sequence(
+        new ParallelCommandGroup(new ElevatorScoreMid(this), new SequentialCommandGroup(new WaitCommand(1),
+        new PivotToScore(this).alongWith(new WristScoreMid(this)))
+        )
+        );
+        scoreMidCommand.addRequirements(this);
         return scoreMidCommand;
     }
 
     public CommandBase goToCubeIntake() {
+        CommandBase intakeCubeCommand = Commands.sequence(
+        new WristCarry(this), 
+        new ParallelCommandGroup(
+            mElevator.testBottomSetpoint(), 
+            new PivotToCubeIntake(this), 
+            new WristCubeIntake(this)
+        )
+        );
+        intakeCubeCommand.addRequirements(this);
         return intakeCubeCommand;
     }
 
     public CommandBase goToLoadCommand() {
-        return loadCommand;
-    }
-
-    public CommandBase cancelSetpointCommands(){
-        return runOnce(
-            () -> {
-                intakeCommand.cancel();
-                scoreHighCommand.cancel();
-                scoreMidCommand.cancel();
-                intakeHighCommand.cancel();
-                intakeCubeCommand.cancel();
-                loadCommand.cancel();
-            }
+        CommandBase loadCommand = Commands.sequence(
+        new WristCarry(this), 
+        new ParallelCommandGroup(
+            mElevator.testBottomSetpoint(), 
+            new PivotToLoad(this), 
+            new WristToLoad(this)
+        )
         );
+        loadCommand.addRequirements(this);
+        return loadCommand;
     }
 
     public CommandBase goToZero(){
         return runEnd(
             () -> {
+                mWrist.goToCarry();
                 mElevator.goToBottom();
                 mPivot.setpos(0);
             },
             () -> {
+                mWrist.setPercentOutput(0);
                 mElevator.setPercentOutput(0);
                 mPivot.Run(0);
             }

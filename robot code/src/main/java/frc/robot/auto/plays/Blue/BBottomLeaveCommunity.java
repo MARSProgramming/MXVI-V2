@@ -1,10 +1,8 @@
 package frc.robot.auto.plays.Blue;
 
 import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.DriveAtPath;
@@ -17,12 +15,12 @@ public class BBottomLeaveCommunity extends SequentialCommandGroup{
     public BBottomLeaveCommunity(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_BottomLeaveCommunity");
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_BottomLeaveCommunity", new PathConstraints(1.0, 0.5));
         addCommands(
            new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, 1.81, 0.45, 180),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, LeaveCommunity, 0, 10)
+                new DriveAtPath(drivetrain, LeaveCommunity, 0, 100)
             )
 
         );

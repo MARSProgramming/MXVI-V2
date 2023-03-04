@@ -16,6 +16,8 @@ import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -39,13 +41,6 @@ import frc.robot.util.MoreMath;
 import io.github.oblarg.oblog.Loggable;
 
 public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
-  private static DrivetrainSubsystem mInstance;
-  public static DrivetrainSubsystem getInstance(){
-        if (mInstance == null) mInstance = new DrivetrainSubsystem();
-        return mInstance;
-  } 
-
-
   public static final double MAX_VOLTAGE = 12.0;
   private ProfiledPIDController mSnapController;
   //  The formula for calculating the theoretical maximum velocity is:
@@ -160,7 +155,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         new TrapezoidProfile.Constraints(Constants.Auto.holonomicOMaxVelocity, Constants.Auto.holonomicOMaxAcceleration));
         mSnapController.enableContinuousInput(-Math.PI, Math.PI);
     mPoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, new Rotation2d(m_pigeon.getYaw()), getSwerveModulePositions(), new Pose2d());
-    
+    mPoseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.5, 0.5, 0.1));
   }
   /**
    * Sets the gyroscope angle to zero. This can be used to set the direction the robot is currently facing to the
@@ -174,6 +169,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         m_pigeon.setYaw(d);
         System.out.print("Zeroed!");
       }
+
+
   public Rotation2d getGyroscopeRotation() {
     return Rotation2d.fromDegrees(m_pigeon.getYaw());
   }
@@ -194,11 +191,12 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
     
-    mPoseEstimator.update(getGyroscopeRotation(), getSwerveModulePositions());
+    mPoseEstimator.updateWithTime(Timer.getFPGATimestamp(), getGyroscopeRotation(), getSwerveModulePositions());
     SmartDashboard.putNumber("X", this.getPose().getX());
     SmartDashboard.putNumber("Y", this.getPose().getY());
     SmartDashboard.putNumber("rot", this.getPose().getRotation().getDegrees());
     SmartDashboard.putNumber("pigeon", this.getPigeonAngle());
+    SmartDashboard.putNumber("roll", m_pigeon.getRoll());
 }
   public Pose2d getPose(){
     return mPoseEstimator.getEstimatedPosition();
@@ -207,9 +205,36 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
    mPoseEstimator.resetPosition(rotation, getSwerveModulePositions(), pose);
   }
   public SwerveDriveKinematics getSwerveKinematics(){
-        return m_kinematics;
+       return m_kinematics;
   }
 
+  private double[] yScoringPos = {4.99, 4.43, 3.87, 3.30, 2.74, 2.20, 1.63, 1.06, 0.51};
+  private double adjust = 0;
+  public double getAlignY(){
+        return closestValue(getPose().getY() + adjust, yScoringPos);
+  }
+
+  private double lastRoll = m_pigeon.getRoll();
+  public boolean finishedBalanceFar(){
+        boolean finish = lastRoll < 0 && m_pigeon.getRoll() > 0;
+        lastRoll = m_pigeon.getRoll();
+        return finish;
+  }
+  public double closestValue(double input, double[] array) {
+        
+        double closest = array[0];
+        double distance = Math.abs(input - closest);
+        
+        for (int i = 0; i < array.length; i++) {
+            double newDistance = Math.abs(input - array[i]);
+            
+            if (newDistance < distance) {
+                closest = array[i];
+                distance = newDistance;
+            }
+        }
+        return closest;
+    }
   public SwerveModulePosition[] getSwerveModulePositions(){
         return new SwerveModulePosition[] {
                 new SwerveModulePosition(m_frontLeftModule.getPosition(), new Rotation2d(m_frontLeftModule.getSteerAngle())),
