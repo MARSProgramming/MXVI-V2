@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,6 +43,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     Logger.updateEntries();
     SmartDashboard.putNumber("psi", m_robotContainer.getPressure());
+    SmartDashboard.putBoolean("Has Target", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
