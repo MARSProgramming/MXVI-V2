@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +25,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.util.AutoChooser;
+import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.util.UtilityFunctions;
 
 /**
@@ -47,6 +51,7 @@ public class RobotContainer {
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
 
+  private ShuffleboardTab Match = Shuffleboard.getTab("Match");
   public double getPressure(){
     return mCompressor.getPressure();
   }
@@ -60,6 +65,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    Match.add("Zero Swerves", new ZeroSwerves(mDrivetrainSubsystem));
+
     /*mDrivetrainSubsystem.setDefaultCommand(new DriveSnapRotation(
             mDrivetrainSubsystem,
             () -> -modifyAxis(mPilot.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,

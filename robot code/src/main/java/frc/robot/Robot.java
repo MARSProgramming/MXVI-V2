@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -21,10 +23,9 @@ import io.github.oblarg.oblog.Logger;
  * project.
  */
 public class Robot extends TimedRobot {
+  private ShuffleboardTab Match;
   private Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -34,6 +35,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    Match = Shuffleboard.getTab("Match");
+    Match.addCamera("Limelight", "LIMELIGHT_CAM", "url PLACEHOLDER");
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     LiveWindow.disableAllTelemetry();
@@ -54,12 +57,14 @@ public class Robot extends TimedRobot {
     //leds.start();
   }
 
-  //LED leds = new LED();
+
+
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     Logger.updateEntries();
     SmartDashboard.putNumber("psi", m_robotContainer.getPressure());
+
 
     /*for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
@@ -122,7 +127,12 @@ public class Robot extends TimedRobot {
     m_robotContainer.configureTeleopBindings();
   }
   @Override
+  
+
+
+  
   public void teleopPeriodic() {
+
     m_robotContainer.resetPose();
   }
 

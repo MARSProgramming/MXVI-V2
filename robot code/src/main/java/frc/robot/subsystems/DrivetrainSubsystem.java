@@ -30,6 +30,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -37,10 +39,29 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.util.MoreMath;
 import io.github.oblarg.oblog.Loggable;
 
 public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
+  private static DrivetrainSubsystem mInstance;
+  private ShuffleboardTab Match = Shuffleboard.getTab("Match");
+
+
+
+  private GenericEntry XPos =  Match.add("Robot X Position", 0).getEntry();
+  private GenericEntry YPos =  Match.add("Robot Y Position", 0).getEntry();
+  private GenericEntry Rotation = Match.add("Robot Rotation", 0).getEntry();
+  private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).getEntry();
+
+  
+  public static DrivetrainSubsystem getInstance(){
+        if (mInstance == null) mInstance = new DrivetrainSubsystem();
+        return mInstance;
+        
+  } 
+
+
   public static final double MAX_VOLTAGE = 12.0;
   private ProfiledPIDController mSnapController;
   //  The formula for calculating the theoretical maximum velocity is:
@@ -192,6 +213,18 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
     
     mPoseEstimator.updateWithTime(Timer.getFPGATimestamp(), getGyroscopeRotation(), getSwerveModulePositions());
+    
+    double XPoseValue = this.getPose().getX();
+    double YPoseValue = this.getPose().getY();
+    double RotationValue = this.getPose().getRotation().getDegrees();
+    double PigeonValue = this.getPigeonAngle();
+
+    XPos.setDouble(XPoseValue);
+    YPos.setDouble(YPoseValue);
+    Rotation.setDouble(RotationValue);
+    Pigeon.setDouble(PigeonValue);
+
+
     SmartDashboard.putNumber("X", this.getPose().getX());
     SmartDashboard.putNumber("Y", this.getPose().getY());
     SmartDashboard.putNumber("rot", this.getPose().getRotation().getDegrees());
