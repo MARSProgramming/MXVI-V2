@@ -20,7 +20,7 @@ public class BBottomLeaveCommunity extends SequentialCommandGroup{
            new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, 1.81, 0.45, 180),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, LeaveCommunity, 0, 100)
+                new DriveAtPath(drivetrain, LeaveCommunity, false, false, 100)
             )
 
         );

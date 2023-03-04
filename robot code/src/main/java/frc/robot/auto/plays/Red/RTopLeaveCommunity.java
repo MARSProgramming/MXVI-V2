@@ -18,7 +18,7 @@ public class RTopLeaveCommunity extends SequentialCommandGroup{
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 4.31, 0),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, LeaveCommunity, 0, 10)
+                new DriveAtPath(drivetrain, LeaveCommunity, false, false, 10)
             )
 
         );

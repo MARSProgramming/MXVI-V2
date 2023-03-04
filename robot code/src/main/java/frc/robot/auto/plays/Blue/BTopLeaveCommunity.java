@@ -20,7 +20,7 @@ public class BTopLeaveCommunity extends SequentialCommandGroup{
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, 1.81, 4.31, 180),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, LeaveCommunity, 0, 10)
+                new DriveAtPath(drivetrain, LeaveCommunity, false, false, 10)
             )
 
         );

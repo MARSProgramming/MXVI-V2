@@ -22,7 +22,7 @@ public class BtScoreGivenLeave extends SequentialCommandGroup{
             new ResetDrivePose(drivetrain, 1.81, 4.31, 0),
             mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(2),
-            new DriveAtPath(drivetrain, LeaveCommunity, 0, 10).deadlineWith(mManipulator.goToZero())
+            new DriveAtPath(drivetrain, LeaveCommunity, false, false, 10).deadlineWith(mManipulator.goToZero())
          );
     }
 }

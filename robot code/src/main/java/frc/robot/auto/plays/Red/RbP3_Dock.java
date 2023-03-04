@@ -20,7 +20,7 @@ public class RbP3_Dock extends SequentialCommandGroup{
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 0.45, 0),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkertoP3, 0, 10)
+                new DriveAtPath(drivetrain, MarkertoP3, false, false, 10)
                 // Code for extending intake
                 // Code for retracting intake
                 // Move arm to retrieve game piece, and open claw
@@ -29,13 +29,13 @@ public class RbP3_Dock extends SequentialCommandGroup{
 
             ),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, P3toMarker, 0, 10)
+                new DriveAtPath(drivetrain, P3toMarker, false, false, 10)
                 // Move arm (if necessary) to position game piece for scoring
                 // Open claw
                 // Move arm into "default" position
             ),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkerToDock, 0, 10)
+                new DriveAtPath(drivetrain, MarkerToDock, false, false, 10)
                 // Any necessary changes to prepare for Teleop here
             )
             

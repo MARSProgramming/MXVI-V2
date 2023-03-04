@@ -176,7 +176,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         new TrapezoidProfile.Constraints(Constants.Auto.holonomicOMaxVelocity, Constants.Auto.holonomicOMaxAcceleration));
         mSnapController.enableContinuousInput(-Math.PI, Math.PI);
     mPoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, new Rotation2d(m_pigeon.getYaw()), getSwerveModulePositions(), new Pose2d());
-    mPoseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.5, 0.5, 0.1));
+    mPoseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.1));
   }
   /**
    * Sets the gyroscope angle to zero. This can be used to set the direction the robot is currently facing to the
@@ -217,19 +217,15 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     double XPoseValue = this.getPose().getX();
     double YPoseValue = this.getPose().getY();
     double RotationValue = this.getPose().getRotation().getDegrees();
-    double PigeonValue = this.getPigeonAngle();
+    double PigeonValue = Math.toDegrees(this.getPigeonAngle());
 
     XPos.setDouble(XPoseValue);
     YPos.setDouble(YPoseValue);
     Rotation.setDouble(RotationValue);
     Pigeon.setDouble(PigeonValue);
 
-
-    SmartDashboard.putNumber("X", this.getPose().getX());
-    SmartDashboard.putNumber("Y", this.getPose().getY());
-    SmartDashboard.putNumber("rot", this.getPose().getRotation().getDegrees());
-    SmartDashboard.putNumber("pigeon", this.getPigeonAngle());
-    SmartDashboard.putNumber("roll", m_pigeon.getRoll());
+    SmartDashboard.putNumber("X", getPose().getX());
+    SmartDashboard.putNumber("Y", getPose().getY());
 }
   public Pose2d getPose(){
     return mPoseEstimator.getEstimatedPosition();
@@ -252,6 +248,11 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         boolean finish = lastRoll < 0 && m_pigeon.getRoll() > 0;
         lastRoll = m_pigeon.getRoll();
         return finish;
+  }
+  public boolean finishedBalanceClose(){
+    boolean finish = m_pigeon.getRoll() - lastRoll > 1;
+    lastRoll = m_pigeon.getRoll();
+    return finish;
   }
   public double closestValue(double input, double[] array) {
         
