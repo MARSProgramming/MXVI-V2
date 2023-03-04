@@ -22,7 +22,7 @@ public class BtScoreGivenLeaveDock extends SequentialCommandGroup{
             new ResetDrivePose(drivetrain, 1.81, 4.31, 0),
             mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(2),
-            new DriveAtPath(drivetrain, LeaveCommunity, 0, 100).deadlineWith(mManipulator.goToZero())
+            new DriveAtPath(drivetrain, LeaveCommunity, true, false, 100).deadlineWith(mManipulator.goToZero())
          );
     }
 }

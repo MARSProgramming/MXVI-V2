@@ -55,7 +55,7 @@ public class RobotContainer {
   public double getPressure(){
     return mCompressor.getPressure();
   }
-  public void resetPose(){
+  public void resetPoseWithVision(){
     mLimelight.resetPose();
   }
   public void startCompressor(){
@@ -65,8 +65,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    Match.add("Zero Swerves", new ZeroSwerves(mDrivetrainSubsystem));
-
     /*mDrivetrainSubsystem.setDefaultCommand(new DriveSnapRotation(
             mDrivetrainSubsystem,
             () -> -modifyAxis(mPilot.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,

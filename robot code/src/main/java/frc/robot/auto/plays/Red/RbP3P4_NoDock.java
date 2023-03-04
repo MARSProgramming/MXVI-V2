@@ -21,7 +21,7 @@ public class RbP3P4_NoDock extends SequentialCommandGroup{
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 0.45, 0),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkertoP3, 0, 10)
+                new DriveAtPath(drivetrain, MarkertoP3, false, false, 10)
                 // Code for extending intake
                 // Code for retracting intake
                 // Move arm to retrieve game piece, and open claw
@@ -29,13 +29,13 @@ public class RbP3P4_NoDock extends SequentialCommandGroup{
                 // Make any readjustments necessary for making sure the piece is secure
             ),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, P3toMarker, 0, 10)
+                new DriveAtPath(drivetrain, P3toMarker, false, false, 10)
                 // Move arm (if necessary) to position game piece for scoring
                 // Open claw
                 // Move arm into "default" position
             ),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkertoP4, 0, 10)
+                new DriveAtPath(drivetrain, MarkertoP4, false, false, 10)
                 // Code for extending intake
                 // Code for retracting intake
                 // Move arm to retrieve game piece, and open claw
@@ -43,7 +43,7 @@ public class RbP3P4_NoDock extends SequentialCommandGroup{
                 // Make any readjustments necessary for making sure the piece is secure
             ),
             new ParallelCommandGroup(
-            new DriveAtPath(drivetrain, P4toMarker, 0, 10)
+            new DriveAtPath(drivetrain, P4toMarker, false, false, 10)
                 // Move arm (if necessary) to position game piece for scoring
                 // Open claw
                 // Move arm into "default" position

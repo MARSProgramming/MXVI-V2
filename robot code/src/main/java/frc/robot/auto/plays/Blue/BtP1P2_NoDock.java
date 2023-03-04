@@ -17,7 +17,7 @@ public class BtP1P2_NoDock extends SequentialCommandGroup{
     public BtP1P2_NoDock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1", new PathConstraints(2.5, 0.75));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1", new PathConstraints(2.5, 0.7));
         PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-M", new PathConstraints(3, 0.75));
         PathPlannerTrajectory MarkertoP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2", new PathConstraints(2.5, 0.75));
         PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P2-M", new PathConstraints(2.5, 0.75));
@@ -26,11 +26,11 @@ public class BtP1P2_NoDock extends SequentialCommandGroup{
             new ResetDrivePose(drivetrain, 1.81, 4.31, 180),
             mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
-            new DriveAtPath(drivetrain, MarkertoP1, 0, 4.5).deadlineWith(
+            new DriveAtPath(drivetrain, MarkertoP1, false, false, 4.7).deadlineWith(
                 mManipulator.goToCubeIntake(),
                 mManipulator.getGrasper().runTestMode()
             ),
-            new ParallelCommandGroup(new DriveAtPath(drivetrain, P1toMarker, 0, 4.0).deadlineWith(
+            new ParallelCommandGroup(new DriveAtPath(drivetrain, P1toMarker, false, false, 4.0).deadlineWith(
                 mManipulator.getGrasper().runTestCurrent()
             ),
             mManipulator.goToZero().withTimeout(2.0).andThen(mManipulator.goToCubeShootHigh().withTimeout(2.0))
@@ -41,7 +41,7 @@ public class BtP1P2_NoDock extends SequentialCommandGroup{
 
                 
             /*new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkertoP2, 0, 10)
+                new DriveAtPath(drivetrain, MarkertoP2, false, false, 10)
                 // Code for extending intake
                 // Code for retracting intake
                 // Move arm to retrieve game piece, and open claw
@@ -49,7 +49,7 @@ public class BtP1P2_NoDock extends SequentialCommandGroup{
                 // Make any readjustments necessary for making sure the piece is secure
             ),
             new ParallelCommandGroup(
-            new DriveAtPath(drivetrain, P2toMarker, 0, 10)
+            new DriveAtPath(drivetrain, P2toMarker, false, false, 10)
                 // Move arm (if necessary) to position game piece for scoring
                 // Open claw
                 // Move arm into "default" position

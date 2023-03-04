@@ -20,7 +20,7 @@ public class BbP4_Dock extends SequentialCommandGroup{
         addCommands(
             new ResetDrivePose(drivetrain, 1.81, 0.45, 0),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkertoP4, 0, 10)
+                new DriveAtPath(drivetrain, MarkertoP4, false, false, 10)
                 // Code for extending intake
                 // Code for retracting intake
                 // Move arm to retrieve game piece, and open claw
@@ -28,13 +28,13 @@ public class BbP4_Dock extends SequentialCommandGroup{
                 // Make any readjustments necessary for making sure the piece is secure
             ),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, P4toMarker, 0, 10)
+                new DriveAtPath(drivetrain, P4toMarker, false, false, 10)
                 // Move arm (if necessary) to position game piece for scoring
                 // Open claw
                 // Move arm into "default" position
             ),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkerToDock, 0, 10)
+                new DriveAtPath(drivetrain, MarkerToDock, false, false, 10)
                 // Move arm (if necessary) to position game piece for scoring
                 // Open claw to release and score piece
                 // Move arm into "default" position

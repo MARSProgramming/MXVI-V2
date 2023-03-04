@@ -19,16 +19,18 @@ public class DriveAtPath extends CommandBase {
     private PathPlannerTrajectory mTrajectory;
     private HolonomicDriveController mController;
     private Timer mTimer;
-    private Rotation2d mEndRotation;
     private double timeout;
+    private boolean balancePos;
+    private boolean balanceStatus;
 
-    public DriveAtPath(DrivetrainSubsystem subsystem, PathPlannerTrajectory traj, double rotation, double timeout) {
+    public DriveAtPath(DrivetrainSubsystem subsystem, PathPlannerTrajectory traj, boolean balance, boolean balanceClose, double timeout) {
         mTrajectory = traj;
         mDrivetrainSubsystem = subsystem;
         mController = subsystem.getDrivePathController();
+        balanceStatus = balance;
         mTimer = new Timer();
-        mEndRotation = new Rotation2d(Math.toRadians(rotation));
         this.timeout = timeout;
+        balancePos = balanceClose;
         mController.setTolerance(new Pose2d(0.03, 0.03, new Rotation2d(0.05)));
         
         addRequirements(subsystem);
@@ -63,6 +65,9 @@ public class DriveAtPath extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.sample(mTrajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) < 0.03 || mTimer.get() > timeout || mDrivetrainSubsystem.finishedBalanceFar();
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.getEndState().poseMeters.getTranslation()) < 0.03
+        || mTimer.get() > timeout
+        || (balanceStatus && balancePos && mDrivetrainSubsystem.finishedBalanceClose())
+        || (balanceStatus && !balancePos && mDrivetrainSubsystem.finishedBalanceFar());
     }
 }

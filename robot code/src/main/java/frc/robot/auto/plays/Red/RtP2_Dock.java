@@ -21,7 +21,7 @@ public class RtP2_Dock extends SequentialCommandGroup{
         addCommands(
             new ResetDrivePose(drivetrain, 14.71, 4.31, 0),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkertoP2, 0, 10)
+                new DriveAtPath(drivetrain, MarkertoP2, false, false, 10)
                 // Code for extending intake
                 // Code for retracting intake
                 // Move arm to retrieve game piece, and open claw
@@ -30,13 +30,13 @@ public class RtP2_Dock extends SequentialCommandGroup{
 
             ),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, P2toMarker, 0, 10)
+                new DriveAtPath(drivetrain, P2toMarker, false, false, 10)
                 // Move arm (if necessary) to position game piece for scoring
                 // Open claw
                 // Move arm into "default" position
             ),
             new ParallelCommandGroup(
-                new DriveAtPath(drivetrain, MarkerToDock, 0, 10)
+                new DriveAtPath(drivetrain, MarkerToDock, false, false, 10)
                 // Any necessary changes to prepare for Teleop here
             )
 
