@@ -123,6 +123,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
   private final Pigeon2 m_pigeon = new Pigeon2(Constants.Drive.DRIVETRAIN_PIGEON_ID);
   
   private double pigeonYawOffset = 0.0;
+
   public double getPigeonAngle(){
         return Math.toRadians(m_pigeon.getYaw());
   }
@@ -186,14 +187,9 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
    public HolonomicDriveController getDrivePathController(){
         return mHolonomicDriveController;
    }
-  public void zeroGyroscope(double d) {
-        m_pigeon.setYaw(d);
-        System.out.print("Zeroed!");
-      }
-
 
   public Rotation2d getGyroscopeRotation() {
-    return Rotation2d.fromDegrees(m_pigeon.getYaw());
+    return Rotation2d.fromDegrees(m_pigeon.getYaw() - pigeonYawOffset);
   }
   public void drive(ChassisSpeeds chassisSpeeds) {
         SmartDashboard.putNumber("speeds", chassisSpeeds.vxMetersPerSecond);
@@ -202,7 +198,12 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
 
   public void addVisionMeasurement(Pose2d pose){
         mPoseEstimator.addVisionMeasurement(pose , Timer.getFPGATimestamp());
+  } 
+  public void resetYaw(double a){ 
+          pigeonYawOffset = -(this.getPigeonAngle() - a); 
   }
+  
+
   @Override
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
@@ -212,7 +213,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
     
-    mPoseEstimator.updateWithTime(Timer.getFPGATimestamp(), getGyroscopeRotation(), getSwerveModulePositions());
+    mPoseEstimator.updateWithTime(Timer.getFPGATimestamp(), getGyroscopeRotation() , getSwerveModulePositions());
     
     double XPoseValue = this.getPose().getX();
     double YPoseValue = this.getPose().getY();
