@@ -35,11 +35,12 @@ import frc.robot.subsystems.Manipulator;
 
 public class AutoChooser {
     private ShuffleboardTab preMatch;
-    private SendableChooser<Command> autoChooser;
+    private SendableChooser<Command> autoChooser = new SendableChooser();
     
     public AutoChooser(DrivetrainSubsystem mDrivetrainSubsystem, Manipulator mManipulator){
-        preMatch = Shuffleboard.getTab("Pre-Match");
-        autoChooser = new SendableChooser<>();
+        preMatch = Shuffleboard.getTab("Match");
+        //autoChooser = new SendableChooser<>();
+        
 
         //auto plays
         autoChooser.setDefaultOption("Do Nothing", new DoNothing());
