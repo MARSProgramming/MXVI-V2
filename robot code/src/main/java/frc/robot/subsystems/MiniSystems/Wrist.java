@@ -139,7 +139,14 @@ public class Wrist extends SubsystemBase{
     public double distanceToSetpoint(double setpoint){
         return mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits - setpoint;
     }
+    public double getWristPosition(){
+      return mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits;
+    }
 
+    public double getWristVelocity(){
+      return mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits * 10;
+    }
+    
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Wrist Position", mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits);

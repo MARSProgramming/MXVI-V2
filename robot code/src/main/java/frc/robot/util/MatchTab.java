@@ -39,14 +39,18 @@ public class MatchTab extends SubsystemBase {
 
       // Elevator Position and Velocity
       private GenericEntry ElevatorVelo =  Match.add("Elevator Velocity", 0).withSize(2,1).withPosition(3, 2).getEntry();
-      private GenericEntry ElevatorPos = Match.add("Elevator Position", 0).withSize(2, 1).withPosition(4, 2).getEntry(); 
+      private GenericEntry ElevatorPos = Match.add("Elevator Position", 0).withSize(2, 1).withPosition(3, 3).getEntry(); 
       
       // Grasper Position and Velocity
-      private GenericEntry GrasperVelo = Match.add("Grasper Velocity", 0).withSize(2, 1).withPosition(3,3).getEntry();
-      private GenericEntry GrasperPos = Match.add("Grasper Position", 0).withSize(2,1).withPosition(4, 3).getEntry();
+      private GenericEntry GrasperVelo = Match.add("Grasper Velocity", 0).withSize(2, 1).withPosition(3,4).getEntry();
+      private GenericEntry GrasperPos = Match.add("Grasper Position", 0).withSize(2,1).withPosition(3, 5).getEntry();
       
       // Pivot Position (no velocity yet)
-      private GenericEntry PivotPos = Match.add("Pivot Position", 0).withSize(2,1).withPosition(4, 3).getEntry();
+      private GenericEntry PivotPos = Match.add("Pivot Position", 0).withSize(2,1).withPosition(3, 6).getEntry();
+
+      // Wrist Position and Velocity
+      private GenericEntry WristVelo = Match.add("Wrist Velocity", 0).withSize(2,1).withPosition(3, 7).getEntry();
+      private GenericEntry WristPos = Match.add("Wrist Position", 0).withSize(2,1).withPosition(3, 8).getEntry();
 
       public MatchTab(DrivetrainSubsystem drivetrain, Elevator elevator, Grasper grasper, Pivot pivot, Wrist wrist) {
         mDrivetrainSubsystem = drivetrain;
@@ -61,7 +65,6 @@ public class MatchTab extends SubsystemBase {
         // Create camera
 
         Match.addCamera("Camera Stream", "Limelight 3", "10.26.14.5000").withPosition(0,0);
-        
         // Pilot Controls
       
         PilotControlsList.addString("Drive Translation", () -> "Left Joystick X/Y");
@@ -118,6 +121,10 @@ public class MatchTab extends SubsystemBase {
 
       // Add live information from pivot to match tab
       double PivotPosition = mPivot.getEncoderPos();
+      
+      // Add live information from wrist to match tab
+      double WristVelocity = mWrist.getWristVelocity();
+      double WristPosition = mWrist.getWristPosition();
 
        // set all LiveValues
         XPos.setDouble(XPoseValue);
@@ -132,6 +139,10 @@ public class MatchTab extends SubsystemBase {
         GrasperPos.setDouble(GrasperPosition);
 
         PivotPos.setDouble(PivotPosition);
+
+        WristVelo.setDouble(WristVelocity);
+        WristPos.setDouble(WristPosition);
+
     }
 
 }
