@@ -47,9 +47,10 @@ public class RobotContainer {
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
   private final Limelight mLimelight = new Limelight(mDrivetrainSubsystem);
   //private final Limelight mLimelight = new Limelight();
-  private final Manipulator mManipulator = new Manipulator();
-  private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
   private LED mLED = new LED();
+  private final Manipulator mManipulator = new Manipulator(mLED);
+  private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
+  
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
 
