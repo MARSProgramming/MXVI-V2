@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Drive.AlignToScore;
 import frc.robot.commands.Drive.DefaultDriveCommand;
+import frc.robot.commands.Drive.ResetDrivePose;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.subsystems.BottomSolenoids;
@@ -104,6 +105,8 @@ public class RobotContainer {
     mCopilot = new CommandXboxController(1);
     
     mPilot.y().onTrue((new ZeroGyroscope(mDrivetrainSubsystem, 0)).withTimeout(0.5));
+    mPilot.b().onTrue((new ResetDrivePose(mDrivetrainSubsystem, 2.92, 6.13, 0)));
+    mPilot.leftStick().onTrue(new ResetDrivePose(mDrivetrainSubsystem, 1.81, 0.46, 0));
     mPilot.x().whileTrue(new AlignToScore(mDrivetrainSubsystem));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
