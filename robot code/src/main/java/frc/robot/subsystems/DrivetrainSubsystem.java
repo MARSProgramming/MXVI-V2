@@ -226,6 +226,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
 
     SmartDashboard.putNumber("X", getPose().getX());
     SmartDashboard.putNumber("Y", getPose().getY());
+    SmartDashboard.putNumber("Roll", m_pigeon.getRoll());
 }
   public Pose2d getPose(){
     return mPoseEstimator.getEstimatedPosition();
@@ -249,9 +250,12 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         lastRoll = m_pigeon.getRoll();
         return finish;
   }
+  private double lastRollClose = m_pigeon.getRoll();
   public boolean finishedBalanceClose(){
-    boolean finish = m_pigeon.getRoll() - lastRoll > 1;
-    lastRoll = m_pigeon.getRoll();
+    System.out.println(m_pigeon.getRoll());
+    System.out.println(m_pigeon.getRoll() - lastRollClose);
+    boolean finish = m_pigeon.getRoll() - lastRollClose > 1 && getPose().getX() > 3.5;
+    lastRollClose = m_pigeon.getRoll();
     return finish;
   }
   public double closestValue(double input, double[] array) {

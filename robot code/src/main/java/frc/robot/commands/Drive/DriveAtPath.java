@@ -31,7 +31,7 @@ public class DriveAtPath extends CommandBase {
         mTimer = new Timer();
         this.timeout = timeout;
         balancePos = balanceClose;
-        mController.setTolerance(new Pose2d(0.03, 0.03, new Rotation2d(0.05)));
+        mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.05)));
         
         addRequirements(subsystem);
     }

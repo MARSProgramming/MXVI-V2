@@ -19,7 +19,7 @@ public class BtScoreGivenLeaveDock extends SequentialCommandGroup{
         PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-C", new PathConstraints(1, 0.5));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, 1.81, 4.31, 0),
+            new ResetDrivePose(drivetrain, 1.83, 4.34, 0),
             mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(2),
             new DriveAtPath(drivetrain, LeaveCommunity, true, false, 100).deadlineWith(mManipulator.goToZero())

@@ -17,7 +17,7 @@ public class BtP1_NoDock extends SequentialCommandGroup{
         PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1", new PathConstraints(4, 3));
         PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-M", new PathConstraints(4, 3));
         addCommands(
-            new ResetDrivePose(drivetrain, 1.81, 4.31, 0),
+            new ResetDrivePose(drivetrain, 1.83, 4.34, 0),
             new ParallelCommandGroup(
                 new DriveAtPath(drivetrain, MarkertoP1, false, false, 10)
                 // Code for extending intake

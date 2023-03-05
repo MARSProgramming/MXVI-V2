@@ -17,13 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class AlignToScore extends CommandBase {
+public class AlignToLoad extends CommandBase {
     private final DrivetrainSubsystem mDrivetrainSubsystem;
     private PathPlannerTrajectory mTrajectory;
     private HolonomicDriveController mController;
     private Timer mTimer;
 
-    public AlignToScore(DrivetrainSubsystem subsystem) {
+    public AlignToLoad(DrivetrainSubsystem subsystem) {
         mDrivetrainSubsystem = subsystem;
         mController = subsystem.getDrivePathController();
         mTimer = new Timer();
@@ -38,7 +38,7 @@ public class AlignToScore extends CommandBase {
         mTrajectory = PathPlanner.generatePath(
       new PathConstraints(0.8, 0.5), 
       new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI)),
-      new PathPoint(new Translation2d(1.84, mDrivetrainSubsystem.getAlignY()), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
+      new PathPoint(new Translation2d(14.3, 6.8), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
         );
         mTimer.reset();
         mTimer.start();
@@ -66,6 +66,6 @@ public class AlignToScore extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.getEndState().poseMeters.getTranslation()) < 0.03;
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.getEndState().poseMeters.getTranslation()) < 0.0003;
     }
 }

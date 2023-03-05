@@ -18,8 +18,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/X",
-              "_source1": "network_table:///SmartDashboard/desiredX",
+              "_source0": "network_table:///SmartDashboard/desiredX",
+              "_source1": "network_table:///SmartDashboard/X",
               "_title": "desiredX",
               "_glyph": 148,
               "_showGlyph": false,
@@ -28,7 +28,9 @@
               "Y-axis/Automatic bounds": true,
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul"
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/X": true,
+              "Visible data/SmartDashboard/desiredX": true
             }
           },
           "3,0": {
@@ -38,8 +40,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/Y",
-              "_source1": "network_table:///SmartDashboard/desiredY",
+              "_source0": "network_table:///SmartDashboard/desiredY",
+              "_source1": "network_table:///SmartDashboard/Y",
               "_title": "desiredY",
               "_glyph": 148,
               "_showGlyph": false,
@@ -48,7 +50,9 @@
               "Y-axis/Automatic bounds": true,
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul"
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/Y": true,
+              "Visible data/SmartDashboard/desiredY": true
             }
           },
           "6,0": {
@@ -68,7 +72,8 @@
               "Y-axis/Automatic bounds": true,
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul"
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/desiredrot": true
             }
           },
           "9,0": {
@@ -106,45 +111,6 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/current",
               "_title": "current",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
-              "_title": "limelight_PipelineName",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "1,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Interface",
-              "_title": "limelight_Interface",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Stream",
-              "_title": "limelight_Stream",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -240,19 +206,6 @@
               "_showGlyph": false
             }
           },
-          "0,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Error",
-              "_title": "Error",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
           "1,4": {
             "size": [
               1,
@@ -301,6 +254,45 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/autoYError",
               "_title": "autoYError",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ElevatorSetPos",
+              "_title": "ElevatorSetPos",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Roll",
+              "_title": "Roll",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "1,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Error",
+              "_title": "Error",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -436,7 +428,7 @@
     }
   ],
   "windowGeometry": {
-    "x": 0.5,
+    "x": 0.0,
     "y": 0.0,
     "width": 1440.0,
     "height": 860.0

@@ -12,7 +12,7 @@ public class BSetTopPose extends SequentialCommandGroup{
 
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, 1.81, 4.31, 180),
+            new ResetDrivePose(drivetrain, 1.83, 4.34, 180),
             new ParallelCommandGroup(
 
             )

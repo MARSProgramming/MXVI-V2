@@ -23,10 +23,10 @@ import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.util.AutoChooser;
-import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.util.UtilityFunctions;
 
 /**
@@ -40,8 +40,8 @@ public class RobotContainer {
   
   private final DrivetrainSubsystem mDrivetrainSubsystem = new DrivetrainSubsystem();
 
-  private final CommandXboxController mPilot = new CommandXboxController(0);
-  private final CommandXboxController mCopilot = new CommandXboxController(1);
+  private CommandXboxController mPilot = new CommandXboxController(0);
+  private CommandXboxController mCopilot = new CommandXboxController(1);
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
@@ -49,6 +49,7 @@ public class RobotContainer {
   //private final Limelight mLimelight = new Limelight();
   private final Manipulator mManipulator = new Manipulator();
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
+  private LED mLED = new LED();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
 
@@ -99,11 +100,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureTeleopBindings() {
+    mPilot = new CommandXboxController(0);
+    mCopilot = new CommandXboxController(1);
+    
     mPilot.y().onTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
     mPilot.x().whileTrue(new AlignToScore(mDrivetrainSubsystem));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
+    mPilot.a().onTrue(mLED.swapYellowPurple());
+    mPilot.leftBumper().onTrue(mManipulator.goToStow());
+
     mCopilot.a().whileTrue(mManipulator.goToScoreMid());
     mCopilot.b().whileTrue(mManipulator.goToCubeIntake());
     mCopilot.y().onTrue(mManipulator.goToHighIntake());
@@ -181,7 +188,7 @@ public class RobotContainer {
   }
 
   public void configureDashboard() {
-    Match.addCamera("Camera Stream", "Limelight", "10.26.14.5000").withSize(2,2).withPosition(1,1);
+    Match.addCamera("Camera Stream", "Limelight", "http://10.26.14.5000").withSize(2,2).withPosition(1,1);
     PilotControlsList.addString("Drive Translation", () -> "Left Joystick X/Y");
     PilotControlsList.addString("Drive Rotation", () -> "Right Joystick X");
     PilotControlsList.addString("Run Grasper Outtake", () -> "Right Trigger");

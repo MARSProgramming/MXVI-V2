@@ -22,6 +22,6 @@ public class WristCarryRight extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return Math.abs(manipulator.getWrist().distanceToSetpoint(Constants.Wrist.carryPos)) < 0.1 || manipulator.getPivot().getEncoderPos() < 0.5;
+        return Math.abs(manipulator.getWrist().distanceToSetpoint(Constants.Wrist.carryPos)) < 0.1 || manipulator.getPivot().getEncoderPos() < -0.5;
     }
 }

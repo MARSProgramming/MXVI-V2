@@ -14,7 +14,7 @@ public class BtScoreGiven extends SequentialCommandGroup{
         addRequirements(drivetrain);
 
         addCommands(
-            new ResetDrivePose(drivetrain, 1.81, 4.31, 0),
+            new ResetDrivePose(drivetrain, 1.83, 4.34, 0),
             mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(2),
             mManipulator.goToZero()

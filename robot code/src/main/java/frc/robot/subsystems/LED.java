@@ -83,6 +83,22 @@ public class LED extends SubsystemBase {
     );
   }
 
+  public CommandBase swapYellowPurple(){
+    return runOnce(
+      () -> {
+        if(state == LEDState.PURPLE){
+          state = LEDState.YELLOW;
+        }
+        else if(state == LEDState.YELLOW){
+          state = LEDState.PURPLE;
+        }
+        else{
+          state = LEDState.YELLOW;
+        }
+      }
+    );
+  }
+
   
 
 
@@ -111,8 +127,7 @@ public class LED extends SubsystemBase {
    }
    else if (state == LEDState.FLASHING_YELLOW){
     yellow_flash();
-  }
-   rainbow();
+    }
    m_led.setData(m_ledBuffer);
   }
 
@@ -175,7 +190,7 @@ public class LED extends SubsystemBase {
       for (var i = 0; i < m_ledBuffer.getLength(); i++) {
         // Sets the specified LED to the RGB values for red
         if ((iterations / 25) % 2 == 0) {
-          m_ledBuffer.setRGB(i, 207, 245, 34);
+          m_ledBuffer.setRGB(i, 255, 255, 34);
         } else {
           m_ledBuffer.setRGB(i, 0,0,0);
         }
@@ -187,7 +202,7 @@ public class LED extends SubsystemBase {
         // For every pixel
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
           // Sets the specified LED to the RGB values for red
-          m_ledBuffer.setRGB(i, 207, 245, 34);
+          m_ledBuffer.setRGB(i, 255, 255, 34);
        }
        
        m_led.setData(m_ledBuffer);

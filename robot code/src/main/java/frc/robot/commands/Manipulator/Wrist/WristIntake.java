@@ -11,7 +11,7 @@ public class WristIntake extends CommandBase{
 
     @Override
     public void execute(){
-        if(manipulator.getPivot().getEncoderPos() > 1){
+        if(manipulator.getPivot().getEncoderPos() > 0.5){
             manipulator.getWrist().goToIntake();
         }
     }

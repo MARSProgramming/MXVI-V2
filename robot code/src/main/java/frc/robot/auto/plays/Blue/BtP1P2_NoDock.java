@@ -23,7 +23,7 @@ public class BtP1P2_NoDock extends SequentialCommandGroup{
         PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P2-M", new PathConstraints(2.5, 0.75));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, 1.81, 4.31, 180),
+            new ResetDrivePose(drivetrain, 1.83, 4.34, 180),
             mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 4.7).deadlineWith(

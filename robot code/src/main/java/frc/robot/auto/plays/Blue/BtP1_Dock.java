@@ -16,15 +16,15 @@ public class BtP1_Dock extends SequentialCommandGroup{
     public BtP1_Dock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1", new PathConstraints(2, 0.5));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1", new PathConstraints(1.5, 0.5));
         PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-M", new PathConstraints(3, 0.75));
         PathPlannerTrajectory CSPath = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-CNoLeave", new PathConstraints(1, 0.75));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, 1.81, 4.31, 180),
+            new ResetDrivePose(drivetrain, 1.83, 4.34, 180),
             mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
-            new DriveAtPath(drivetrain, MarkertoP1, false, false, 4.5).deadlineWith(
+            new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
                 mManipulator.goToCubeIntake(),
                 mManipulator.getGrasper().runTestMode()
             ),
@@ -35,8 +35,8 @@ public class BtP1_Dock extends SequentialCommandGroup{
                 mManipulator.goToZero().withTimeout(2.0).andThen(mManipulator.goToCubeShootHigh().withTimeout(2.0))
             ),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.5),
-            mManipulator.goToZero(),
-            new DriveAtPath(drivetrain, CSPath, true, true, 5.0)
+            mManipulator.goToZero().withTimeout(1),
+            new DriveAtPath(drivetrain, CSPath, true, true, 10.0)
 
 
                 

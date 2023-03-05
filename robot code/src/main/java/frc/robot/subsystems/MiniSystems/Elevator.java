@@ -87,6 +87,9 @@ public class Elevator extends SubsystemBase{
     public void goToScoreMid(){
       setPosition(Constants.Elevator.scoreMidPos);
     }
+    public void goToStow(){
+      setPosition(Constants.Elevator.stowPos);
+    }
     public void setPosition(double inches){
         SmartDashboard.putNumber("ElevatorSetPos", inches * inchesToNativeUnits);
         master.set(ControlMode.Position, inches * inchesToNativeUnits, DemandType.ArbitraryFeedForward, 0.05);

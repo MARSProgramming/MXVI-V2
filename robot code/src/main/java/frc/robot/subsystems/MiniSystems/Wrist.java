@@ -77,6 +77,9 @@ public class Wrist extends SubsystemBase{
     public void goToCarry(){
       setPosition(Constants.Wrist.carryPos);
     }
+    public void goToStow(){
+      setPosition(Constants.Wrist.stowPos);
+    }
 
     public CommandBase runTestMode(DoubleSupplier d) {
         return runEnd(

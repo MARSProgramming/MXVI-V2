@@ -18,7 +18,7 @@ public class BTopLeaveCommunity extends SequentialCommandGroup{
         PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_TopLeaveCommunity", new PathConstraints(0.5, 1));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, 1.81, 4.31, 180),
+            new ResetDrivePose(drivetrain, 1.83, 4.34, 180),
             new ParallelCommandGroup(
                 new DriveAtPath(drivetrain, LeaveCommunity, false, false, 10)
             )

@@ -12,7 +12,7 @@ public class PivotToShootHigh extends CommandBase{
 
     @Override
     public void execute(){
-        if(manipulator.getElevator().getPosition() > 5){
+        if(manipulator.getElevator().getPosition() > 2){
             manipulator.getPivot().goToShootHigh();
         }
     }
