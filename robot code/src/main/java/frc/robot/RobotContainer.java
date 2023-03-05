@@ -103,7 +103,7 @@ public class RobotContainer {
     mPilot = new CommandXboxController(0);
     mCopilot = new CommandXboxController(1);
     
-    mPilot.y().onTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
+    mPilot.y().onTrue((new ZeroGyroscope(mDrivetrainSubsystem, 0)).withTimeout(0.5));
     mPilot.x().whileTrue(new AlignToScore(mDrivetrainSubsystem));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
