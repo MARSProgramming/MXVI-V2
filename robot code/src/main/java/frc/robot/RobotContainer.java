@@ -26,7 +26,12 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.MiniSystems.Grasper;
+import frc.robot.subsystems.MiniSystems.Pivot;
+import frc.robot.subsystems.MiniSystems.Elevator;
+import frc.robot.subsystems.MiniSystems.Wrist;
 import frc.robot.util.AutoChooser;
+import frc.robot.util.MatchTab;
 import frc.robot.util.UtilityFunctions;
 
 /**
@@ -39,7 +44,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   private final DrivetrainSubsystem mDrivetrainSubsystem = new DrivetrainSubsystem();
+  private final Elevator mElevator = new Elevator();
+  private final Grasper mGrasper = new Grasper();
+  private final Pivot mPivot = new Pivot();
+  private final Wrist mWrist = new Wrist();
 
+
+  private MatchTab matchtab = new MatchTab(mDrivetrainSubsystem, mElevator, mGrasper, mPivot, mWrist);
   private CommandXboxController mPilot = new CommandXboxController(0);
   private CommandXboxController mCopilot = new CommandXboxController(1);
 
@@ -52,10 +63,6 @@ public class RobotContainer {
   private LED mLED = new LED();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
-
-  private ShuffleboardTab Match = Shuffleboard.getTab("Match");
-  private ShuffleboardLayout PilotControlsList = Match.getLayout("Pilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(6,0);
-  private ShuffleboardLayout CopilotControlsList = Match.getLayout("Copilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(8,0);
 
   public double getPressure(){
     return mCompressor.getPressure();
@@ -70,7 +77,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    configureDashboard();
+    matchtab.configureDashboard();
     /*mDrivetrainSubsystem.setDefaultCommand(new DriveSnapRotation(
             mDrivetrainSubsystem,
             () -> -modifyAxis(mPilot.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
@@ -185,33 +192,5 @@ public class RobotContainer {
 
     return value;
     
-  }
-
-  public void configureDashboard() {
-    Match.addCamera("Camera Stream", "Limelight", "http://10.26.14.5000").withSize(2,2).withPosition(1,1);
-    PilotControlsList.addString("Drive Translation", () -> "Left Joystick X/Y");
-    PilotControlsList.addString("Drive Rotation", () -> "Right Joystick X");
-    PilotControlsList.addString("Run Grasper Outtake", () -> "Right Trigger");
-    PilotControlsList.addString("Run Grasper Hold Cube", () -> "Right Bumper");
-    PilotControlsList.addString("Run Grasper Intake", () -> "Left Bumper");
-    PilotControlsList.addString("Align to Score", () -> "X Button");
-    PilotControlsList.addString("Zero Yaw", () -> "Y Button");
-    CopilotControlsList.addString("Setpoint Shoot Cube High", () -> "Right Joystick Push");
-    CopilotControlsList.addString("Setpoint Shoot Mid", () -> "Left Joystick Push");
-    CopilotControlsList.addString("Pivot Back", () -> "Left Bumper");
-    CopilotControlsList.addString("Pivot Forward", () -> "Left Trigger");
-    CopilotControlsList.addString("Run Elevator Up", () -> "Right Trigger");
-    CopilotControlsList.addString("Setpoint Tilted Cone Intake", () -> "X Button");
-    CopilotControlsList.addString("Setpoint Upright Cone Intake", () -> "Y Button");
-    CopilotControlsList.addString("Setpoint Score Mid", () -> "A Button");
-    CopilotControlsList.addString("Setpoint Cube Intake", () -> "B Button");
-    CopilotControlsList.addString("HP Station Setpoint", () -> "D-Pad Up");
-    CopilotControlsList.addString("Setpoint Score High", () -> "D-Pad Down");
-    CopilotControlsList.addString("Run Wrist", () -> "D-Pad Right/Left");
-
-
-
-
-
   }
 }
