@@ -192,9 +192,9 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         m_kinematics, 
         new Rotation2d(m_pigeon.getYaw()),
         getSwerveModulePositions(),
-        new Pose2d(),
-        stateStdDevs,
-        visionMeasurementStdDevs);
+        new Pose2d()); 
+/*        stateStdDevs,
+        visionMeasurementStdDevs);  */
     try {
         //mField = new AprilTagFieldLayout(AprilTagFields.k2023ChargedUp.m_resourceFile);
         mField = new AprilTagFieldLayout(Filesystem.getDeployDirectory().toPath().resolve("2023-chargedup.json").toString());
