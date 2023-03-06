@@ -81,7 +81,10 @@ public class Manipulator extends SubsystemBase{
 
     public CommandBase goToScoreHigh() {
         CommandBase scoreHighCommand = Commands.sequence(
-            new ParallelCommandGroup(new WristScoreHigh(this), new ParallelCommandGroup(new ElevatorScoreHigh(this), new PivotToScore(this)))
+            new ScoreAtPivotSetpoint(this, Constants.Pivot.scoreHighPos).deadlineWith(
+                new ElevatorScoreHigh(this).alongWith(new WaitCommand(0.4).andThen(new PivotToScore(this).alongWith(new WristScoreHigh(this))))
+            ),
+            goToZero()
         );
         scoreHighCommand.addRequirements(this);
 
@@ -90,8 +93,11 @@ public class Manipulator extends SubsystemBase{
     
     public CommandBase goToCubeShootHigh() {
         CommandBase scoreHighCommand = Commands.sequence(
-            new ParallelCommandGroup(new ElevatorScoreMid(this), 
-            new PivotToShootHigh(this).alongWith(new WristToShoot(this)))
+            new ParallelCommandGroup(
+                new ElevatorScoreMid(this), 
+                new PivotToShootHigh(this),
+                new WristToShoot(this)
+            )
         );
         scoreHighCommand.addRequirements(this);
 
@@ -113,9 +119,14 @@ public class Manipulator extends SubsystemBase{
 
     public CommandBase goToScoreMid() {
         CommandBase scoreMidCommand = Commands.sequence(
-        new ParallelCommandGroup(new ElevatorScoreMid(this),
-        new PivotToScore(this).alongWith(new WristScoreMid(this), new ScoreAtPivotSetpoint(this, Constants.Pivot.scoreHighPos))
-        ));
+            new ParallelCommandGroup(
+                new ElevatorScoreMid(this),
+                new ScoreAtPivotSetpoint(this, Constants.Pivot.scoreHighPos).deadlineWith(
+                    new PivotToScore(this), new WristScoreMid(this)
+                )
+            ), 
+            goToZero()
+        );
         scoreMidCommand.addRequirements(this);
         return scoreMidCommand;
     }

@@ -238,14 +238,23 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
        return m_kinematics;
   }
 
-  private double[] yScoringPos = {4.99, 4.43, 3.87, 3.30, 2.74, 2.20, 1.63, 1.06, 0.51};
+  private double[] leftYScoringPos = {4.99, 3.30, 1.63};
+  private double[] midYScoringPos = {4.43, 2.74, 1.06};
+  private double[] rightYScoringPos = {3.87, 2.20, 0.51};
   private double adjust = 0;
-  public double getAlignY(){
-        return closestValue(getPose().getY() + adjust, yScoringPos);
+  public double getAlignLeftY(){
+        return closestValue(getPose().getY() + adjust, leftYScoringPos);
+  }
+  public double getAlignMidY(){
+        return closestValue(getPose().getY() + adjust, midYScoringPos);
+  }
+  public double getAlignRightY(){
+        return closestValue(getPose().getY() + adjust, rightYScoringPos);
   }
 
   private double lastRoll = m_pigeon.getRoll();
   public boolean finishedBalanceFar(){
+        System.out.println(m_pigeon.getRoll());
         boolean finish = lastRoll < 0 && m_pigeon.getRoll() > 0;
         lastRoll = m_pigeon.getRoll();
         return finish;

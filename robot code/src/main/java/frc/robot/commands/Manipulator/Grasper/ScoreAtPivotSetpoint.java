@@ -21,12 +21,8 @@ public class ScoreAtPivotSetpoint extends CommandBase{
 
     @Override
     public void execute(){
-        System.out.println(Math.abs(mManipulator.getPivot().distanceToSetpoint(setpoint)));
-        System.out.println(timer.get());
         if(Math.abs(mManipulator.getPivot().distanceToSetpoint(setpoint)) < 0.07){
-            if(timer.get() < .01){
-                timer.start();
-            }
+            timer.start();
             mManipulator.getGrasper().RunGrasperEject();
         }
     }
@@ -37,8 +33,8 @@ public class ScoreAtPivotSetpoint extends CommandBase{
         mManipulator.getGrasper().setPercentOutput(0);
     }
 
-    /*@Override
+    @Override
     public boolean isFinished(){
-        return timer.get() < 0.4;
-    }*/
+        return timer.get() > 0.4;
+    }
 }

@@ -190,7 +190,7 @@ public class LED extends SubsystemBase {
       for (var i = 0; i < m_ledBuffer.getLength(); i++) {
         // Sets the specified LED to the RGB values for red
         if ((iterations / 25) % 2 == 0) {
-          m_ledBuffer.setRGB(i, 255, 255, 34);
+          m_ledBuffer.setRGB(i, 255, 255, 0);
         } else {
           m_ledBuffer.setRGB(i, 0,0,0);
         }
@@ -202,7 +202,7 @@ public class LED extends SubsystemBase {
         // For every pixel
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
           // Sets the specified LED to the RGB values for red
-          m_ledBuffer.setRGB(i, 255, 255, 34);
+          m_ledBuffer.setRGB(i, 255, 255, 0);
        }
        
        m_led.setData(m_ledBuffer);

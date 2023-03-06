@@ -9,7 +9,6 @@ public class ZeroGyroscope extends CommandBase{
     public ZeroGyroscope(DrivetrainSubsystem dt, double zero){
         mDT = dt;
         this.zero = zero;
-        addRequirements(dt);
     }
 
     @Override

@@ -18,8 +18,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/desiredX",
-              "_source1": "network_table:///SmartDashboard/X",
+              "_source0": "network_table:///SmartDashboard/X",
+              "_source1": "network_table:///SmartDashboard/desiredX",
               "_title": "desiredX",
               "_glyph": 148,
               "_showGlyph": false,
@@ -40,8 +40,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/desiredY",
-              "_source1": "network_table:///SmartDashboard/Y",
+              "_source0": "network_table:///SmartDashboard/Y",
+              "_source1": "network_table:///SmartDashboard/desiredY",
               "_title": "desiredY",
               "_glyph": 148,
               "_showGlyph": false,
@@ -53,27 +53,6 @@
               "Y-axis/Unit": "ul",
               "Visible data/SmartDashboard/Y": true,
               "Visible data/SmartDashboard/desiredY": true
-            }
-          },
-          "6,0": {
-            "size": [
-              3,
-              3
-            ],
-            "content": {
-              "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/rot",
-              "_source1": "network_table:///SmartDashboard/desiredrot",
-              "_title": "desiredrot",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Graph/Visible time": 30.0,
-              "Graph/X-axis auto scrolling": true,
-              "Y-axis/Automatic bounds": true,
-              "Y-axis/Upper bound": 1.0,
-              "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/desiredrot": true
             }
           },
           "9,0": {
@@ -111,32 +90,6 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/current",
               "_title": "current",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/pigeon",
-              "_title": "pigeon",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/desiredSnap",
-              "_title": "desiredSnap",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -295,6 +248,28 @@
               "_title": "Error",
               "_glyph": 148,
               "_showGlyph": false
+            }
+          },
+          "6,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///Shuffleboard/Match/Robot Pigeon Angle",
+              "_source1": "network_table:///SmartDashboard/desiredrot",
+              "_title": "Shuffleboard/Match/Robot Pigeon Angle",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": false,
+              "Y-axis/Upper bound": 185.0,
+              "Y-axis/Lower bound": 175.0,
+              "Y-axis/Unit": "ul",
+              "Visible data/Shuffleboard/Match/Robot Pigeon Angle": true,
+              "Visible data/SmartDashboard/desiredrot": true
             }
           }
         }

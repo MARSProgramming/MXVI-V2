@@ -58,7 +58,7 @@ public class AutoChooser {
         autoChooser.addOption("BLUE-TOP: Set Pose", new BSetTopPose(mDrivetrainSubsystem));
         autoChooser.addOption("BLUE-TOP: Leave Community", new BTopLeaveCommunity(mDrivetrainSubsystem));
         autoChooser.addOption("BLUE-TOP: Score Piece 1, Dock", new BtP1_Dock(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("BLUE-TOP: Score Piece 1, No Dock", new BtP1_NoDock(mDrivetrainSubsystem));
+        autoChooser.addOption("BLUE-TOP: Score Piece 1, No Dock", new BtP1_NoDock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("BLUE-TOP: Score Piece 1 & 2, Dock", new BtP1P2_Dock(mDrivetrainSubsystem));
         autoChooser.addOption("BLUE-TOP: Score Piece 1 & 2, No Dock", new BtP1P2_NoDock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("BLUE-TOP: Score Given Piece", new BtScoreGiven(mDrivetrainSubsystem, mManipulator));

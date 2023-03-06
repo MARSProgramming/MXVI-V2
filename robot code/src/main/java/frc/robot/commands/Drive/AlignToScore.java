@@ -22,8 +22,10 @@ public class AlignToScore extends CommandBase {
     private PathPlannerTrajectory mTrajectory;
     private HolonomicDriveController mController;
     private Timer mTimer;
+    private AlignToScoreEnum mPos = AlignToScoreEnum.LEFT;
 
-    public AlignToScore(DrivetrainSubsystem subsystem) {
+    public AlignToScore(DrivetrainSubsystem subsystem, AlignToScoreEnum pos) {
+        mPos = pos;
         mDrivetrainSubsystem = subsystem;
         mController = subsystem.getDrivePathController();
         mTimer = new Timer();
@@ -35,10 +37,21 @@ public class AlignToScore extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        double y = 0;
+        if(mPos == AlignToScoreEnum.LEFT){
+            y = mDrivetrainSubsystem.getAlignLeftY();
+        }
+        else if(mPos == AlignToScoreEnum.MID){
+            y = mDrivetrainSubsystem.getAlignMidY();
+        }
+        else if(mPos == AlignToScoreEnum.RIGHT){
+            y = mDrivetrainSubsystem.getAlignRightY();
+        }
+
         mTrajectory = PathPlanner.generatePath(
       new PathConstraints(0.8, 0.5), 
       new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI)),
-      new PathPoint(new Translation2d(1.84, mDrivetrainSubsystem.getAlignY()), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
+      new PathPoint(new Translation2d(1.84, y), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
         );
         mTimer.reset();
         mTimer.start();

@@ -14,9 +14,9 @@ public class BMidLeaveCommunity extends SequentialCommandGroup{
     public BMidLeaveCommunity(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_MiddleLeaveCommunity", new PathConstraints(4, 3));
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_MiddleLeaveCommunity", new PathConstraints(1, 0.5));
         addCommands(
-            new ResetDrivePose(drivetrain, 1.81, 2.69, 0),
+            new ResetDrivePose(drivetrain, 1.83, 2.69, 0),
             new ParallelCommandGroup(
                 // Any changes to make sure arm is secure here
                 new DriveAtPath(drivetrain, LeaveCommunity, false, false, 10)

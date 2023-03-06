@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Drive.AlignToScore;
+import frc.robot.commands.Drive.AlignToScoreEnum;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
@@ -103,13 +104,14 @@ public class RobotContainer {
     mPilot = new CommandXboxController(0);
     mCopilot = new CommandXboxController(1);
     
-    mPilot.y().onTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
-    mPilot.x().whileTrue(new AlignToScore(mDrivetrainSubsystem));
+    mPilot.y().whileTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
+    mPilot.x().whileTrue(new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT));
+    mPilot.a().whileTrue(new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID));
+    mPilot.b().whileTrue(new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
-    mPilot.a().onTrue(mLED.swapYellowPurple());
-    mPilot.leftBumper().onTrue(mManipulator.goToStow());
+    mPilot.leftBumper().onTrue(mLED.swapYellowPurple());
 
     mCopilot.a().whileTrue(mManipulator.goToScoreMid());
     mCopilot.b().whileTrue(mManipulator.goToCubeIntake());
@@ -188,7 +190,7 @@ public class RobotContainer {
   }
 
   public void configureDashboard() {
-    Match.addCamera("Camera Stream", "Limelight", "http://10.26.14.5000").withSize(2,2).withPosition(1,1);
+    Match.addCamera("Camera Stream", "Limelight", "mjpg:http://10.26.28.5800").withSize(2,2).withPosition(1,1);
     PilotControlsList.addString("Drive Translation", () -> "Left Joystick X/Y");
     PilotControlsList.addString("Drive Rotation", () -> "Right Joystick X");
     PilotControlsList.addString("Run Grasper Outtake", () -> "Right Trigger");

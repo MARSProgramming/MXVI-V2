@@ -3,6 +3,7 @@ package frc.robot.auto.plays.Blue;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.ResetDrivePose;
+import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class BSetMidPose extends SequentialCommandGroup{
@@ -10,10 +11,8 @@ public class BSetMidPose extends SequentialCommandGroup{
         addRequirements(drivetrain);
 
         addCommands(
-            new ResetDrivePose(drivetrain, 1.81, 2.69, 0),
-            new ParallelCommandGroup(
-
-            )
+            new ZeroGyroscope(drivetrain, 180),
+            new ResetDrivePose(drivetrain, 1.83, 2.69, 180)
         );
     }
 }

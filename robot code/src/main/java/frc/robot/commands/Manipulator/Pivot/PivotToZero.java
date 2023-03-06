@@ -22,6 +22,6 @@ public class PivotToZero extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return Math.abs(manipulator.getPivot().distanceToSetpoint(0)) < 0.1;
+        return Math.abs(manipulator.getPivot().distanceToSetpoint(0)) < 0.3;
     }
 }

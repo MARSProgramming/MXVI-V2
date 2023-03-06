@@ -61,7 +61,7 @@ public final class Constants {
         public static final double holonomicYkP = 2.4;
         public static final double holonomicYkI = 0;
         public static final double holonomicYkD = 0;
-        public static final double holonomicOkP = 2.5;
+        public static final double holonomicOkP = 2.0;
         public static final double holonomicOkI = 0.0;
         public static final double holonomicOkD = 0.0;
         public static final double holonomicOMaxVelocity = 2;
