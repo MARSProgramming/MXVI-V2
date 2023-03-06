@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Drive.DefaultDriveCommand;
+import frc.robot.commands.Drive.DriveToAprilTag;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
@@ -98,7 +99,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureTeleopBindings() {
-    mPilot.y().onTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
+    mPilot.y().onTrue((new ZeroGyroscope(mDrivetrainSubsystem, 0)).withTimeout(0.1));
+    mPilot.a().onTrue(new DriveToAprilTag(mDrivetrainSubsystem));
     System.out.println("Teleop Bindings Configured");
   }
 

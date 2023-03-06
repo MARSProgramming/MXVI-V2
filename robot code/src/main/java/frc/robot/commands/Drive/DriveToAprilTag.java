@@ -1,19 +1,15 @@
 
 package frc.robot.commands.Drive;
 
-import java.util.function.Supplier;
+import java.util.Optional;
 
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -29,6 +25,7 @@ public class DriveToAprilTag extends CommandBase {
     DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
     private final DrivetrainSubsystem mDrivetrainSubsystem;
+    private final AprilTagFieldLayout mField;
 
     private final ProfiledPIDController xController = new ProfiledPIDController(3, 0, 0, DEFAULT_XY_CONSTRAINTS);
     private final ProfiledPIDController yController = new ProfiledPIDController(3, 0, 0, DEFAULT_XY_CONSTRAINTS);
@@ -36,6 +33,7 @@ public class DriveToAprilTag extends CommandBase {
 
     public DriveToAprilTag(DrivetrainSubsystem subsystem) {
         mDrivetrainSubsystem = subsystem;
+        mField = subsystem.getField();
 
         xController.setTolerance(0.2);
         yController.setTolerance(0.2);
@@ -48,21 +46,27 @@ public class DriveToAprilTag extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        Optional<Pose3d> checkForPose = mField.getTagPose(mDrivetrainSubsystem.resetPoseToLimelight());
+ 
         Pose2d robotPose = mDrivetrainSubsystem.getPose();
         omegaController.reset(robotPose.getRotation().getRadians());
         xController.reset(robotPose.getX());
         yController.reset(robotPose.getY());
 
-        double[] goalPose;
-        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false)){
-            goalPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("targetpose_robotspace").getDoubleArray(new double[6]);
-            xController.setGoal(goalPose[0]+10);
-            yController.setGoal(goalPose[1]);
-            omegaController.setGoal((new Rotation2d(goalPose[3],goalPose[4])).getRadians());
-
-            SmartDashboard.putNumber("desiredX", goalPose[0]);
-            SmartDashboard.putNumber("desiredY", goalPose[1]);
-            SmartDashboard.putNumber("desiredrot", (new Rotation2d(goalPose[3],goalPose[4])).getDegrees());    
+        if (checkForPose.isPresent()) {
+            Pose3d goalPose = checkForPose.get();
+            xController.setGoal(goalPose.getX()+0.5);
+            yController.setGoal(goalPose.getY());
+            if (robotPose.getRotation().getRadians()<0) {
+                omegaController.setGoal(-Math.PI);
+                SmartDashboard.putNumber("desiredrot", -Math.PI);    
+            }
+            else {
+                omegaController.setGoal(Math.PI);
+                SmartDashboard.putNumber("desiredrot", Math.PI);    
+            }
+            SmartDashboard.putNumber("desiredX", goalPose.getX()+1);
+            SmartDashboard.putNumber("desiredY", goalPose.getY());
         }
         else {
             xController.setGoal(robotPose.getX());

@@ -16,6 +16,8 @@ import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.HolonomicDriveController;
@@ -31,8 +33,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -49,7 +55,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         return mInstance;
   } 
 
-
+  private AprilTagFieldLayout mField;
+  
   public static final double MAX_VOLTAGE = 12.0;
   private ProfiledPIDController mSnapController;
   //  The formula for calculating the theoretical maximum velocity is:
@@ -188,7 +195,19 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         new Pose2d(),
         stateStdDevs,
         visionMeasurementStdDevs);
-    
+    try {
+        //mField = new AprilTagFieldLayout(AprilTagFields.k2023ChargedUp.m_resourceFile);
+        mField = new AprilTagFieldLayout(Filesystem.getDeployDirectory().toPath().resolve("2023-chargedup.json").toString());
+        if (DriverStation.getAlliance()==Alliance.Blue)
+            mField.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
+        else
+            mField.setOrigin(OriginPosition.kRedAllianceWallRightSide);  
+        } catch (IOException e) {
+            System.out.println("AprilTagFieldLayout not found");
+        }
+  }
+  public AprilTagFieldLayout getField() {
+        return mField;
   }
   /**
    * Sets the gyroscope angle to zero. This can be used to set the direction the robot is currently facing to the
@@ -212,15 +231,20 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("LL Has Target", (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getInteger(0)==1));
+    SmartDashboard.putNumber("LL Target ID", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getInteger(0));
+    
     double[] botpose;
-    if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false)){
-        botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[7]);
-        SmartDashboard.putNumber("LL latency", botpose[6]);
+    if(DriverStation.isTeleop() && NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getInteger(0)==1){
+        botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_wpired").getDoubleArray(new double[7]);
         mPoseEstimator.addVisionMeasurement(
-                new Pose2d(botpose[0], botpose[1], new Rotation2d(botpose[3], botpose[4])),
-                Timer.getFPGATimestamp()-botpose[6]);
+            new Pose2d(botpose[0], botpose[1], new Rotation2d(Units.degreesToRadians(botpose[5]))),
+            Timer.getFPGATimestamp() - (botpose[6]/1000.0));
+        SmartDashboard.putNumber("LL latency", botpose[6]);
+        SmartDashboard.putNumber("Limelight X", botpose[0]);
+        SmartDashboard.putNumber("Limelight Y", botpose[1]);
+        SmartDashboard.putNumber("Limelight Rotation", botpose[5]);            
     }
-
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
     m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
@@ -239,6 +263,19 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
   }
   public void setPose(Pose2d pose, Rotation2d rotation){
    mPoseEstimator.resetPosition(rotation, getSwerveModulePositions(), pose);
+  }
+  public int resetPoseToLimelight(){
+    double[] botpose;
+    if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getInteger(0)==1){
+        botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_wpired").getDoubleArray(new double[6]);
+        mPoseEstimator.resetPosition(
+            this.getGyroscopeRotation(),
+            this.getSwerveModulePositions(),
+            new Pose2d(botpose[0], botpose[1], new Rotation2d(Units.degreesToRadians(botpose[5]))));
+        return (int)NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getInteger(0);
+    } else {
+        return -1;
+    }
   }
   public SwerveDriveKinematics getSwerveKinematics(){
         return m_kinematics;
