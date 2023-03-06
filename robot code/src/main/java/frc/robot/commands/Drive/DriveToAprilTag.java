@@ -55,7 +55,7 @@ public class DriveToAprilTag extends CommandBase {
 
         if (checkForPose.isPresent()) {
             Pose3d goalPose = checkForPose.get();
-            xController.setGoal(goalPose.getX()+0.5);
+            xController.setGoal(goalPose.getX()+0.5); //from the center of the robot to edge of bumber is about 0.4
             yController.setGoal(goalPose.getY());
             if (robotPose.getRotation().getRadians()<0) {
                 omegaController.setGoal(-Math.PI);
