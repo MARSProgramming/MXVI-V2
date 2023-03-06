@@ -43,6 +43,7 @@ public class RobotContainer {
 
   private CommandXboxController mPilot = new CommandXboxController(0);
   private CommandXboxController mCopilot = new CommandXboxController(1);
+  private CommandXboxController mTestPilot;  
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
@@ -136,20 +137,23 @@ public class RobotContainer {
   }
 
   public void configureTestBindings(){
-    mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
-    mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
-    mPilot.y().onTrue(mManipulator.goToHighIntake());
-    mPilot.start().whileTrue(mManipulator.goToZero());
-    mPilot.back().whileTrue(mManipulator.getWrist().zero());
-    mPilot.x().whileTrue(mManipulator.goToIntake());
-    mPilot.a().onTrue(mManipulator.getGrasper().runTestCurrent());
-    mPilot.b().whileTrue(mManipulator.goToScoreHigh());
-    mPilot.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
-    mPilot.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
-    mPilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
-    mPilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
-    mPilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
-    mPilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
+    mTestPilot = new CommandXboxController(0);
+    mPilot = null; 
+
+    mTestPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mTestPilot.getLeftTriggerAxis()));
+    mTestPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mTestPilot.getRightTriggerAxis()));
+    mTestPilot.y().onTrue(mManipulator.goToHighIntake());
+    mTestPilot.start().whileTrue(mManipulator.goToZero());
+    mTestPilot.back().whileTrue(mManipulator.getWrist().zero());
+    mTestPilot.x().whileTrue(mManipulator.goToIntake());
+    mTestPilot.a().onTrue(mManipulator.getGrasper().runTestCurrent());
+    mTestPilot.b().whileTrue(mManipulator.goToScoreHigh());
+    mTestPilot.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
+    mTestPilot.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
+    mTestPilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
+    mTestPilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
+    mTestPilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
+    mTestPilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
 
 
     System.out.println("Test Bindings Configured");
