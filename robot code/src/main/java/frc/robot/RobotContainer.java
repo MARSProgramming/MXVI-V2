@@ -21,6 +21,7 @@ import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveToAprilTag;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
+import frc.robot.commands.Drive.DriveToAprilTag.Alignment;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToScore;
@@ -100,7 +101,9 @@ public class RobotContainer {
    */
   public void configureTeleopBindings() {
     mPilot.y().onTrue((new ZeroGyroscope(mDrivetrainSubsystem, 0)).withTimeout(0.1));
-    mPilot.a().onTrue(new DriveToAprilTag(mDrivetrainSubsystem));
+    mPilot.x().onTrue(new DriveToAprilTag(mDrivetrainSubsystem,Alignment.LEFT));
+    mPilot.a().onTrue(new DriveToAprilTag(mDrivetrainSubsystem,Alignment.MID));
+    mPilot.b().onTrue(new DriveToAprilTag(mDrivetrainSubsystem,Alignment.RIGHT));
     System.out.println("Teleop Bindings Configured");
   }
 

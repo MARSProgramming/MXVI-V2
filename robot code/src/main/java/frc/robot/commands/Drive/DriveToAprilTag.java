@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class DriveToAprilTag extends CommandBase {
+    public enum Alignment {
+        LEFT, MID, RIGHT
+    }
+    
     /** Default constraints are 50% of max speed, accelerate to full speed in 1 second */
     private static final TrapezoidProfile.Constraints DEFAULT_XY_CONSTRAINTS = new TrapezoidProfile.Constraints(
     DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * 0.5,
@@ -26,14 +30,16 @@ public class DriveToAprilTag extends CommandBase {
 
     private final DrivetrainSubsystem mDrivetrainSubsystem;
     private final AprilTagFieldLayout mField;
+    private final Alignment mAlignment;
 
     private final ProfiledPIDController xController = new ProfiledPIDController(3, 0, 0, DEFAULT_XY_CONSTRAINTS);
     private final ProfiledPIDController yController = new ProfiledPIDController(3, 0, 0, DEFAULT_XY_CONSTRAINTS);
     private final ProfiledPIDController omegaController = new ProfiledPIDController(2, 0, 0, DEFAULT_OMEGA_CONSTRAINTS);
 
-    public DriveToAprilTag(DrivetrainSubsystem subsystem) {
+    public DriveToAprilTag(DrivetrainSubsystem subsystem, Alignment alignment) {
         mDrivetrainSubsystem = subsystem;
         mField = subsystem.getField();
+        mAlignment = alignment;
 
         xController.setTolerance(0.2);
         yController.setTolerance(0.2);
@@ -56,7 +62,19 @@ public class DriveToAprilTag extends CommandBase {
         if (checkForPose.isPresent()) {
             Pose3d goalPose = checkForPose.get();
             xController.setGoal(goalPose.getX()+0.5); //from the center of the robot to edge of bumber is about 0.4
-            yController.setGoal(goalPose.getY());
+            switch (mAlignment) {
+                case LEFT:
+                    yController.setGoal(goalPose.getY()-0.5);
+                    break; 
+                case MID:               
+                    yController.setGoal(goalPose.getY());
+                    break; 
+                case RIGHT:               
+                    yController.setGoal(goalPose.getY()+0.5);
+                    break; 
+                default:
+                    break;
+            }
             if (robotPose.getRotation().getRadians()<0) {
                 omegaController.setGoal(-Math.PI);
                 SmartDashboard.putNumber("desiredrot", -Math.PI);    
