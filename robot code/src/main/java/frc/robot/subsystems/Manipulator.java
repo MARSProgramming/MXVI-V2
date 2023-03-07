@@ -40,7 +40,21 @@ public class Manipulator extends SubsystemBase{
     private Grasper mGrasper = new Grasper();
     private Pivot mPivot = new Pivot();
     private Wrist mWrist = new Wrist();
+    private boolean autoScore = false;
     
+    public boolean getAutoScore(){
+        return autoScore;
+    }
+
+    public CommandBase swapAutoScoreCommand(){
+        return runOnce(
+            () -> {
+                if(autoScore){autoScore = false;}
+                else{autoScore = true;}
+            }
+        );
+    }
+
     public Elevator getElevator(){
         return mElevator;
     }

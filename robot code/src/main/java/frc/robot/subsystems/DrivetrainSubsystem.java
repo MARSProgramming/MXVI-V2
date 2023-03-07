@@ -176,7 +176,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         new TrapezoidProfile.Constraints(Constants.Auto.holonomicOMaxVelocity, Constants.Auto.holonomicOMaxAcceleration));
         mSnapController.enableContinuousInput(-Math.PI, Math.PI);
     mPoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, new Rotation2d(m_pigeon.getYaw()), getSwerveModulePositions(), new Pose2d());
-    mPoseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.1));
+    mPoseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.04, 0.04, 0.04));
   }
   /**
    * Sets the gyroscope angle to zero. This can be used to set the direction the robot is currently facing to the
@@ -239,8 +239,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
   }
 
   private double[] leftYScoringPos = {4.99, 3.30, 1.63};
-  private double[] midYScoringPos = {4.43, 2.74, 1.06};
-  private double[] rightYScoringPos = {3.87, 2.20, 0.51};
+  private double[] midYScoringPos = {4.47, 2.74, 1.06};
+  private double[] rightYScoringPos = {3.89, 2.20, 0.49};
   private double adjust = 0;
   public double getAlignLeftY(){
         return closestValue(getPose().getY() + adjust, leftYScoringPos);
@@ -255,7 +255,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
   private double lastRoll = m_pigeon.getRoll();
   public boolean finishedBalanceFar(){
         System.out.println(m_pigeon.getRoll());
-        boolean finish = lastRoll < 0 && m_pigeon.getRoll() > 0;
+        boolean finish = m_pigeon.getRoll() - lastRollClose > 0.5;
         lastRoll = m_pigeon.getRoll();
         return finish;
   }
@@ -263,7 +263,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
   public boolean finishedBalanceClose(){
     System.out.println(m_pigeon.getRoll());
     System.out.println(m_pigeon.getRoll() - lastRollClose);
-    boolean finish = m_pigeon.getRoll() - lastRollClose > 1 && getPose().getX() > 3.5;
+    boolean finish = m_pigeon.getRoll() - lastRollClose > 0.5 && m_pigeon.getRoll() > 80;
     lastRollClose = m_pigeon.getRoll();
     return finish;
   }
@@ -291,6 +291,9 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         };
   }
 
+  public double getRoll(){
+        return m_pigeon.getRoll();
+  }
   public void createSwerveModules(double fl, double fr, double bl, double br){
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 

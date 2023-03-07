@@ -5,6 +5,8 @@ import edu.wpi.first.apriltag.AprilTagDetection;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase{
@@ -15,8 +17,9 @@ public class Limelight extends SubsystemBase{
     }
 
     public void resetPose(){
-        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1.0 && dt.getPose().getX() < 2.6){
-            botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1.0 && dt.getPose().getX() < 3.6){
+            String key = DriverStation.getAlliance() == Alliance.Blue ? "botpose_wpiblue" : "botpose_wpired";
+            botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry(key).getDoubleArray(new double[6]);
             double x = botpose[0];
             double y = botpose[1];
             double z = botpose[2];

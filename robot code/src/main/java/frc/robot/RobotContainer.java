@@ -112,11 +112,12 @@ public class RobotContainer {
     mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
     mPilot.leftBumper().onTrue(mLED.swapYellowPurple());
+    mPilot.povDown().onTrue(mManipulator.goToStow());
 
     mCopilot.a().whileTrue(mManipulator.goToScoreMid());
     mCopilot.b().whileTrue(mManipulator.goToCubeIntake());
-    mCopilot.y().onTrue(mManipulator.goToHighIntake());
-    mCopilot.x().onTrue(mManipulator.goToIntake());
+    mCopilot.y().whileTrue(mManipulator.goToHighIntake());
+    mCopilot.x().whileTrue(mManipulator.goToIntake());
 
     mCopilot.povUp().whileTrue(mManipulator.goToLoadCommand());
     mCopilot.povDown().whileTrue(mManipulator.goToScoreHigh());
@@ -124,7 +125,7 @@ public class RobotContainer {
     mCopilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     mCopilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
     mCopilot.start().whileTrue(mManipulator.goToZero());
-    mCopilot.back().whileTrue(mManipulator.getWrist().zero());
+    mCopilot.back().whileTrue(mManipulator.swapAutoScoreCommand());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());
     mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
     mCopilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
@@ -135,6 +136,9 @@ public class RobotContainer {
   }
 
   public void configureTestBindings(){
+    mPilot = new CommandXboxController(0);
+    mCopilot = new CommandXboxController(1);
+
     mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
     mPilot.y().onTrue(mManipulator.goToHighIntake());

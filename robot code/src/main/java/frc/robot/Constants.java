@@ -74,7 +74,7 @@ public final class Constants {
 
     public static class Elevator{
         public static double forwardLimitInches = 40;
-        public static double reverseLimitInches = 0;
+        public static double reverseLimitInches = -20;
 
         public static double kP = 0.04;
         public static double kI = 0.0;
@@ -88,7 +88,7 @@ public final class Constants {
 
         public static double intakeHighPos = 12;
         public static double intakePos = 8.5;
-        public static double bottomPos = 0;
+        public static double bottomPos = 0.5;
         public static double scoreHighPos = 34;
         public static double scoreMidPos = 13.3;
         public static double stowPos = 0;
@@ -106,7 +106,7 @@ public final class Constants {
         public static double intakeBackPos = 3.3;
         public static double intakeUpPos = 3.6;
         public static double intakeCubePos = 5.0;
-        public static double scoreHighPos = -3.5;
+        public static double scoreHighPos = -3.9;
         public static double scoreMidPos = -3.82;
         public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;

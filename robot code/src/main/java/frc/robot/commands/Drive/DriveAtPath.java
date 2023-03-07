@@ -31,7 +31,6 @@ public class DriveAtPath extends CommandBase {
         mTimer = new Timer();
         this.timeout = timeout;
         balancePos = balanceClose;
-        mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.05)));
         
         addRequirements(subsystem);
     }
@@ -39,6 +38,7 @@ public class DriveAtPath extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.05)));
         mTimer.reset();
         mTimer.start();
     }

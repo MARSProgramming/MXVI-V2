@@ -1,8 +1,10 @@
+//not done
+
 package frc.robot.auto.plays.Blue;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.ResetDrivePose;
+import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Manipulator;
 
@@ -15,8 +17,9 @@ public class BbScoreGiven extends SequentialCommandGroup{
         addRequirements(drivetrain, manipulator);
 
         addCommands(
-            new ResetDrivePose(drivetrain, 1.81, 4.36, 0),
-                mManipulator.goToScoreMid().withTimeout(6),
+            new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
+            new ResetDrivePose(drivetrain, 1.83, 0.96, 180),
+            mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
                 mManipulator.getGrasper().runSpitMode().withTimeout(2),
                 mManipulator.goToZero()
          );

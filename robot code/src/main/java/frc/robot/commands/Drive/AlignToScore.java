@@ -29,7 +29,6 @@ public class AlignToScore extends CommandBase {
         mDrivetrainSubsystem = subsystem;
         mController = subsystem.getDrivePathController();
         mTimer = new Timer();
-        mController.setTolerance(new Pose2d(0.03, 0.03, new Rotation2d(0.05)));
         
         addRequirements(subsystem);
     }
@@ -37,6 +36,7 @@ public class AlignToScore extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.004)));
         double y = 0;
         if(mPos == AlignToScoreEnum.LEFT){
             y = mDrivetrainSubsystem.getAlignLeftY();
@@ -51,7 +51,7 @@ public class AlignToScore extends CommandBase {
         mTrajectory = PathPlanner.generatePath(
       new PathConstraints(0.8, 0.5), 
       new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI)),
-      new PathPoint(new Translation2d(1.84, y), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
+      new PathPoint(new Translation2d(1.90, y), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
         );
         mTimer.reset();
         mTimer.start();
@@ -79,6 +79,6 @@ public class AlignToScore extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.getEndState().poseMeters.getTranslation()) < 0.03;
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.getEndState().poseMeters.getTranslation()) < 0.01;
     }
 }

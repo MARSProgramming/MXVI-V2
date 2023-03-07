@@ -1,3 +1,5 @@
+//not done
+
 package frc.robot.auto.plays.Blue;
 
 import com.pathplanner.lib.PathConstraints;
@@ -7,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.DriveAtPath;
 import frc.robot.commands.Drive.ResetDrivePose;
+import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.util.AutoChooser;
 
@@ -19,7 +22,8 @@ public class BbP3P4_Dock extends SequentialCommandGroup{
         PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_P4-M", new PathConstraints(4, 3));
         PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_M-C", new PathConstraints(4, 3));
         addCommands(
-            new ResetDrivePose(drivetrain, 1.81, 0.45, 0),
+            new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
+            new ResetDrivePose(drivetrain, 1.83, 0.96, 180),
             new ParallelCommandGroup(
                 new DriveAtPath(drivetrain, MarkertoP3, false, false, 10)
                 // Code for extending intake
