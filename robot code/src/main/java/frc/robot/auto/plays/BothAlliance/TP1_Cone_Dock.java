@@ -24,15 +24,16 @@ public class TP1_Cone_Dock extends SequentialCommandGroup{
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()),
             mManipulator.swapAutoScoreCommand().withTimeout(0.05),
-            mManipulator.goToScoreHigh().withTimeout(2).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
-            mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
+            mManipulator.goToScoreHigh(),
+            mManipulator.goToZero().withTimeout(0.5),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
-                mManipulator.goToHighIntake()
+                mManipulator.goToCubeIntake()
             ),
             new ParallelCommandGroup(
                 new DriveAtPath(drivetrain, P1toMarker, false, false, 4.0),
-                mManipulator.goToZero().withTimeout(2.0).andThen(mManipulator.goToScoreHigh())
+                mManipulator.goToZero().withTimeout(2.0).andThen(mManipulator.goToCubeShootHigh().withTimeout(1))
             ),
+            mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
             mManipulator.goToZero().withTimeout(2.0).alongWith(
             new DriveAtPath(drivetrain, CSPath, false, false, 5.0)),
             new AutoBalance(drivetrain)
