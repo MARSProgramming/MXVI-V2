@@ -49,10 +49,10 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
 
 
 
-  private GenericEntry XPos =  Match.add("Robot X Position", 0).withSize(2,1).withPosition(0, 3).getEntry();
-  private GenericEntry YPos =  Match.add("Robot Y Position", 0).withSize(2,1).withPosition(2, 3).getEntry();
-  private GenericEntry Rotation = Match.add("Robot Rotation", 0).withSize(2,1).withPosition(0, 4).getEntry();
-  private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).withSize(2,1).withPosition(2, 4).getEntry();
+  //private GenericEntry XPos =  Match.add("Robot X Position", 0).withSize(2,1).withPosition(0, 3).getEntry();
+ // private GenericEntry YPos =  Match.add("Robot Y Position", 0).withSize(2,1).withPosition(2, 3).getEntry();
+  //private GenericEntry Rotation = Match.add("Robot Rotation", 0).withSize(2,1).withPosition(0, 4).getEntry();
+  //private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).withSize(2,1).withPosition(2, 4).getEntry();
 
   
   public static DrivetrainSubsystem getInstance(){
@@ -214,19 +214,18 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     
     mPoseEstimator.updateWithTime(Timer.getFPGATimestamp(), getGyroscopeRotation(), getSwerveModulePositions());
     
-    double XPoseValue = this.getPose().getX();
-    double YPoseValue = this.getPose().getY();
-    double RotationValue = this.getPose().getRotation().getDegrees();
-    double PigeonValue = Math.toDegrees(this.getPigeonAngle());
+    //double XPoseValue = this.getPose().getX();
+   // double YPoseValue = this.getPose().getY();
+    //double RotationValue = this.getPose().getRotation().getDegrees();
+   // double PigeonValue = Math.toDegrees(this.getPigeonAngle());
 
-    XPos.setDouble(XPoseValue);
-    YPos.setDouble(YPoseValue);
-    Rotation.setDouble(RotationValue);
-    Pigeon.setDouble(PigeonValue);
+  //  XPos.setDouble(XPoseValue);
+   // YPos.setDouble(YPoseValue);
+   // Rotation.setDouble(RotationValue);
+   // Pigeon.setDouble(PigeonValue);
 
     SmartDashboard.putNumber("X", getPose().getX());
     SmartDashboard.putNumber("Y", getPose().getY());
-    SmartDashboard.putNumber("Roll", m_pigeon.getRoll());
 }
   public Pose2d getPose(){
     return mPoseEstimator.getEstimatedPosition();
@@ -260,7 +259,6 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         lastRoll = m_pigeon.getRoll();
         return finish;
   }
-  private double lastRollClose = m_pigeon.getRoll();
   public boolean finishedBalanceClose(){
     System.out.println(m_pigeon.getRoll());
     System.out.println(m_pigeon.getRoll() - lastRollClose);

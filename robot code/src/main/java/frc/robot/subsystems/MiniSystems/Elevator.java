@@ -34,7 +34,6 @@ public class Elevator extends SubsystemBase{
     public Elevator(){
         master = new TalonFX(Constants.Elevator.masterMotorID);
         follower = new TalonFX(Constants.Elevator.followerMotorID);
-
         master.configFactoryDefault();
         follower.configFactoryDefault();
 
@@ -134,6 +133,14 @@ public class Elevator extends SubsystemBase{
   
     public double distanceToSetpoint(double setpoint){
         return master.getSelectedSensorPosition() / inchesToNativeUnits - setpoint;
+    }
+
+    public double getElevatorVelocity(){
+      return master.getSelectedSensorVelocity() / inchesToNativeUnits * 10;
+    }
+
+    public double getElevatorPosition(){
+      return master.getSelectedSensorPosition() / inchesToNativeUnits;
     }
 
     @Override

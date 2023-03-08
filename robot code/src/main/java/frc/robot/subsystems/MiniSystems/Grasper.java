@@ -21,6 +21,7 @@ import frc.robot.util.UtilityFunctions;
 
 
 public class Grasper extends SubsystemBase{
+    private final double rotationsToNativeUnits = 2048;
 
     private TalonFX BeltController = new TalonFX(Constants.Grasper.motorID);
     public Grasper() {
@@ -35,6 +36,15 @@ public class Grasper extends SubsystemBase{
 
         SupplyCurrentLimitConfiguration curr_lim = new SupplyCurrentLimitConfiguration(true, 20, 20, 0.1);
         BeltController.configSupplyCurrentLimit(curr_lim);
+    }
+
+    
+    public double getGrasperVelocity(){
+      return BeltController.getSelectedSensorVelocity() / rotationsToNativeUnits * 10;
+    }
+
+    public double getGrasperPosition(){
+      return BeltController.getSelectedSensorPosition() / rotationsToNativeUnits;
     }
 
     public void RunGrasperEject(){
