@@ -259,6 +259,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         lastRoll = m_pigeon.getRoll();
         return finish;
   }
+
+  private double lastRollClose = m_pigeon.getRoll();
   public boolean finishedBalanceClose(){
     System.out.println(m_pigeon.getRoll());
     System.out.println(m_pigeon.getRoll() - lastRollClose);
