@@ -52,6 +52,9 @@ public final class Constants {
         public static double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
+
+        public static double autoBalanceP = 0.03;
+        public static double RRTapeAlignP = 0.03;
     }
 
     public static class Auto{

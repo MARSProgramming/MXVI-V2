@@ -36,8 +36,8 @@ public class AlignToLoad extends CommandBase {
     public void initialize() {
         mTrajectory = PathPlanner.generatePath(
       new PathConstraints(0.8, 0.5), 
-      new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI)),
-      new PathPoint(new Translation2d(14.3, 6.8), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
+      new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(0), mDrivetrainSubsystem.getGyroscopeRotation()),
+      new PathPoint(new Translation2d(14.3, 6.8), new Rotation2d(0), new Rotation2d(Math.PI/2))
         );
         mTimer.reset();
         mTimer.start();

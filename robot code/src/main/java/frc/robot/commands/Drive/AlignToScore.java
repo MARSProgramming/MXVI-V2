@@ -50,7 +50,7 @@ public class AlignToScore extends CommandBase {
 
         mTrajectory = PathPlanner.generatePath(
       new PathConstraints(0.8, 0.5), 
-      new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI)),
+      new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), mDrivetrainSubsystem.getGyroscopeRotation()),
       new PathPoint(new Translation2d(1.95, y), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
         );
         mTimer.reset();

@@ -17,7 +17,7 @@ public class Limelight extends SubsystemBase{
     }
 
     public void resetPose(){
-        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1.0 && dt.getPose().getX() < 3.6){
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1.0 && (dt.getPose().getX() < 3.6 || dt.getPose().getX() > 14)){
             String key = DriverStation.getAlliance() == Alliance.Blue ? "botpose_wpiblue" : "botpose_wpired";
             botpose = NetworkTableInstance.getDefault().getTable("limelight").getEntry(key).getDoubleArray(new double[6]);
             double x = botpose[0];

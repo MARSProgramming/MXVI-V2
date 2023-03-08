@@ -176,7 +176,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         new TrapezoidProfile.Constraints(Constants.Auto.holonomicOMaxVelocity, Constants.Auto.holonomicOMaxAcceleration));
         mSnapController.enableContinuousInput(-Math.PI, Math.PI);
     mPoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, new Rotation2d(m_pigeon.getYaw()), getSwerveModulePositions(), new Pose2d());
-    mPoseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.04, 0.04, 0.04));
+    mPoseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.07, 0.07, 0.07));
   }
   /**
    * Sets the gyroscope angle to zero. This can be used to set the direction the robot is currently facing to the

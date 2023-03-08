@@ -1,19 +1,18 @@
 package frc.robot.util;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Drive;
+import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Pivot;
 import frc.robot.subsystems.MiniSystems.Wrist;
-import frc.robot.subsystems.DrivetrainSubsystem;
 
 
 public class MatchTab extends SubsystemBase {
@@ -38,19 +37,19 @@ public class MatchTab extends SubsystemBase {
 
 
       // Elevator Position and Velocity
-      private GenericEntry ElevatorVelo =  Match.add("Elevator Velocity", 0).withSize(2,1).withPosition(4, 0).getEntry();
-      private GenericEntry ElevatorPos = Match.add("Elevator Position", 0).withSize(2, 1).withPosition(4, 1).getEntry(); 
+      private GenericEntry ElevatorVelo =  TestInfo.add("Elevator Velocity", 0).withSize(2,1).withPosition(4, 0).getEntry();
+      private GenericEntry ElevatorPos = TestInfo.add("Elevator Position", 0).withSize(2, 1).withPosition(4, 1).getEntry(); 
       
       // Grasper Position and Velocity
-      private GenericEntry GrasperVelo = Match.add("Grasper Velocity", 0).withSize(2, 1).withPosition(4,2).getEntry();
-      private GenericEntry GrasperPos = Match.add("Grasper Position", 0).withSize(2,1).withPosition(4, 3).getEntry();
+      private GenericEntry GrasperVelo = TestInfo.add("Grasper Velocity", 0).withSize(2, 1).withPosition(4,2).getEntry();
+      private GenericEntry GrasperPos = TestInfo.add("Grasper Position", 0).withSize(2,1).withPosition(4, 3).getEntry();
       
       // Pivot Position (no velocity yet)
-      private GenericEntry PivotPos = Match.add("Pivot Position", 0).withSize(2,1).withPosition(4, 4).getEntry();
+      private GenericEntry PivotPos = TestInfo.add("Pivot Position", 0).withSize(2,1).withPosition(4, 4).getEntry();
 
       // Wrist Position and Velocity
-      private GenericEntry WristVelo = Match.add("Wrist Velocity", 0).withSize(2,1).withPosition(4, 5).getEntry();
-      private GenericEntry WristPos = Match.add("Wrist Position", 0).withSize(2,1).withPosition(6, 5).getEntry();
+      private GenericEntry WristVelo = TestInfo.add("Wrist Velocity", 0).withSize(2,1).withPosition(4, 5).getEntry();
+      private GenericEntry WristPos = TestInfo.add("Wrist Position", 0).withSize(2,1).withPosition(6, 5).getEntry();
 
       public MatchTab(DrivetrainSubsystem drivetrain, Elevator elevator, Grasper grasper, Pivot pivot, Wrist wrist) {
         mDrivetrainSubsystem = drivetrain;
@@ -63,8 +62,10 @@ public class MatchTab extends SubsystemBase {
     public void configureDashboard() {
 
         // Create camera
-
-        Match.addCamera("Camera Stream", "Limelight 3", "10.26.14.5000").withPosition(0,0);
+        HttpCamera httpCamera = new HttpCamera("Cameras", "http://limelight.local:5800/stream.mjpg");
+        CameraServer.addCamera(httpCamera);
+        Shuffleboard.getTab("Tab").add(httpCamera);
+        
         // Pilot Controls
       
         PilotControlsList.addString("Drive Translation", () -> "Left Joystick X/Y");

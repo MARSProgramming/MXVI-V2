@@ -172,8 +172,8 @@ public class Manipulator extends SubsystemBase{
     }
     public CommandBase goToStow() {
         CommandBase loadCommand = Commands.sequence(
-            new ElevatorStow(this), 
-            new WristCarry(this),
+            new ElevatorStow(this).alongWith(
+            new WristCarry(this)),
             new PivotToZero(this),
             new WristStow(this),
             new PivotToStow(this)
