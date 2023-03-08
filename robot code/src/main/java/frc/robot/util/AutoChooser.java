@@ -55,7 +55,7 @@ public class AutoChooser {
         autoChooser.addOption("TOP: Score Given Leave", new TScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("TOP: Score Given Leave Dock", new TScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
         
-        preMatch.add(autoChooser).withSize(2, 1).withPosition(0, 0);
+        preMatch.add("Auto Play", autoChooser).withSize(2, 1).withPosition(4, 4);
     }
 
     public Command getSelected(){
