@@ -13,8 +13,8 @@ import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.util.AutoChooser;
 
-public class TP1_Dock extends SequentialCommandGroup{
-    public TP1_Dock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
+public class TP1_Cube_Dock extends SequentialCommandGroup{
+    public TP1_Cube_Dock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
         PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1", new PathConstraints(1.5, 0.5));
