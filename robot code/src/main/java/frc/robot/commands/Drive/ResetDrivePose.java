@@ -11,18 +11,24 @@ public class ResetDrivePose extends CommandBase{
     private final DrivetrainSubsystem mDrivetrainSubsystem;
     private double mX;
     private double mY;
-    private double mRotation;
+    private Rotation2d mRotation;
+    private Pose2d pose;
     public ResetDrivePose(DrivetrainSubsystem driveSubsystem, double x, double y, double rotation){
         mDrivetrainSubsystem = driveSubsystem;
         addRequirements(driveSubsystem);
-        mX = x;
-        mY = y;
-        mRotation = rotation;
+        mRotation = new Rotation2d(rotation);
+        pose = new Pose2d(mX, mY, mRotation);
+    }
+
+    public ResetDrivePose(DrivetrainSubsystem driveSubsystem, Pose2d pose){
+        mDrivetrainSubsystem = driveSubsystem;
+        this.pose = pose;
+        mRotation = pose.getRotation();
+        addRequirements(driveSubsystem);
     }
     @Override
     public void initialize(){
-        Rotation2d rotation = new Rotation2d(mRotation);
-        mDrivetrainSubsystem.setPose(new Pose2d(mX, mY, rotation), rotation);
+        mDrivetrainSubsystem.setPose(pose, mRotation);
     }
     @Override
     public boolean isFinished(){

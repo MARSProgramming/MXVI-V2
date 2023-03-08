@@ -27,7 +27,6 @@ public class AlignToLoad extends CommandBase {
         mDrivetrainSubsystem = subsystem;
         mController = subsystem.getDrivePathController();
         mTimer = new Timer();
-        mController.setTolerance(new Pose2d(0.03, 0.03, new Rotation2d(0.05)));
         
         addRequirements(subsystem);
     }
@@ -66,6 +65,6 @@ public class AlignToLoad extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.getEndState().poseMeters.getTranslation()) < 0.0003;
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.getEndState().poseMeters.getTranslation()) < 0.01;
     }
 }

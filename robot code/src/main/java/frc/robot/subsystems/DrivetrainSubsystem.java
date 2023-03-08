@@ -238,6 +238,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
        return m_kinematics;
   }
 
+  //this changes with alliance
   private double[] leftYScoringPos = {4.99, 3.30, 1.63};
   private double[] midYScoringPos = {4.47, 2.74, 1.06};
   private double[] rightYScoringPos = {3.89, 2.20, 0.49};
