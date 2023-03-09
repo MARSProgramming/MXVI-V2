@@ -36,21 +36,25 @@ public class MatchTab extends SubsystemBase {
       private GenericEntry Rotation = Match.add("Robot Rotation", 0).withSize(2,1).withPosition(0, 5).getEntry();
       private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).withSize(2,1).withPosition(2, 5).getEntry();
 
+
+      // ////////////////
+      // TEST/SUBSYSTEM INFORMATION
+      // ////////////////
     
       // Elevator Position and Velocity
-      private GenericEntry ElevatorVelo =  TestInfo.add("Elevator Velocity", 0).withSize(2,1).withPosition(4, 0).getEntry();
-      private GenericEntry ElevatorPos = TestInfo.add("Elevator Position", 0).withSize(2, 1).withPosition(4, 1).getEntry(); 
+      private GenericEntry ElevatorVelo =  TestInfo.add("Elevator Velocity", 0).withSize(2,1).withPosition(0, 0).getEntry();
+      private GenericEntry ElevatorPos = TestInfo.add("Elevator Position", 0).withSize(2, 1).withPosition(0, 1).getEntry(); 
       
       // Grasper Position and Velocity
-      private GenericEntry GrasperVelo = TestInfo.add("Grasper Velocity", 0).withSize(2, 1).withPosition(4,2).getEntry();
-      private GenericEntry GrasperPos = TestInfo.add("Grasper Position", 0).withSize(2,1).withPosition(4, 3).getEntry();
+      private GenericEntry GrasperVelo = TestInfo.add("Grasper Velocity", 0).withSize(2, 1).withPosition(4,0).getEntry();
+      private GenericEntry GrasperPos = TestInfo.add("Grasper Position", 0).withSize(2,1).withPosition(4, 1).getEntry();
       
       // Pivot Position (no velocity yet)
-      private GenericEntry PivotPos = TestInfo.add("Pivot Position", 0).withSize(2,1).withPosition(4, 4).getEntry();
+      private GenericEntry PivotPos = TestInfo.add("Pivot Position", 0).withSize(2,1).withPosition(0, 3).getEntry();
 
       // Wrist Position and Velocity
-      private GenericEntry WristVelo = TestInfo.add("Wrist Velocity", 0).withSize(2,1).withPosition(4, 5).getEntry();
-      private GenericEntry WristPos = TestInfo.add("Wrist Position", 0).withSize(2,1).withPosition(6, 5).getEntry();
+      private GenericEntry WristVelo = TestInfo.add("Wrist Velocity", 0).withSize(2,1).withPosition(4, 3).getEntry();
+      private GenericEntry WristPos = TestInfo.add("Wrist Position", 0).withSize(2,1).withPosition(4, 4).getEntry();
 
       private ComplexWidget commandScheduler = Match.add("CommandScheduling", CommandScheduler.getInstance()).withSize(2,2).withPosition(4, 3);
       public MatchTab(DrivetrainSubsystem drivetrain, Elevator elevator, Grasper grasper, Pivot pivot, Wrist wrist) {
