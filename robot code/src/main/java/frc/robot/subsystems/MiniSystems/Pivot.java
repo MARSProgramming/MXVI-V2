@@ -23,7 +23,7 @@ public class Pivot extends SubsystemBase{
     private final double kGearRatio = 81;
     private TalonFX pivot = new TalonFX(Constants.Pivot.motorID);
    private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
-    //private final DutyCycleEncoder mEncoder = new DutyCycleEncoder(0);
+    private final DutyCycleEncoder mEncoder = new DutyCycleEncoder(0);
     private final ProfiledPIDController mController = new ProfiledPIDController(Constants.Pivot.kP, Constants.Pivot.kI, Constants.Pivot.kD, new TrapezoidProfile.Constraints(1, 1));
     
     public Pivot() {
@@ -31,14 +31,13 @@ public class Pivot extends SubsystemBase{
         pivot.setNeutralMode(NeutralMode.Brake);
         pivot.setInverted(true);
     
-        //mEncoder.setDistancePerRotation(Math.PI * 2);
-       // mEncoder.setPositionOffset(0.96);
+        mEncoder.setDistancePerRotation(Math.PI * 2);
+        mEncoder.setPositionOffset(0.96);
         //mEncoder.reset();
     }
 
     public double getEncoderPos(){
-      //  return -(mEncoder.getDistance());
-      return 0;
+        return -(mEncoder.getDistance());
     }
 
     public void Run(double voltage) {
