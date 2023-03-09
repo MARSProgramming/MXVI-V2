@@ -31,7 +31,7 @@ import frc.robot.subsystems.Manipulator;
 public class AutoChooser {
     private ShuffleboardTab preMatch;
     private SendableChooser<Command> autoChooser = new SendableChooser();
-    
+
     public AutoChooser(DrivetrainSubsystem mDrivetrainSubsystem, Manipulator mManipulator){
         preMatch = Shuffleboard.getTab("Match");
         //autoChooser = new SendableChooser<>();
@@ -55,7 +55,7 @@ public class AutoChooser {
         autoChooser.addOption("TOP: Score Given Leave", new TScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("TOP: Score Given Leave Dock", new TScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
         
-        preMatch.add("Auto Play", autoChooser).withSize(2, 1).withPosition(4, 4);
+        preMatch.add("Auto Play", autoChooser).withSize(2, 1).withPosition(4, 5);
     }
 
     public Command getSelected(){
