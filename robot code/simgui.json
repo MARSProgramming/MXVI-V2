@@ -2,7 +2,9 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Match/Auto Play": "String Chooser",
       "/Shuffleboard/Match/Bindings/bread": "Subsystem",
+      "/Shuffleboard/Match/CommandScheduling": "Scheduler",
       "/Shuffleboard/Match/Zero Swerves": "Command",
       "/Shuffleboard/Pre-Match/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Scheduler": "Scheduler",

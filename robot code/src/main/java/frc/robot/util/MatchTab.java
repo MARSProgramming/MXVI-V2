@@ -4,9 +4,11 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.MiniSystems.Elevator;
@@ -28,14 +30,13 @@ public class MatchTab extends SubsystemBase {
       private ShuffleboardLayout PilotControlsList = Match.getLayout("Pilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(6,0);
       private ShuffleboardLayout CopilotControlsList = Match.getLayout("Copilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(8,0);
       private ShuffleboardLayout LEDLegend = Match.getLayout("LED Legend", BuiltInLayouts.kList).withSize(2,5).withPosition(10,0);
-
       // pose information from Drivetrain
-      private GenericEntry XPos =  Match.add("Robot X Position", 0).withSize(2,1).withPosition(0, 3).getEntry();
-      private GenericEntry YPos =  Match.add("Robot Y Position", 0).withSize(2,1).withPosition(2, 3).getEntry();
-      private GenericEntry Rotation = Match.add("Robot Rotation", 0).withSize(2,1).withPosition(0, 4).getEntry();
-      private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).withSize(2,1).withPosition(2, 4).getEntry();
+      private GenericEntry XPos =  Match.add("Robot X Position", 0).withSize(2,1).withPosition(0, 4).getEntry();
+      private GenericEntry YPos =  Match.add("Robot Y Position", 0).withSize(2,1).withPosition(2, 4).getEntry();
+      private GenericEntry Rotation = Match.add("Robot Rotation", 0).withSize(2,1).withPosition(0, 5).getEntry();
+      private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).withSize(2,1).withPosition(2, 5).getEntry();
 
-
+    
       // Elevator Position and Velocity
       private GenericEntry ElevatorVelo =  TestInfo.add("Elevator Velocity", 0).withSize(2,1).withPosition(4, 0).getEntry();
       private GenericEntry ElevatorPos = TestInfo.add("Elevator Position", 0).withSize(2, 1).withPosition(4, 1).getEntry(); 
@@ -51,6 +52,7 @@ public class MatchTab extends SubsystemBase {
       private GenericEntry WristVelo = TestInfo.add("Wrist Velocity", 0).withSize(2,1).withPosition(4, 5).getEntry();
       private GenericEntry WristPos = TestInfo.add("Wrist Position", 0).withSize(2,1).withPosition(6, 5).getEntry();
 
+      private ComplexWidget commandScheduler = Match.add("CommandScheduling", CommandScheduler.getInstance()).withSize(2,2).withPosition(4, 3);
       public MatchTab(DrivetrainSubsystem drivetrain, Elevator elevator, Grasper grasper, Pivot pivot, Wrist wrist) {
         mDrivetrainSubsystem = drivetrain;
         mElevator = elevator;
@@ -61,6 +63,8 @@ public class MatchTab extends SubsystemBase {
 
     public void configureDashboard() {
 
+        // add command scheduler
+        
         // Create camera
         HttpCamera httpCamera = new HttpCamera("Cameras", "http://limelight.local:5800/stream.mjpg");
         CameraServer.addCamera(httpCamera);
@@ -126,7 +130,7 @@ public class MatchTab extends SubsystemBase {
       // Add live information from wrist to match tab
       double WristVelocity = mWrist.getWristVelocity();
       double WristPosition = mWrist.getWristPosition();
-
+      
        // set all LiveValues
         XPos.setDouble(XPoseValue);
         YPos.setDouble(YPoseValue);
