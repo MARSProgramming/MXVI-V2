@@ -19,9 +19,9 @@ public class BScoreGivenLeave extends SequentialCommandGroup{
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
-            mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
-            mManipulator.getGrasper().runSpitMode().withTimeout(2),
-            mManipulator.goToZero().withTimeout(1),
+            mManipulator.goToCubeShootHigh().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
+            mManipulator.getGrasper().runSpitMode().withTimeout(0.5),
+            mManipulator.goToZero().withTimeout(1.5),
             new DriveAtPath(drivetrain, LeaveCommunity, false, false, 100)
          );
     }

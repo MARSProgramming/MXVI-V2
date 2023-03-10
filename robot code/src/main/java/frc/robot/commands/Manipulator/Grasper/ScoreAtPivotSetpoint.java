@@ -21,7 +21,7 @@ public class ScoreAtPivotSetpoint extends CommandBase{
 
     @Override
     public void execute(){
-        if(Math.abs(mManipulator.getPivot().distanceToSetpoint(setpoint)) < 0.07 && mManipulator.getAutoScore()){
+        if(Math.abs(mManipulator.getPivot().distanceToSetpoint(setpoint)) < 0.12 && mManipulator.getAutoScore()){
             timer.start();
             mManipulator.getGrasper().RunGrasperEject();
         }

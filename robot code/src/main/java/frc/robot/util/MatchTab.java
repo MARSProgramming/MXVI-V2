@@ -40,7 +40,6 @@ public class MatchTab extends SubsystemBase {
       // Elevator Position, Velocity, and Limit Switch
       private GenericEntry ElevatorVelo =  TestInfo.add("Elevator Velocity", 0).withSize(2,1).withPosition(0, 0).getEntry();
       private GenericEntry ElevatorPos = TestInfo.add("Elevator Position", 0).withSize(2, 1).withPosition(0, 1).getEntry(); 
-      private GenericEntry ElevatorLimit = TestInfo.add("Elevator Limit Switch", 0).withSize(2, 1).withPosition(0, 2).getEntry(); 
       
       // Grasper Position and Velocity
       private GenericEntry GrasperVelo = TestInfo.add("Grasper Velocity", 0).withSize(2, 1).withPosition(3,0).getEntry();
@@ -60,6 +59,8 @@ public class MatchTab extends SubsystemBase {
         mGrasper = grasper;
         mPivot = pivot;
         mWrist = wrist;
+
+        TestInfo.addBoolean("Elevator Limit Switch", () -> mElevator.isLimitHit()).withSize(2, 1).withPosition(0, 2);
     }
 
     public void configureDashboard() {
@@ -67,8 +68,9 @@ public class MatchTab extends SubsystemBase {
         // add command scheduler
         
         // Create camera
-        HttpCamera httpCamera = new HttpCamera("Cameras", "http://10.26.14.106:5800/");
+        HttpCamera httpCamera = new HttpCamera("Cameras", "http://10.26.14.106:5800/video/stream.mjpeg");
         CameraServer.addCamera(httpCamera);
+        CameraServer.startAutomaticCapture(httpCamera);
         Shuffleboard.getTab("Match").add(httpCamera).withPosition(0, 0);
         
         // Pilot Controls
@@ -120,7 +122,6 @@ public class MatchTab extends SubsystemBase {
       // adds live information from elevator to match tab
       double ElevatorVelocity = mElevator.getElevatorVelocity();
       double ElevatorPosition = mElevator.getElevatorPosition();
-      boolean ElevatorLimit = mElevator.isLimitHit();
 
       // adds live information from grasper to match tab
       double GrasperVelocity = mGrasper.getGrasperVelocity();
@@ -141,7 +142,6 @@ public class MatchTab extends SubsystemBase {
 
         ElevatorVelo.setDouble(ElevatorVelocity);
         ElevatorPos.setDouble(ElevatorPosition);
-        this.ElevatorLimit.setBoolean(ElevatorLimit);
 
         GrasperVelo.setDouble(GrasperVelocity);
         GrasperPos.setDouble(GrasperPosition);

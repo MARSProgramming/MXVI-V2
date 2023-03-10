@@ -44,7 +44,7 @@ public class Elevator extends SubsystemBase{
         master.configForwardSoftLimitEnable(true);
 
         master.configReverseSoftLimitThreshold(Constants.Elevator.reverseLimitInches * inchesToNativeUnits);
-        master.configReverseSoftLimitEnable(false);
+        master.configReverseSoftLimitEnable(true);
         
         master.setNeutralMode(NeutralMode.Brake);
         follower.setNeutralMode(NeutralMode.Brake);

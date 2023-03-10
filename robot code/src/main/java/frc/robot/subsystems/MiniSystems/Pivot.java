@@ -11,9 +11,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,10 +30,12 @@ public class Pivot extends SubsystemBase{
         pivot.configFactoryDefault();
         pivot.setNeutralMode(NeutralMode.Brake);
         pivot.setInverted(true);
-    
+
         mEncoder.setDistancePerRotation(Math.PI * 2);
         mEncoder.setPositionOffset(0.2312);
         //mEncoder.reset();
+
+        mController.reset(new State(getEncoderPos(), 0));
     }
 
     public double getEncoderPos(){
@@ -54,11 +56,19 @@ public class Pivot extends SubsystemBase{
 
     public void setpos(double angle) {
         //System.out.println(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
-        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), new TrapezoidProfile.State(angle, 0), new TrapezoidProfile.Constraints(1.5, 0.75)), -0.6, 0.6) + Math.sin(getEncoderPos()) * -0.07);
+        Run(MathUtil.clamp(
+            mController.calculate(getEncoderPos(),
+             new TrapezoidProfile.State(angle, 0),
+              new TrapezoidProfile.Constraints(3, 1.5)),
+               -0.6, 0.6
+               ) + Math.sin(getEncoderPos()) * -0.05);
     }
 
     public void goToScoreHigh(){
         setpos(Constants.Pivot.scoreHighPos);
+    }
+    public void goToScoreMid(){
+        setpos(Constants.Pivot.scoreMidPos);
     }
     public void goToIntakeHigh(){
         setpos(Constants.Pivot.intakeHighPos);
@@ -107,6 +117,8 @@ public class Pivot extends SubsystemBase{
 
     @Override
     public void periodic(){
+        SmartDashboard.putNumber("Pivot Setpoint", mController.getSetpoint().position);
+        SmartDashboard.putNumber("Pivot Setpoint Velocity", mController.getSetpoint().velocity);
         SmartDashboard.putNumber("Pivot Position", getEncoderPos());
     }
 }

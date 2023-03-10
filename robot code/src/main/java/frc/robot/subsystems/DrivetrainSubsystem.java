@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.ctre.phoenix.sensors.Pigeon2;
+import com.pathplanner.lib.PathPlanner;
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -33,6 +34,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -175,8 +177,9 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         Constants.Drive.kD,
         new TrapezoidProfile.Constraints(Constants.Auto.holonomicOMaxVelocity, Constants.Auto.holonomicOMaxAcceleration));
         mSnapController.enableContinuousInput(-Math.PI, Math.PI);
-    mPoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, new Rotation2d(m_pigeon.getYaw()), getSwerveModulePositions(), new Pose2d());
-    mPoseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.07, 0.07, 0.07));
+    mPoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, new Rotation2d(m_pigeon.getYaw()), getSwerveModulePositions(), new Pose2d(),
+        new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.01, 0.01, 0.03), new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.07, 0.07, 0.07)
+        );
   }
   /**
    * Sets the gyroscope angle to zero. This can be used to set the direction the robot is currently facing to the
@@ -200,8 +203,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     m_chassisSpeeds = chassisSpeeds;
   }
 
-  public void addVisionMeasurement(Pose2d pose){
-        mPoseEstimator.addVisionMeasurement(pose , Timer.getFPGATimestamp());
+  public void addVisionMeasurement(Pose2d pose, double latencySeconds){
+        mPoseEstimator.addVisionMeasurement(pose , Timer.getFPGATimestamp() - latencySeconds);
   }
   public void setVisionMeasurementStdDevs(Matrix<N3, N1> mat){
         mPoseEstimator.setVisionMeasurementStdDevs(mat);
@@ -216,16 +219,6 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
     
     mPoseEstimator.updateWithTime(Timer.getFPGATimestamp(), getGyroscopeRotation(), getSwerveModulePositions());
-    
-    //double XPoseValue = this.getPose().getX();
-   // double YPoseValue = this.getPose().getY();
-    //double RotationValue = this.getPose().getRotation().getDegrees();
-   // double PigeonValue = Math.toDegrees(this.getPigeonAngle());
-
-  //  XPos.setDouble(XPoseValue);
-   // YPos.setDouble(YPoseValue);
-   // Rotation.setDouble(RotationValue);
-   // Pigeon.setDouble(PigeonValue);
 
     SmartDashboard.putNumber("X", getPose().getX());
     SmartDashboard.putNumber("Y", getPose().getY());
@@ -241,18 +234,23 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
   }
 
   //this changes with alliance
-  private double[] leftYScoringPos = {4.99, 3.30, 1.63};
-  private double[] midYScoringPos = {4.47, 2.74, 1.06};
-  private double[] rightYScoringPos = {3.89, 2.20, 0.49};
+  private double[] leftYBlueScoringPos = {4.99, 3.30, 1.63};
+  private double[] midYBlueScoringPos = {4.47, 2.74, 1.06};
+  private double[] rightYBlueScoringPos = {3.89, 2.20, 0.49};
+
+  private double[] leftYRedScoringPos = {4.99, 3.30, 1.63};
+  private double[] midYRedScoringPos = {4.47, 2.74, 1.06};
+  private double[] rightYRedScoringPos = {3.89, 2.20, 0.49};
+  
   private double adjust = 0;
   public double getAlignLeftY(){
-        return closestValue(getPose().getY() + adjust, leftYScoringPos);
+        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? leftYBlueScoringPos : leftYRedScoringPos);
   }
   public double getAlignMidY(){
-        return closestValue(getPose().getY() + adjust, midYScoringPos);
+        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? midYBlueScoringPos : midYRedScoringPos);
   }
   public double getAlignRightY(){
-        return closestValue(getPose().getY() + adjust, rightYScoringPos);
+        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? rightYBlueScoringPos : rightYRedScoringPos);
   }
 
   private double lastRoll = m_pigeon.getRoll();

@@ -18,6 +18,7 @@ import frc.robot.commands.Manipulator.Pivot.PivotToHighIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToLoad;
 import frc.robot.commands.Manipulator.Pivot.PivotToScore;
+import frc.robot.commands.Manipulator.Pivot.PivotToScoreHigh;
 import frc.robot.commands.Manipulator.Pivot.PivotToShootHigh;
 import frc.robot.commands.Manipulator.Pivot.PivotToStow;
 import frc.robot.commands.Manipulator.Pivot.PivotToZero;
@@ -96,7 +97,7 @@ public class Manipulator extends SubsystemBase{
     public CommandBase goToScoreHigh() {
         CommandBase scoreHighCommand = Commands.sequence(
             new ScoreAtPivotSetpoint(this, Constants.Pivot.scoreHighPos).deadlineWith(
-                new ElevatorScoreHigh(this).alongWith(new WaitCommand(0.4).andThen(new PivotToScore(this).alongWith(new WristScoreHigh(this))))
+                new ElevatorScoreHigh(this).alongWith(new WaitCommand(0.4).andThen(new PivotToScoreHigh(this).alongWith(new WristScoreHigh(this))))
             ),
             goToZero()
         );
@@ -135,7 +136,7 @@ public class Manipulator extends SubsystemBase{
         CommandBase scoreMidCommand = Commands.sequence(
             new ParallelCommandGroup(
                 new ElevatorScoreMid(this),
-                new ScoreAtPivotSetpoint(this, Constants.Pivot.scoreHighPos).deadlineWith(
+                new ScoreAtPivotSetpoint(this, Constants.Pivot.scoreMidPos).deadlineWith(
                     new PivotToScore(this), new WristScoreMid(this)
                 )
             ), 

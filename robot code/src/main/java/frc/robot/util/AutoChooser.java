@@ -41,23 +41,23 @@ public class AutoChooser {
 
         //auto plays
         autoChooser.setDefaultOption("Do Nothing", new DoNothing());
-        autoChooser.addOption("BOTTOM: Set Pose", new BottomSetPose(mDrivetrainSubsystem));
-        autoChooser.addOption("BOTTOM: Leave Community", new BottomLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("BOTTOM: Score Given", new BScoreGiven(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("BOTTOM: Score Given Leave", new BScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("BOTTOM: Score Given Leave Dock", new BScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("MIDDLE: Set Pose", new MidSetPose(mDrivetrainSubsystem));
-        autoChooser.addOption("MIDDLE: Leave Community", new MidLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("MIDDLE: Score Given", new MidScoreGiven(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("MIDDLE: Score Given Leave", new MidScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("MIDDLE: Score Given Leave Dock", new MidScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("TOP: Set Pose", new TopSetPose(mDrivetrainSubsystem));
-        autoChooser.addOption("TOP: Leave Community", new TopLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("TOP: Score Given", new TScoreGiven(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("TOP: Score Given Leave", new TScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("TOP: Score Given Leave Dock", new TScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("TOP: Score Cone and Cube High Dock", new TP1_Cone_Dock(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("TOP: Score 2 Cube Dock", new TP1_Cube_Dock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("1: Set Pose", new BottomSetPose(mDrivetrainSubsystem));
+        autoChooser.addOption("1: Leave Community", new BottomLeaveCommunity(mDrivetrainSubsystem));
+        autoChooser.addOption("1: Score Given", new BScoreGiven(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("1: Score Given Leave", new BScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("1: Score Given Leave Dock", new BScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("2: Set Pose", new MidSetPose(mDrivetrainSubsystem));
+        autoChooser.addOption("2: Leave Community", new MidLeaveCommunity(mDrivetrainSubsystem));
+        autoChooser.addOption("2: Score Given", new MidScoreGiven(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("2: Score Given Leave", new MidScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("2: Score Given Leave Dock", new MidScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Set Pose", new TopSetPose(mDrivetrainSubsystem));
+        autoChooser.addOption("3: Leave Community", new TopLeaveCommunity(mDrivetrainSubsystem));
+        autoChooser.addOption("3: Score Given", new TScoreGiven(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Score Given Leave", new TScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Score Given Leave Dock", new TScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3-Cone: Score Cone and Cube High Dock", new TP1_Cone_Dock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Score 2 Cube Dock", new TP1_Cube_Dock(mDrivetrainSubsystem, mManipulator));
         
         preMatch.add("Auto Play", autoChooser).withSize(2, 1).withPosition(4, 5);
     }
