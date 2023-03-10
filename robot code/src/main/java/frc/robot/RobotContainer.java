@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.Drive.AlignToLoad;
 import frc.robot.commands.Drive.AlignToScore;
 import frc.robot.commands.Drive.AlignToScoreEnum;
 import frc.robot.commands.Drive.DefaultDriveCommand;
@@ -47,21 +48,17 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   private final DrivetrainSubsystem mDrivetrainSubsystem = new DrivetrainSubsystem();
-  private final Elevator mElevator = new Elevator();
-  private final Grasper mGrasper = new Grasper();
-  private final Pivot mPivot = new Pivot();
-  private final Wrist mWrist = new Wrist();
 
-
-  private MatchTab matchtab = new MatchTab(mDrivetrainSubsystem, mElevator, mGrasper, mPivot, mWrist);
   private CommandXboxController mPilot = new CommandXboxController(0);
   private CommandXboxController mCopilot = new CommandXboxController(1);
+  private CommandXboxController mTestCtrl = new CommandXboxController(2);
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
   private final Limelight mLimelight = new Limelight(mDrivetrainSubsystem);
   //private final Limelight mLimelight = new Limelight();
   private final Manipulator mManipulator = new Manipulator();
+  private MatchTab matchtab = new MatchTab(mDrivetrainSubsystem, mManipulator.getElevator(), mManipulator.getGrasper(), mManipulator.getPivot(), mManipulator.getWrist());
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
   private LED mLED = new LED();
 
@@ -112,9 +109,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureTeleopBindings() {
-    mPilot = new CommandXboxController(0);
-    mCopilot = new CommandXboxController(1);
-    
+
     mPilot.y().whileTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
     mPilot.x().whileTrue(new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT));
     mPilot.a().whileTrue(new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID));
@@ -124,6 +119,7 @@ public class RobotContainer {
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
     mPilot.leftBumper().onTrue(mLED.swapYellowPurple());
     mPilot.povDown().onTrue(mManipulator.goToStow());
+    mPilot.povUp().whileTrue(new AlignToLoad(mDrivetrainSubsystem));
 
     mCopilot.a().whileTrue(mManipulator.goToScoreMid());
     mCopilot.b().whileTrue(mManipulator.goToCubeIntake());
@@ -147,17 +143,15 @@ public class RobotContainer {
   }
 
   public void configureTestBindings(){
-    mPilot = new CommandXboxController(0);
-    mCopilot = new CommandXboxController(1);
-
-    mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
-    mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
-    mPilot.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
-    mPilot.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
-    mPilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
-    mPilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
-    mPilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
-    mPilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
+    mTestCtrl.leftTrigger(0.1).whileTrue(mManipulator.getElevator().runTestMode(() -> -mTestCtrl.getLeftTriggerAxis()));
+    mTestCtrl.rightTrigger(0.1).whileTrue(mManipulator.getElevator().runTestMode(() -> mTestCtrl.getRightTriggerAxis()));
+    mTestCtrl.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
+    mTestCtrl.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
+    //mTestCtrl.a().whileTrue(mManipulator.goToCubeIntake());
+    mTestCtrl.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
+    mTestCtrl.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
+    mTestCtrl.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
+    mTestCtrl.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
 
 
     System.out.println("Test Bindings Configured");

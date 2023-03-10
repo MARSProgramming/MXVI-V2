@@ -1,5 +1,7 @@
 package frc.robot.commands.Drive;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -14,8 +16,10 @@ public class AlignWithRRTape extends CommandBase{
 
     private DrivetrainSubsystem mDrivetrainSubsystem; 
     private PIDController xController;
-    public AlignWithRRTape(DrivetrainSubsystem dt){
+    private DoubleSupplier mOffset;
+    public AlignWithRRTape(DrivetrainSubsystem dt, DoubleSupplier offset){
         mDrivetrainSubsystem = dt;
+        mOffset = offset;
         xController = new PIDController(0.03, 0, 0);
     }
     

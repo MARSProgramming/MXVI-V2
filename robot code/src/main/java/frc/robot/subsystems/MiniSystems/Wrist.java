@@ -144,7 +144,7 @@ public class Wrist extends SubsystemBase{
     }
 
     public double getWristVelocity(){
-      return mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits * 10;
+      return mWrist.getSelectedSensorVelocity() / kRadiansToNativeUnits * 10;
     }
     
     @Override

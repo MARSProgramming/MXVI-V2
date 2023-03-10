@@ -185,7 +185,12 @@ public class Manipulator extends SubsystemBase{
     public CommandBase goToZero(){
         return runEnd(
             () -> {
-                mWrist.goToCarry();
+                if(mPivot.getEncoderPos() > 0.5){
+                    mWrist.setPosition(1);
+                }
+                else{
+                    mWrist.goToCarry();
+                }
                 mElevator.goToBottom();
                 mPivot.setpos(0);
             },

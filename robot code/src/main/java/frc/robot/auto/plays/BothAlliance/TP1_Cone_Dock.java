@@ -19,17 +19,17 @@ public class TP1_Cone_Dock extends SequentialCommandGroup{
 
         PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1Cone", new PathConstraints(1.5, 0.5));
         PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P1-MCone", new PathConstraints(3, 1));
-        PathPlannerTrajectory CSPath = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-CCone", new PathConstraints(1.5, 1));
+        PathPlannerTrajectory CSPath = AutoChooser.openTrajectoryFileForAlliance("Blue_TopMarker_M-CCone", new PathConstraints(1.5, 1));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()),
+            new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.1),
             mManipulator.swapAutoScoreCommand().withTimeout(0.05),
-            mManipulator.goToScoreHigh(),
-            mManipulator.goToZero().withTimeout(0.5),
+            mManipulator.goToScoreHigh().withTimeout(5),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
-                mManipulator.goToCubeIntake()
+                mManipulator.goToCubeIntake(), mManipulator.getGrasper().runTestMode()
             ),
             new ParallelCommandGroup(
+                mManipulator.getGrasper().runTestCurrent().withTimeout(3),
                 new DriveAtPath(drivetrain, P1toMarker, false, false, 4.0),
                 mManipulator.goToZero().withTimeout(2.0).andThen(mManipulator.goToCubeShootHigh().withTimeout(1))
             ),

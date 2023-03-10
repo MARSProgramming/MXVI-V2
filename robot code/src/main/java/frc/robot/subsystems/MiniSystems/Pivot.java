@@ -32,7 +32,7 @@ public class Pivot extends SubsystemBase{
         pivot.setInverted(true);
     
         mEncoder.setDistancePerRotation(Math.PI * 2);
-        mEncoder.setPositionOffset(0.96);
+        mEncoder.setPositionOffset(0.2312);
         //mEncoder.reset();
     }
 
@@ -53,7 +53,8 @@ public class Pivot extends SubsystemBase{
     } 
 
     public void setpos(double angle) {
-        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.6, 0.6) + Math.sin(getEncoderPos()) * -0.07);
+        //System.out.println(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
+        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), new TrapezoidProfile.State(angle, 0), new TrapezoidProfile.Constraints(1.5, 0.75)), -0.6, 0.6) + Math.sin(getEncoderPos()) * -0.07);
     }
 
     public void goToScoreHigh(){

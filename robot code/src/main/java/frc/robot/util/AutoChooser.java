@@ -20,6 +20,8 @@ import frc.robot.auto.plays.BothAlliance.MidScoreGiven;
 import frc.robot.auto.plays.BothAlliance.MidScoreGivenLeave;
 import frc.robot.auto.plays.BothAlliance.MidScoreGivenLeaveDock;
 import frc.robot.auto.plays.BothAlliance.MidSetPose;
+import frc.robot.auto.plays.BothAlliance.TP1_Cone_Dock;
+import frc.robot.auto.plays.BothAlliance.TP1_Cube_Dock;
 import frc.robot.auto.plays.BothAlliance.TScoreGiven;
 import frc.robot.auto.plays.BothAlliance.TScoreGivenLeave;
 import frc.robot.auto.plays.BothAlliance.TScoreGivenLeaveDock;
@@ -54,6 +56,8 @@ public class AutoChooser {
         autoChooser.addOption("TOP: Score Given", new TScoreGiven(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("TOP: Score Given Leave", new TScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("TOP: Score Given Leave Dock", new TScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("TOP: Score Cone and Cube High Dock", new TP1_Cone_Dock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("TOP: Score 2 Cube Dock", new TP1_Cube_Dock(mDrivetrainSubsystem, mManipulator));
         
         preMatch.add("Auto Play", autoChooser).withSize(2, 1).withPosition(4, 5);
     }

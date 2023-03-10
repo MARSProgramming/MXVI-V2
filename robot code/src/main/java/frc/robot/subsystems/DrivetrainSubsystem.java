@@ -17,6 +17,7 @@ import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
@@ -29,9 +30,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -39,7 +40,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.util.MoreMath;
 import io.github.oblarg.oblog.Loggable;
 
@@ -202,6 +202,9 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
 
   public void addVisionMeasurement(Pose2d pose){
         mPoseEstimator.addVisionMeasurement(pose , Timer.getFPGATimestamp());
+  }
+  public void setVisionMeasurementStdDevs(Matrix<N3, N1> mat){
+        mPoseEstimator.setVisionMeasurementStdDevs(mat);
   }
   @Override
   public void periodic() {

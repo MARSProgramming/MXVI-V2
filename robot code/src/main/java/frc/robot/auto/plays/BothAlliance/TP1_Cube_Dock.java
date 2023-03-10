@@ -22,7 +22,7 @@ public class TP1_Cube_Dock extends SequentialCommandGroup{
         PathPlannerTrajectory CSPath = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-CNoLeave", new PathConstraints(1.5, 1));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()),
+            new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.1),
             mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
