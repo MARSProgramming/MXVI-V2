@@ -90,7 +90,6 @@ public class Robot extends TimedRobot {
   
   public void teleopPeriodic() {
 
-    m_robotContainer.resetPose();
   }
 
   @Override

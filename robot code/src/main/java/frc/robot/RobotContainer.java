@@ -36,7 +36,6 @@ import frc.robot.commands.Manipulator.Wrist.WristScoreHigh;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LED;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Pivot;
@@ -63,8 +62,6 @@ public class RobotContainer {
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
-  private final Limelight mLimelight = new Limelight(mDrivetrainSubsystem);
-  //private final Limelight mLimelight = new Limelight();
   private final Manipulator mManipulator = new Manipulator();
   private MatchTab matchtab = new MatchTab(mDrivetrainSubsystem, mManipulator.getElevator(), mManipulator.getGrasper(), mManipulator.getPivot(), mManipulator.getWrist());
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
@@ -74,9 +71,6 @@ public class RobotContainer {
 
   public double getPressure(){
     return mCompressor.getPressure();
-  }
-  public void resetPose(){
-    mLimelight.resetPose();
   }
   public void startCompressor(){
     mCompressor.enableAnalog(100, 110);
