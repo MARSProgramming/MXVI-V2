@@ -5,18 +5,23 @@
 package frc.robot;
 
 
-import java.util.HashMap;
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.Drive.AlignToLoad;
+import frc.robot.commands.Drive.AlignToScore;
+import frc.robot.commands.Drive.AlignToScoreEnum;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveToAprilTag;
 import frc.robot.commands.Drive.ZeroGyroscope;
@@ -30,8 +35,15 @@ import frc.robot.commands.Manipulator.Wrist.WristIntake;
 import frc.robot.commands.Manipulator.Wrist.WristScoreHigh;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.LED;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.MiniSystems.Grasper;
+import frc.robot.subsystems.MiniSystems.Pivot;
+import frc.robot.subsystems.MiniSystems.Elevator;
+import frc.robot.subsystems.MiniSystems.Wrist;
 import frc.robot.util.AutoChooser;
+import frc.robot.util.MatchTab;
 import frc.robot.util.UtilityFunctions;
 
 /**
@@ -45,23 +57,27 @@ public class RobotContainer {
   
   private final DrivetrainSubsystem mDrivetrainSubsystem = new DrivetrainSubsystem();
 
-  private final CommandXboxController mPilot = new CommandXboxController(0);
-  private final CommandXboxController mCopilot = new CommandXboxController(1);
-
-  private HashMap<String, Pose2d> mPointPositionMap;
-  private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem);
+  private CommandXboxController mPilot = new CommandXboxController(0);
+  private CommandXboxController mCopilot = new CommandXboxController(1);
+  private CommandXboxController mTestCtrl = new CommandXboxController(2);
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
-  private final Manipulator mManipulator = new Manipulator();
   private final UtilityFunctions utilityFunctions = new UtilityFunctions();
-  //private final Manipulator mManipulator = new Manipulator();
+  private final Limelight mLimelight = new Limelight(mDrivetrainSubsystem);
+  //private final Limelight mLimelight = new Limelight();
+  private final Manipulator mManipulator = new Manipulator();
+  private MatchTab matchtab = new MatchTab(mDrivetrainSubsystem, mManipulator.getElevator(), mManipulator.getGrasper(), mManipulator.getPivot(), mManipulator.getWrist());
+  private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
+  private LED mLED = new LED();
 
   private final Compressor mCompressor = new Compressor(61, PneumaticsModuleType.REVPH);
 
   public double getPressure(){
     return mCompressor.getPressure();
   }
-
+  public void resetPose(){
+    mLimelight.resetPose();
+  }
   public void startCompressor(){
     mCompressor.enableAnalog(100, 110);
   }
@@ -69,6 +85,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    matchtab.configureDashboard();
     /*mDrivetrainSubsystem.setDefaultCommand(new DriveSnapRotation(
             mDrivetrainSubsystem,
             () -> -modifyAxis(mPilot.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
@@ -85,8 +102,8 @@ public class RobotContainer {
     ));
     SmartDashboard.putData("Zero Swerves", new ZeroSwerves(mDrivetrainSubsystem).withTimeout(1).ignoringDisable(true));
     SmartDashboard.putData(CommandScheduler.getInstance());
-    mPointPositionMap = new HashMap<>();
-    mPointPositionMap.put("A", new Pose2d(0, 0, new Rotation2d(Math.toRadians(0.0))));
+
+    
   }
 
   public void initializeSolenoids(){
@@ -108,20 +125,17 @@ public class RobotContainer {
   }
 
   public void configureTestBindings(){
-    mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
-    mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
-    mPilot.y().onTrue(mManipulator.goToIntake());
-    mPilot.start().whileTrue(mManipulator.goToZero());
-    mPilot.back().whileTrue(mManipulator.getWrist().zero());
-    mPilot.x().whileTrue(new WristCarry(mManipulator));
-    mPilot.a().whileTrue(mManipulator.goToScoreMid());
-    mPilot.b().whileTrue(mManipulator.goToScoreHigh());
-    mPilot.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
-    mPilot.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
-    mPilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
-    mPilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
-    mPilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
-    mPilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
+    mTestCtrl.leftTrigger(0.1).whileTrue(mManipulator.getElevator().runTestMode(() -> -mTestCtrl.getLeftTriggerAxis()));
+    mTestCtrl.rightTrigger(0.1).whileTrue(mManipulator.getElevator().runTestMode(() -> mTestCtrl.getRightTriggerAxis()));
+    mTestCtrl.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
+    mTestCtrl.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
+    //mTestCtrl.a().whileTrue(mManipulator.goToCubeIntake());
+    mTestCtrl.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
+    mTestCtrl.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
+    mTestCtrl.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
+    mTestCtrl.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
+    mTestCtrl.start().whileTrue(mManipulator.getElevator().disableSoftLimits());
+
 
     System.out.println("Test Bindings Configured");
   }
@@ -149,7 +163,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value) {
     // Deadband
-    value = deadband(value, 0.1);
+    value = deadband(value, 0.05);
 
     // Square the axis
     value = Math.copySign(value * value, value);
@@ -158,5 +172,6 @@ public class RobotContainer {
     //value = Math.round(value * 5.0)/5.0;
 
     return value;
+    
   }
 }

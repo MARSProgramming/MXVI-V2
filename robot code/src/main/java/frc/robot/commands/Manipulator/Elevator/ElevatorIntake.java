@@ -20,8 +20,8 @@ public class ElevatorIntake extends CommandBase{
         manipulator.getElevator().setPercentOutput(0);
     }
 
-    /*@Override
+    @Override
     public boolean isFinished(){
         return Math.abs(manipulator.getElevator().distanceToSetpoint(Constants.Elevator.intakePos)) < 0.1;
-    }*/
+    }
 }

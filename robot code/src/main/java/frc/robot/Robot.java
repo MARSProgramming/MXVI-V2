@@ -7,9 +7,12 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LED;
 import io.github.oblarg.oblog.Logger;
 
 /**
@@ -19,14 +22,14 @@ import io.github.oblarg.oblog.Logger;
  * project.
  */
 public class Robot extends TimedRobot {
+  private ShuffleboardTab Match;
   private Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
@@ -45,7 +48,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("psi", m_robotContainer.getPressure());
     SmartDashboard.putBoolean("Has Target", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false));
   }
-
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}
@@ -82,7 +84,13 @@ public class Robot extends TimedRobot {
     m_robotContainer.configureTeleopBindings();
   }
   @Override
+  
+
+
+  
   public void teleopPeriodic() {
+
+    m_robotContainer.resetPose();
   }
 
   @Override

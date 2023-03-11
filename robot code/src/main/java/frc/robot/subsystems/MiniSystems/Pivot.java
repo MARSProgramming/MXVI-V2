@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -21,7 +22,7 @@ public class Pivot extends SubsystemBase{
     
     private final double kGearRatio = 81;
     private TalonFX pivot = new TalonFX(Constants.Pivot.motorID);
-    private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
+   private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
     private final DutyCycleEncoder mEncoder = new DutyCycleEncoder(0);
     private final ProfiledPIDController mController = new ProfiledPIDController(Constants.Pivot.kP, Constants.Pivot.kI, Constants.Pivot.kD, new TrapezoidProfile.Constraints(1, 1));
     
@@ -29,9 +30,12 @@ public class Pivot extends SubsystemBase{
         pivot.configFactoryDefault();
         pivot.setNeutralMode(NeutralMode.Brake);
         pivot.setInverted(true);
-    
+
         mEncoder.setDistancePerRotation(Math.PI * 2);
-        mEncoder.setPositionOffset(0.96);
+        mEncoder.setPositionOffset(0.2312);
+        //mEncoder.reset();
+
+        mController.reset(new State(getEncoderPos(), 0));
     }
 
     public double getEncoderPos(){
@@ -51,14 +55,38 @@ public class Pivot extends SubsystemBase{
     } 
 
     public void setpos(double angle) {
-        Run(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
+        //System.out.println(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
+        Run(MathUtil.clamp(
+            mController.calculate(getEncoderPos(),
+             new TrapezoidProfile.State(angle, 0),
+              new TrapezoidProfile.Constraints(3, 1.5)),
+               -0.6, 0.6
+               ) + Math.sin(getEncoderPos()) * -0.05);
     }
 
     public void goToScoreHigh(){
         setpos(Constants.Pivot.scoreHighPos);
     }
+    public void goToScoreMid(){
+        setpos(Constants.Pivot.scoreMidPos);
+    }
+    public void goToIntakeHigh(){
+        setpos(Constants.Pivot.intakeHighPos);
+    }
     public void goToIntake(){
         setpos(Constants.Pivot.intakeBackPos);
+    }
+    public void goToLoad(){
+        setpos(Constants.Pivot.loadPos);
+    }
+    public void goToShootHigh(){
+        setpos(Constants.Pivot.shootHighPos);
+    }
+    public void goToIntakeCube(){
+        setpos(Constants.Pivot.cubePos);
+    }
+    public void goToStow(){
+        setpos(Constants.Pivot.stowPos);
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {
@@ -72,25 +100,15 @@ public class Pivot extends SubsystemBase{
             ).withName("Test Pivot");
     }
 
-    public CommandBase goToScoreCommand() {
+    public CommandBase goToZeroCommand() {
         return runEnd(
             () -> {
-                goToScoreHigh();
+                setpos(0);
               }, 
             () -> {
                 pivot.set(ControlMode.PercentOutput, 0.0);
               }
-            ).withName("Test Pivot Setpoint");
-    }
-    public CommandBase goToIntakeCommand() {
-        return runEnd(
-            () -> {
-                goToIntake();
-              }, 
-            () -> {
-                pivot.set(ControlMode.PercentOutput, 0.0);
-              }
-            ).withName("Test Pivot Setpoint");
+            ).withName("Zero Pivot").until(() -> Math.abs(distanceToSetpoint(0)) < 0.1);
     }
 
     public double distanceToSetpoint(double setpoint){
@@ -99,6 +117,8 @@ public class Pivot extends SubsystemBase{
 
     @Override
     public void periodic(){
+        SmartDashboard.putNumber("Pivot Setpoint", mController.getSetpoint().position);
+        SmartDashboard.putNumber("Pivot Setpoint Velocity", mController.getSetpoint().velocity);
         SmartDashboard.putNumber("Pivot Position", getEncoderPos());
     }
 }

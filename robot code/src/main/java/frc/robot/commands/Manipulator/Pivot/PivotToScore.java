@@ -12,7 +12,9 @@ public class PivotToScore extends CommandBase{
 
     @Override
     public void execute(){
-        manipulator.getPivot().goToScoreHigh();
+        if(manipulator.getElevator().getPosition() > 2){
+            manipulator.getPivot().goToScoreMid();
+        }
     }
 
     @Override

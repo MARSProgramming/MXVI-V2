@@ -2,15 +2,15 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.81,
-        "y": 4.37
+        "x": 1.83,
+        "y": 4.34
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.278076567565403,
-        "y": 2.5272362099645735
+        "x": 4.873296980636515,
+        "y": 5.891379655099737
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -24,15 +24,15 @@
     },
     {
       "anchorPoint": {
-        "x": 3.8332988506205252,
-        "y": 2.755945369237385
+        "x": 3.480401428887965,
+        "y": 2.67919195412859
       },
       "prevControl": {
-        "x": 3.2615259524384945,
-        "y": 2.790251743128307
+        "x": 7.865179772912738,
+        "y": 3.588838028739888
       },
       "nextControl": null,
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": 3.0,
       "isLocked": false,
@@ -45,5 +45,8 @@
       }
     }
   ],
+  "maxVelocity": 3.0,
+  "maxAcceleration": 0.75,
+  "isReversed": null,
   "markers": []
 }

@@ -52,16 +52,19 @@ public final class Constants {
         public static double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
+
+        public static double autoBalanceP = 0.03;
+        public static double RRTapeAlignP = 0.03;
     }
 
     public static class Auto{
-        public static final double holonomicXkP = 1.0;
+        public static final double holonomicXkP = 2.0;
         public static final double holonomicXkI = 0;
         public static final double holonomicXkD = 0;
-        public static final double holonomicYkP = 1.0;
+        public static final double holonomicYkP = 2.4;
         public static final double holonomicYkI = 0;
         public static final double holonomicYkD = 0;
-        public static final double holonomicOkP = 2.5;
+        public static final double holonomicOkP = 2.0;
         public static final double holonomicOkI = 0.0;
         public static final double holonomicOkD = 0.0;
         public static final double holonomicOMaxVelocity = 2;
@@ -74,22 +77,25 @@ public final class Constants {
 
     public static class Elevator{
         public static double forwardLimitInches = 40;
-        public static double reverseLimitInches = -0.05;
+        public static double reverseLimitInches = 0;
 
-        public static double kP = 0.03;
+        public static double kP = 0.04;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
         public static int masterMotorID = 8;
         public static int followerMotorID = 9;
+        public static int limitSwitchID = 9;
 
-        public static double peakOutForward = 0.25;
-        public static double peakOutReverse = -0.25;
+        public static double peakOutForward = 0.9;
+        public static double peakOutReverse = -0.9;
 
-        public static double intakePos = 0;
-        public static double bottomPos = 0;
-        public static double scoreHighPos = 32;
-        public static double scoreMidPos = 16.8;
+        public static double intakeHighPos = 12;
+        public static double intakePos = 8.5;
+        public static double bottomPos = 0.5;
+        public static double scoreHighPos = 34;
+        public static double scoreMidPos = 13.3;
+        public static double stowPos = 0;
     }
 
     public static class Wrist{
@@ -101,11 +107,16 @@ public final class Constants {
         public static double forwardLimit = 10.75;
         public static double reverseLimit = -10.75;
 
-        public static double intakeBackPos = 2.7;
-        public static double scoreHighPos = -3.3;
-        public static double scoreMidPos = -3.82;
+        public static double intakeBackPos = 3.3;
+        public static double intakeUpPos = 4.5;
+        public static double intakeCubePos = 5.0;
+        public static double scoreHighPos = -3.9;
+        public static double scoreMidPos = -5.0;
         public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;
+        public static double shootPos = -2.0;
+        public static double loadPos = 0.68;
+        public static double stowPos = 1.7;
     }
 
     public static class Pivot{
@@ -117,14 +128,25 @@ public final class Constants {
         public static double forwardLimit = 1000;
         public static double reverseLimit = -1000;
 
-        public static double intakeBackPos = 1.90;
-        public static double scoreHighPos = -0.9;
+        public static double intakeBackPos = 2.2;
+        public static double scoreHighPos = -1.2;
+        public static double scoreMidPos = -1.0;
+        public static double cubePos = 1.65;
+        public static double intakeHighPos = 2.0;
+        public static double loadPos = 1.45;
 
         public static double zero = 0.96;
+        public static double shootHighPos = -0.5;
+        public static double stowPos = -0.6;
     }
 
     public static class Grasper{
         public static int motorID = 13;
+
+        public static double kP = 0.02;
+        public static double kF = 0.17;
+        public static double kI = 0.0;
+        public static double kD = 0.0;
     }
 
     public static class Manipulator{

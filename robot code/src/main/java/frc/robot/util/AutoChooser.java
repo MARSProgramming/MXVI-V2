@@ -1,134 +1,77 @@
 package frc.robot.util;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.auto.plays.DoNothing;
-import frc.robot.auto.plays.TestAutoPlay;
-import frc.robot.auto.plays.Blue.BBottomLeaveCommunity;
-import frc.robot.auto.plays.Blue.BMidLeaveCommunity;
-import frc.robot.auto.plays.Blue.BSetBottomPose;
-import frc.robot.auto.plays.Blue.BSetMidPose;
-import frc.robot.auto.plays.Blue.BSetTopPose;
-import frc.robot.auto.plays.Blue.BTopLeaveCommunity;
-import frc.robot.auto.plays.Blue.BbP3P4_Dock;
-import frc.robot.auto.plays.Blue.BbP3P4_NoDock;
-import frc.robot.auto.plays.Blue.BbP3_Dock;
-import frc.robot.auto.plays.Blue.BbP4_Dock;
-import frc.robot.auto.plays.Blue.BbP4_NoDock;
-import frc.robot.auto.plays.Blue.BbScoreGiven;
-import frc.robot.auto.plays.Blue.BbScoreGivenLeave;
-import frc.robot.auto.plays.Blue.BtP1P2_Dock;
-import frc.robot.auto.plays.Blue.BtP1P2_NoDock;
-import frc.robot.auto.plays.Blue.BtP1_Dock;
-import frc.robot.auto.plays.Blue.BtP1_NoDock;
-import frc.robot.auto.plays.Blue.BtP2_Dock;
-import frc.robot.auto.plays.Blue.BtP2_NoDock;
-import frc.robot.auto.plays.Blue.BtScoreGiven;
-import frc.robot.auto.plays.Blue.BtScoreGivenLeave;
-import frc.robot.auto.plays.Red.RBottomLeaveCommunity;
-import frc.robot.auto.plays.Red.RMidLeaveCommunity;
-import frc.robot.auto.plays.Red.RSetBottomPose;
-import frc.robot.auto.plays.Red.RSetMidPose;
-import frc.robot.auto.plays.Red.RSetTopPose;
-import frc.robot.auto.plays.Red.RTopLeaveCommunity;
-import frc.robot.auto.plays.Red.RbP3P4_Dock;
-import frc.robot.auto.plays.Red.RbP3P4_NoDock;
-import frc.robot.auto.plays.Red.RbP3_Dock;
-import frc.robot.auto.plays.Red.RbP4_Dock;
-import frc.robot.auto.plays.Red.RbP4_NoDock;
-import frc.robot.auto.plays.Red.RbScoreGiven;
-import frc.robot.auto.plays.Red.RtP1P2_Dock;
-import frc.robot.auto.plays.Red.RtP1P2_NoDock;
-import frc.robot.auto.plays.Red.RtP1_Dock;
-import frc.robot.auto.plays.Red.RtP1_NoDock;
-import frc.robot.auto.plays.Red.RtP2_Dock;
-import frc.robot.auto.plays.Red.RtP2_NoDock;
-import frc.robot.auto.plays.Red.RtScoreGiven;
+import frc.robot.auto.plays.BothAlliance.BScoreGiven;
+import frc.robot.auto.plays.BothAlliance.BScoreGivenLeave;
+import frc.robot.auto.plays.BothAlliance.BScoreGivenLeaveDock;
+import frc.robot.auto.plays.BothAlliance.BottomLeaveCommunity;
+import frc.robot.auto.plays.BothAlliance.BottomSetPose;
+import frc.robot.auto.plays.BothAlliance.MidLeaveCommunity;
+import frc.robot.auto.plays.BothAlliance.MidScoreGiven;
+import frc.robot.auto.plays.BothAlliance.MidScoreGivenLeave;
+import frc.robot.auto.plays.BothAlliance.MidScoreGivenLeaveDock;
+import frc.robot.auto.plays.BothAlliance.MidSetPose;
+import frc.robot.auto.plays.BothAlliance.TP1_Cone_Dock;
+import frc.robot.auto.plays.BothAlliance.TP1_Cube_Dock;
+import frc.robot.auto.plays.BothAlliance.TScoreGiven;
+import frc.robot.auto.plays.BothAlliance.TScoreGivenLeave;
+import frc.robot.auto.plays.BothAlliance.TScoreGivenLeaveDock;
+import frc.robot.auto.plays.BothAlliance.TopLeaveCommunity;
+import frc.robot.auto.plays.BothAlliance.TopSetPose;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Manipulator;
 
 public class AutoChooser {
     private ShuffleboardTab preMatch;
-    private SendableChooser<Command> autoChooser;
-    
-    public AutoChooser(DrivetrainSubsystem mDrivetrainSubsystem){
-        preMatch = Shuffleboard.getTab("Pre-Match");
-        autoChooser = new SendableChooser<>();
+    private SendableChooser<Command> autoChooser = new SendableChooser();
+
+    public AutoChooser(DrivetrainSubsystem mDrivetrainSubsystem, Manipulator mManipulator){
+        preMatch = Shuffleboard.getTab("Match");
+        //autoChooser = new SendableChooser<>();
+        
 
         //auto plays
         autoChooser.setDefaultOption("Do Nothing", new DoNothing());
-        autoChooser.addOption("BLUE-BOTTOM: Set Pose", new BSetBottomPose(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Leave Community", new BBottomLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Score Piece 3, Dock", new BbP3_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Score Piece 3, No Dock", new BbP3P4_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Score Piece 4, Dock", new BbP4_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Score Piece 4, No Dock", new BbP4_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Score Piece 3 & 4, Dock", new BbP3P4_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Score Piece 3 & 4, No Dock", new BbP3P4_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Score Given Piece", new BbScoreGiven(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-BOTTOM: Score Given Piece, Leave Community", new BbScoreGivenLeave(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-MIDDLE: Set Pose", new BSetMidPose(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-MIDDLE: Leave Community", new BMidLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Set Pose", new BSetTopPose(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Leave Community", new BTopLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Score Piece 1, Dock", new BtP1_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Score Piece 1, No Dock", new BtP1_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Score Piece 2, Dock", new BtP2_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Score Piece 2, No Dock", new BtP2_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Score Piece 1 & 2, Dock", new BtP1P2_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Score Piece 1 & 2, No Dock", new BtP1P2_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Score Given Piece", new BtScoreGiven(mDrivetrainSubsystem));
-        autoChooser.addOption("BLUE-TOP: Score Given Piece, Leave Community", new BtScoreGivenLeave(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Set Pose", new RSetBottomPose(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Leave Community", new RBottomLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Score Piece 3, Dock", new RbP3_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Score Piece 3, No Dock", new RbP3P4_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Score Piece 4, Dock", new RbP4_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Score Piece 4, No Dock", new RbP4_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Score Piece 3 & 4, Dock", new RbP3P4_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Score Piece 3 & 4, No Dock", new RbP3P4_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Score Given Piece", new RbScoreGiven(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-BOTTOM: Score Given Piece, Leave Community", new BbScoreGivenLeave(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-MIDDLE: Set Pose", new RSetMidPose(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-MIDDLE: Leave Community", new RMidLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Set Pose", new RSetTopPose(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Leave Community", new RTopLeaveCommunity(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Score Piece 1, Dock", new RtP1_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Score Piece 1, No Dock", new RtP1_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Score Piece 2, Dock", new RtP2_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Score Piece 2, No Dock", new RtP2_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Score Piece 2, No Dock", new RtP1P2_Dock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Score Piece 2, No Dock", new RtP1P2_NoDock(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Score Given Piece", new RtScoreGiven(mDrivetrainSubsystem));
-        autoChooser.addOption("RED-TOP: Score Given Piece, Leave Community", new BtScoreGivenLeave(mDrivetrainSubsystem));
-
-
+        autoChooser.addOption("1: Set Pose", new BottomSetPose(mDrivetrainSubsystem));
+        autoChooser.addOption("1: Leave Community", new BottomLeaveCommunity(mDrivetrainSubsystem));
+        autoChooser.addOption("1: Score Given", new BScoreGiven(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("1: Score Given Leave", new BScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("1: Score Given Leave Dock", new BScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("2: Set Pose", new MidSetPose(mDrivetrainSubsystem));
+        autoChooser.addOption("2: Leave Community", new MidLeaveCommunity(mDrivetrainSubsystem));
+        autoChooser.addOption("2: Score Given", new MidScoreGiven(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("2: Score Given Leave", new MidScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("2: Score Given Leave Dock", new MidScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Set Pose", new TopSetPose(mDrivetrainSubsystem));
+        autoChooser.addOption("3: Leave Community", new TopLeaveCommunity(mDrivetrainSubsystem));
+        autoChooser.addOption("3: Score Given", new TScoreGiven(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Score Given Leave", new TScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Score Given Leave Dock", new TScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3-Cone: Score Cone and Cube High Dock", new TP1_Cone_Dock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Score 2 Cube Dock", new TP1_Cube_Dock(mDrivetrainSubsystem, mManipulator));
         
-        preMatch.add(autoChooser).withSize(2, 1).withPosition(0, 0);
+        preMatch.add("Auto Play", autoChooser).withSize(2, 1).withPosition(4, 5);
     }
 
     public Command getSelected(){
         return autoChooser.getSelected();
     }
 
-    public static Trajectory openTrajectoryFile(String name){
-        try{
-            Trajectory t = new Trajectory();
-            Path path = Filesystem.getDeployDirectory().toPath().resolve("pathplanner/generatedJSON/" + name);
-            t = TrajectoryUtil.fromPathweaverJson(path);
-            return t;
-        }
-        catch(IOException ex){
-            DriverStation.reportError("Unable to open trajectory: " + name, ex.getStackTrace());
-            return null;
-        }
+    public static PathPlannerTrajectory openTrajectoryFile(String name, PathConstraints constraints){
+        PathPlannerTrajectory t = PathPlanner.loadPath(name, constraints);
+        return t;
+    }
+    public static PathPlannerTrajectory openTrajectoryFileForAlliance(String name, PathConstraints constraints){
+        PathPlannerTrajectory t = PathPlanner.loadPath(name, constraints);
+        return PathPlannerTrajectory.transformTrajectoryForAlliance(t, DriverStation.getAlliance());
     }
 }

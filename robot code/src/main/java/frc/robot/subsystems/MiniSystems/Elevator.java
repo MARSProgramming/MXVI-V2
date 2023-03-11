@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -28,13 +29,14 @@ public class Elevator extends SubsystemBase{
 
     private TalonFX master;
     private TalonFX follower;
-    private final double kGearRatio = 49;
+    private final double kGearRatio = 35;
     private final double inchesPerRotation = 2 * Math.PI;
     private final double inchesToNativeUnits = 2048 * kGearRatio / inchesPerRotation;
+    private final DigitalInput limitSwitch = new DigitalInput(Constants.Elevator.limitSwitchID);
+    private boolean isLimitHit = false;
     public Elevator(){
         master = new TalonFX(Constants.Elevator.masterMotorID);
         follower = new TalonFX(Constants.Elevator.followerMotorID);
-
         master.configFactoryDefault();
         follower.configFactoryDefault();
 
@@ -60,12 +62,26 @@ public class Elevator extends SubsystemBase{
         follower.follow(master);
         
     }
+    public CommandBase disableSoftLimits() {
+      return runOnce(
+        () -> {
+          master.configForwardSoftLimitEnable(false);
+          master.configReverseSoftLimitEnable(false);
+        }
+        ).withName("Disable Elevator Limits");
+  }
 
+    public double getPosition(){
+      return master.getSelectedSensorPosition() / inchesToNativeUnits;
+    }
     public void goToBottom(){
       setPosition(Constants.Elevator.bottomPos);
     }
     public void goToIntake(){
       setPosition(Constants.Elevator.intakePos);
+    }
+    public void goToIntakeHigh(){
+      setPosition(Constants.Elevator.intakeHighPos);
     }
     public void goToScoreHigh(){
       setPosition(Constants.Elevator.scoreHighPos);
@@ -73,19 +89,30 @@ public class Elevator extends SubsystemBase{
     public void goToScoreMid(){
       setPosition(Constants.Elevator.scoreMidPos);
     }
-    public void setPosition(double inches){
-        SmartDashboard.putNumber("ElevatorSetPos", inches * inchesToNativeUnits);
-        master.set(ControlMode.Position, inches * inchesToNativeUnits, DemandType.ArbitraryFeedForward, 0.05);
+    public void goToStow(){
+      setPosition(Constants.Elevator.stowPos);
     }
-
+    public void setPosition(double inches){
+      //if(isLimitHit){
+        //master.set(ControlMode.PercentOutput, 0);
+      //}
+      //else{
+        master.set(ControlMode.Position, inches * inchesToNativeUnits, DemandType.ArbitraryFeedForward, 0.05);
+      //}
+    }
     public void setPercentOutput(double v){
+      if(isLimitHit && v < 0){
+        master.set(ControlMode.PercentOutput, 0);
+      }
+      else{
         master.set(ControlMode.PercentOutput, v);
+      }
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {
         return runEnd(
           () -> {
-            master.set(ControlMode.PercentOutput, d.getAsDouble());
+            setPercentOutput(d.getAsDouble());
           },
           () -> {
             master.set(ControlMode.PercentOutput, 0);
@@ -119,9 +146,27 @@ public class Elevator extends SubsystemBase{
         return master.getSelectedSensorPosition() / inchesToNativeUnits - setpoint;
     }
 
+    public double getElevatorVelocity(){
+      return master.getSelectedSensorVelocity() / inchesToNativeUnits * 10;
+    }
+
+    public double getElevatorPosition(){
+      return master.getSelectedSensorPosition() / inchesToNativeUnits;
+    }
+
+    public boolean isLimitHit(){
+      return !limitSwitch.get();
+    }
+    
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("ElevatorPos", master.getSelectedSensorPosition() / inchesToNativeUnits);
+      isLimitHit = isLimitHit();
+      if(isLimitHit){
+        master.setSelectedSensorPosition(0);
+      }
+
+      SmartDashboard.putBoolean("ElevatorLimit", isLimitHit());
+      SmartDashboard.putNumber("ElevatorPos", master.getSelectedSensorPosition() / inchesToNativeUnits);
       SmartDashboard.putNumber("Elevator Output", master.getMotorOutputPercent());
     }
 }

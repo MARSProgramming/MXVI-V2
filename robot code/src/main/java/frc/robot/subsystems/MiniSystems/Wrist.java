@@ -58,12 +58,27 @@ public class Wrist extends SubsystemBase{
     public void goToScoreHigh(){
       setPosition(Constants.Wrist.scoreHighPos);
     }
+    public void goToHighIntake(){
+      setPosition(Constants.Wrist.intakeUpPos);
+    }
+    public void goToCubeIntake(){
+      setPosition(Constants.Wrist.intakeCubePos);
+    }
     public void goToScoreMid(){
       setPosition(Constants.Wrist.scoreMidPos);
+    }
+    public void goToLoad(){
+      setPosition(Constants.Wrist.loadPos);
+    }
+    public void goToShoot(){
+      setPosition(Constants.Wrist.shootPos);
     }
 
     public void goToCarry(){
       setPosition(Constants.Wrist.carryPos);
+    }
+    public void goToStow(){
+      setPosition(Constants.Wrist.stowPos);
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {
@@ -124,7 +139,14 @@ public class Wrist extends SubsystemBase{
     public double distanceToSetpoint(double setpoint){
         return mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits - setpoint;
     }
+    public double getWristPosition(){
+      return mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits;
+    }
 
+    public double getWristVelocity(){
+      return mWrist.getSelectedSensorVelocity() / kRadiansToNativeUnits * 10;
+    }
+    
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Wrist Position", mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits);

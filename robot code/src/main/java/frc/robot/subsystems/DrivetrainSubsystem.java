@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.ctre.phoenix.sensors.Pigeon2;
+import com.pathplanner.lib.PathPlanner;
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -18,6 +19,7 @@ import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.HolonomicDriveController;
@@ -31,6 +33,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -50,9 +53,20 @@ import io.github.oblarg.oblog.Loggable;
 
 public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
   private static DrivetrainSubsystem mInstance;
+  private ShuffleboardTab Match = Shuffleboard.getTab("Match");
+
+
+
+  //private GenericEntry XPos =  Match.add("Robot X Position", 0).withSize(2,1).withPosition(0, 3).getEntry();
+ // private GenericEntry YPos =  Match.add("Robot Y Position", 0).withSize(2,1).withPosition(2, 3).getEntry();
+  //private GenericEntry Rotation = Match.add("Robot Rotation", 0).withSize(2,1).withPosition(0, 4).getEntry();
+  //private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).withSize(2,1).withPosition(2, 4).getEntry();
+
+  
   public static DrivetrainSubsystem getInstance(){
         if (mInstance == null) mInstance = new DrivetrainSubsystem();
         return mInstance;
+        
   } 
 
   private AprilTagFieldLayout mField;
@@ -221,6 +235,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         m_pigeon.setYaw(d);
         System.out.print("Zeroed!");
       }
+
+
   public Rotation2d getGyroscopeRotation() {
     return Rotation2d.fromDegrees(m_pigeon.getYaw());
   }
@@ -229,6 +245,12 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     m_chassisSpeeds = chassisSpeeds;
   }
 
+  public void addVisionMeasurement(Pose2d pose, double latencySeconds){
+        mPoseEstimator.addVisionMeasurement(pose , Timer.getFPGATimestamp() - latencySeconds);
+  }
+  public void setVisionMeasurementStdDevs(Matrix<N3, N1> mat){
+        mPoseEstimator.setVisionMeasurementStdDevs(mat);
+  }
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("LL Has Target", (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getInteger(0)==1));
@@ -252,11 +274,10 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
     
-    mPoseEstimator.update(getGyroscopeRotation(), getSwerveModulePositions());
-    SmartDashboard.putNumber("X", this.getPose().getX());
-    SmartDashboard.putNumber("Y", this.getPose().getY());
-    SmartDashboard.putNumber("rot", this.getPose().getRotation().getDegrees());
-    SmartDashboard.putNumber("pigeon", this.getPigeonAngle());
+    mPoseEstimator.updateWithTime(Timer.getFPGATimestamp(), getGyroscopeRotation(), getSwerveModulePositions());
+
+    SmartDashboard.putNumber("X", getPose().getX());
+    SmartDashboard.putNumber("Y", getPose().getY());
 }
   public Pose2d getPose(){
     return mPoseEstimator.getEstimatedPosition();
@@ -278,9 +299,60 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
     }
   }
   public SwerveDriveKinematics getSwerveKinematics(){
-        return m_kinematics;
+       return m_kinematics;
   }
 
+  //this changes with alliance
+  private double[] leftYBlueScoringPos = {4.99, 3.30, 1.63};
+  private double[] midYBlueScoringPos = {4.47, 2.74, 1.06};
+  private double[] rightYBlueScoringPos = {3.89, 2.20, 0.49};
+
+  private double[] leftYRedScoringPos = {4.99, 3.30, 1.63};
+  private double[] midYRedScoringPos = {4.47, 2.74, 1.06};
+  private double[] rightYRedScoringPos = {3.89, 2.20, 0.49};
+  
+  private double adjust = 0;
+  public double getAlignLeftY(){
+        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? leftYBlueScoringPos : leftYRedScoringPos);
+  }
+  public double getAlignMidY(){
+        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? midYBlueScoringPos : midYRedScoringPos);
+  }
+  public double getAlignRightY(){
+        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? rightYBlueScoringPos : rightYRedScoringPos);
+  }
+
+  private double lastRoll = m_pigeon.getRoll();
+  public boolean finishedBalanceFar(){
+        System.out.println(m_pigeon.getRoll());
+        boolean finish = m_pigeon.getRoll() - lastRollClose > 0.5;
+        lastRoll = m_pigeon.getRoll();
+        return finish;
+  }
+
+  private double lastRollClose = m_pigeon.getRoll();
+  public boolean finishedBalanceClose(){
+    System.out.println(m_pigeon.getRoll());
+    System.out.println(m_pigeon.getRoll() - lastRollClose);
+    boolean finish = m_pigeon.getRoll() - lastRollClose > 0.5 && m_pigeon.getRoll() > 80;
+    lastRollClose = m_pigeon.getRoll();
+    return finish;
+  }
+  public double closestValue(double input, double[] array) {
+        
+        double closest = array[0];
+        double distance = Math.abs(input - closest);
+        
+        for (int i = 0; i < array.length; i++) {
+            double newDistance = Math.abs(input - array[i]);
+            
+            if (newDistance < distance) {
+                closest = array[i];
+                distance = newDistance;
+            }
+        }
+        return closest;
+    }
   public SwerveModulePosition[] getSwerveModulePositions(){
         return new SwerveModulePosition[] {
                 new SwerveModulePosition(m_frontLeftModule.getPosition(), new Rotation2d(m_frontLeftModule.getSteerAngle())),
@@ -290,6 +362,9 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
         };
   }
 
+  public double getRoll(){
+        return m_pigeon.getRoll();
+  }
   public void createSwerveModules(double fl, double fr, double bl, double br){
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
