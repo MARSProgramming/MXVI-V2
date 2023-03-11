@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.LED.SetFlashing;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntake;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntakeHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
@@ -40,7 +41,7 @@ public class Manipulator extends SubsystemBase{
     private Grasper mGrasper = new Grasper();
     private Pivot mPivot = new Pivot();
     private Wrist mWrist = new Wrist();
-    
+    private LED mLED;
     public Elevator getElevator(){
         return mElevator;
     }
@@ -54,7 +55,8 @@ public class Manipulator extends SubsystemBase{
         return mWrist;
     }
 
-    public Manipulator(){
+    public Manipulator(LED subsystemled){ 
+        mLED = subsystemled;
     }
 
     public CommandBase goToIntake() {
@@ -139,8 +141,10 @@ public class Manipulator extends SubsystemBase{
         new ParallelCommandGroup(
             mElevator.testBottomSetpoint(), 
             new PivotToLoad(this), 
-            new WristToLoad(this)
-        )
+            new WristToLoad(this)  
+            ),
+        new SetFlashing(mLED)
+
         );
         loadCommand.addRequirements(this);
         return loadCommand;
