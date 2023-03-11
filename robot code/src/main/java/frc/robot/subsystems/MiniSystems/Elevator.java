@@ -164,9 +164,5 @@ public class Elevator extends SubsystemBase{
       if(isLimitHit){
         master.setSelectedSensorPosition(0);
       }
-
-      SmartDashboard.putBoolean("ElevatorLimit", isLimitHit());
-      SmartDashboard.putNumber("ElevatorPos", master.getSelectedSensorPosition() / inchesToNativeUnits);
-      SmartDashboard.putNumber("Elevator Output", master.getMotorOutputPercent());
     }
 }

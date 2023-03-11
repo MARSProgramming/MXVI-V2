@@ -27,9 +27,9 @@ public class MatchTab extends SubsystemBase {
 
       private ShuffleboardTab Match = Shuffleboard.getTab("Match");
       private ShuffleboardTab TestInfo = Shuffleboard.getTab("Test");
-      private ShuffleboardLayout PilotControlsList = Match.getLayout("Pilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(6,0);
-      private ShuffleboardLayout CopilotControlsList = Match.getLayout("Copilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(8,0);
-      private ShuffleboardLayout LEDLegend = Match.getLayout("LED Legend", BuiltInLayouts.kList).withSize(2,5).withPosition(10,0);
+      private ShuffleboardLayout PilotControlsList = Match.getLayout("Pilot Controls", BuiltInLayouts.kList).withSize(2,6).withPosition(6,0);
+      private ShuffleboardLayout CopilotControlsList = Match.getLayout("Copilot Controls", BuiltInLayouts.kList).withSize(2,6).withPosition(8,0);
+      private ShuffleboardLayout LEDLegend = Match.getLayout("LED Legend", BuiltInLayouts.kList).withSize(2,4).withPosition(10,0);
       // pose information from Drivetrain
       private GenericEntry XPos =  Match.add("Robot X Position", 0).withSize(2,1).withPosition(0, 4).getEntry();
       private GenericEntry YPos =  Match.add("Robot Y Position", 0).withSize(2,1).withPosition(2, 4).getEntry();
@@ -52,7 +52,7 @@ public class MatchTab extends SubsystemBase {
       private GenericEntry WristVelo = TestInfo.add("Wrist Velocity", 0).withSize(2,1).withPosition(3, 4).getEntry();
       private GenericEntry WristPos = TestInfo.add("Wrist Position", 0).withSize(2,1).withPosition(3, 5).getEntry();
 
-      private ComplexWidget commandScheduler = Match.add("CommandScheduling", CommandScheduler.getInstance()).withSize(2,2).withPosition(4, 3);
+      private ComplexWidget commandScheduler = Match.add("CommandScheduling", CommandScheduler.getInstance()).withSize(2,2).withPosition(10, 4);
       public MatchTab(DrivetrainSubsystem drivetrain, Elevator elevator, Grasper grasper, Pivot pivot, Wrist wrist) {
         mDrivetrainSubsystem = drivetrain;
         mElevator = elevator;
@@ -68,10 +68,9 @@ public class MatchTab extends SubsystemBase {
         // add command scheduler
         
         // Create camera
-        HttpCamera httpCamera = new HttpCamera("Cameras", "http://10.26.14.106:5800/video/stream.mjpeg");
-        CameraServer.addCamera(httpCamera);
-        CameraServer.startAutomaticCapture(httpCamera);
-        Shuffleboard.getTab("Match").add(httpCamera).withPosition(0, 0);
+        HttpCamera camera = new HttpCamera("Camera", "http://10.26.14.106:5800/stream.mjpg", edu.wpi.first.cscore.HttpCamera.HttpCameraKind.kMJPGStreamer);
+        CameraServer.addCamera(camera);
+        Shuffleboard.getTab("Match").add(camera).withPosition(0, 0).withSize(5, 3);
         
         // Pilot Controls
       
@@ -79,9 +78,11 @@ public class MatchTab extends SubsystemBase {
         PilotControlsList.addString("Drive Rotation", () -> "Right Joystick X");
         PilotControlsList.addString("Run Grasper Outtake", () -> "Right Trigger");
         PilotControlsList.addString("Run Grasper Hold Cube", () -> "Right Bumper");
-        PilotControlsList.addString("Run Grasper Intake", () -> "Left Bumper");
-        PilotControlsList.addString("Align to Score", () -> "X Button");
+        PilotControlsList.addString("Run Grasper Intake", () -> "Left Trigger");
+        PilotControlsList.addString("Swap LED Color", () -> "Left Bumper");
+        PilotControlsList.addString("Align to Score", () -> "X, A, and B Buttons");
         PilotControlsList.addString("Zero Yaw", () -> "Y Button"); 
+        PilotControlsList.addString("Bottom Piston", () -> "Start"); 
         // Copilot Controls
 
         CopilotControlsList.addString("Setpoint Shoot Cube High", () -> "Right Joystick Push");
@@ -99,7 +100,6 @@ public class MatchTab extends SubsystemBase {
         
         
         // LED Legend
-
         LEDLegend.addString("Auto", () -> "RAINBOW");
         LEDLegend.addString("TeleOp", () -> "RED");
         LEDLegend.addString("Cone", () -> "YELLOW");

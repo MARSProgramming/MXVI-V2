@@ -73,7 +73,9 @@ public class Wrist extends SubsystemBase{
     public void goToShoot(){
       setPosition(Constants.Wrist.shootPos);
     }
-
+    public void goToShootHigh(){
+      setPosition(Constants.Wrist.shootHighPos);
+    }
     public void goToCarry(){
       setPosition(Constants.Wrist.carryPos);
     }
@@ -149,6 +151,5 @@ public class Wrist extends SubsystemBase{
     
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Wrist Position", mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits);
     }
 }

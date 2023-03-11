@@ -5,7 +5,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -36,7 +35,6 @@ public class DriveSnapRotation extends CommandBase {
     @Override
     public void execute() {
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
-        SmartDashboard.putNumber("desiredSnap", Math.atan2(-m_rotationYSupplier.getAsDouble(), m_rotationXSupplier.getAsDouble()));
         double angleAdjustment = mSnapController.calculate(m_drivetrainSubsystem.getPigeonAngle(), Math.atan2(-m_rotationYSupplier.getAsDouble(), m_rotationXSupplier.getAsDouble())+Math.PI/2);
         m_drivetrainSubsystem.drive(
             ChassisSpeeds.fromFieldRelativeSpeeds(

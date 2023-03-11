@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.ctre.phoenix.sensors.Pigeon2;
-import com.pathplanner.lib.PathPlanner;
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -40,12 +39,12 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.MoreMath;
-import io.github.oblarg.oblog.Loggable;
 
-public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
+public class DrivetrainSubsystem extends SubsystemBase{
   private static DrivetrainSubsystem mInstance;
   private ShuffleboardTab Match = Shuffleboard.getTab("Match");
 
@@ -238,19 +237,36 @@ public class DrivetrainSubsystem extends SubsystemBase implements Loggable{
   private double[] midYBlueScoringPos = {4.47, 2.74, 1.06};
   private double[] rightYBlueScoringPos = {3.89, 2.20, 0.49};
 
-  private double[] leftYRedScoringPos = {4.99, 3.30, 1.63};
-  private double[] midYRedScoringPos = {4.47, 2.74, 1.06};
-  private double[] rightYRedScoringPos = {3.89, 2.20, 0.49};
+  private double[] leftYRedScoringPos = {4.15, 5.84, 7.55};
+  private double[] midYRedScoringPos = {3.57, 5.30, 6.98};
+  private double[] rightYRedScoringPos = {3.05, 4.74, 6.41};
   
   private double adjust = 0;
+
+  public CommandBase leftAutoAlignAdjust(){
+        return runOnce(
+                () -> {
+                        adjust += 0.02;
+                }
+        );
+  }
+
+  public CommandBase rightAutoAlignAdjust(){
+        return runOnce(
+                () -> {
+                        adjust -= 0.02;
+                }
+        );
+  }
+
   public double getAlignLeftY(){
-        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? leftYBlueScoringPos : leftYRedScoringPos);
+        return closestValue(getPose().getY(), DriverStation.getAlliance() == DriverStation.Alliance.Blue ? leftYBlueScoringPos : leftYRedScoringPos) + adjust;
   }
   public double getAlignMidY(){
-        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? midYBlueScoringPos : midYRedScoringPos);
+        return closestValue(getPose().getY(), DriverStation.getAlliance() == DriverStation.Alliance.Blue ? midYBlueScoringPos : midYRedScoringPos) + adjust;
   }
   public double getAlignRightY(){
-        return closestValue(getPose().getY() + adjust, DriverStation.getAlliance() == DriverStation.Alliance.Blue ? rightYBlueScoringPos : rightYRedScoringPos);
+        return closestValue(getPose().getY(), DriverStation.getAlliance() == DriverStation.Alliance.Blue ? rightYBlueScoringPos : rightYRedScoringPos) + adjust;
   }
 
   private double lastRoll = m_pigeon.getRoll();

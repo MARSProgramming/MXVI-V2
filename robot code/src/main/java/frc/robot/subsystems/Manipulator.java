@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -31,6 +32,7 @@ import frc.robot.commands.Manipulator.Wrist.WristScoreMid;
 import frc.robot.commands.Manipulator.Wrist.WristStow;
 import frc.robot.commands.Manipulator.Wrist.WristToLoad;
 import frc.robot.commands.Manipulator.Wrist.WristToShoot;
+import frc.robot.commands.Manipulator.Wrist.WristToShootHigh;
 import frc.robot.subsystems.MiniSystems.Elevator;
 import frc.robot.subsystems.MiniSystems.Grasper;
 import frc.robot.subsystems.MiniSystems.Pivot;
@@ -111,7 +113,7 @@ public class Manipulator extends SubsystemBase{
             new ParallelCommandGroup(
                 new ElevatorScoreMid(this), 
                 new PivotToShootHigh(this),
-                new WristToShoot(this)
+                new WristToShootHigh(this)
             )
         );
         scoreHighCommand.addRequirements(this);
@@ -201,5 +203,12 @@ public class Manipulator extends SubsystemBase{
                 mPivot.Run(0);
             }
         );
+    }
+
+    @Override
+    public void periodic(){
+        if(DriverStation.isTeleop() && DriverStation.getMatchTime() < 1){
+            mGrasper.runSpitMode();
+        }
     }
 }
