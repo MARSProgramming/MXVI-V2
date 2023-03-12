@@ -25,7 +25,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.util.AutoChooser;
 import frc.robot.util.MatchTab;
-
+import frc.robot.util.ConstantsTab; 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -46,6 +46,7 @@ public class RobotContainer {
   //private final Limelight mLimelight = new Limelight();
   private final Manipulator mManipulator = new Manipulator();
   private MatchTab matchtab;
+  private ConstantsTab constanttab; 
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
   private LED mLED = new LED();
 
@@ -65,6 +66,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
     matchtab = new MatchTab(mDrivetrainSubsystem, mManipulator.getElevator(), mManipulator.getGrasper(), mManipulator.getPivot(), mManipulator.getWrist(), mManipulator);
+    constanttab = new ConstantsTab(); 
+    constanttab.configureDashboard(); 
     matchtab.configureDashboard();
     /*mDrivetrainSubsystem.setDefaultCommand(new DriveSnapRotation(
             mDrivetrainSubsystem,
