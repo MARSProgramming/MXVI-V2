@@ -50,7 +50,7 @@
   {
     "name": "/Shuffleboard/Constants/Elevator Constants/Forward Limit (in)",
     "type": "double",
-    "value": 40.0,
+    "value": 4.0,
     "properties": {
       "persistent": true
     }

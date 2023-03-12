@@ -22,7 +22,7 @@ public final class Constants {
     public static class Drive{
         public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.57;
         public static final double DRIVETRAIN_WHEELBASE_METERS = 0.57;
-        public static final double MAX_SPEED_MULTIPLIER = 0.5; 
+        public static double MAX_SPEED_MULTIPLIER = 0.5; 
 
         public static final int DRIVETRAIN_PIGEON_ID = 31; 
         public static final String kDriveCANivore = "Drivetrain";
@@ -44,9 +44,9 @@ public final class Constants {
         public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 7; 
         public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 27; 
 
-        public static final double kP = 0.3;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static double kP = 0.3;
+        public static double kI = 0.0;
+        public static double kD = 0.0;
 
         public static double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
