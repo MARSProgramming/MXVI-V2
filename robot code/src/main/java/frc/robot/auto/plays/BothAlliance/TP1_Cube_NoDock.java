@@ -22,8 +22,8 @@ public class TP1_Cube_NoDock extends SequentialCommandGroup{
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.1),
-            mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
-            mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
+            mManipulator.goToShoot().withTimeout(0.4).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
+            mManipulator.getGrasper().setPercentOutputCommand(-0.3).withTimeout(0.3),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
                 mManipulator.goToCubeIntake(),
                 mManipulator.getGrasper().runTestMode()

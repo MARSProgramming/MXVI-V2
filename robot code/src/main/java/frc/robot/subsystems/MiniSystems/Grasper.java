@@ -58,7 +58,7 @@ public class Grasper extends SubsystemBase{
         BeltController.set(ControlMode.PercentOutput, v);
     }
 
-    public CommandBase setPerceontOutputCommand(double v) {
+    public CommandBase setPercentOutputCommand(double v) {
       return runEnd(
         () -> {
           setPercentOutput(v);

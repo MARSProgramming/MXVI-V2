@@ -20,7 +20,7 @@ public class TScoreGivenLeave extends SequentialCommandGroup{
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
-            mManipulator.goToCubeShootHigh().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
+            mManipulator.goToCubeShootHigh().withTimeout(1).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.5),
             new DriveAtPath(drivetrain, LeaveCommunity, false, false, 10).deadlineWith(mManipulator.goToZero())
          );

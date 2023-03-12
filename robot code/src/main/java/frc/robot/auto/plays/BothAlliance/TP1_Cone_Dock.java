@@ -27,7 +27,7 @@ public class TP1_Cone_Dock extends SequentialCommandGroup{
             mManipulator.goToScoreHigh().withTimeout(3.0),
             mManipulator.goToCubeIntake().withTimeout(0.3),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
-                mManipulator.goToCubeIntake(), mManipulator.getGrasper().setPerceontOutputCommand(0.6)
+                mManipulator.goToCubeIntake(), mManipulator.getGrasper().setPercentOutputCommand(0.6)
             ),
             new DriveAtPath(drivetrain, P1toMarker, false, false, 2.9).deadlineWith(
                 mManipulator.goToZero().withTimeout(0.5).andThen(mManipulator.goToCubeShootHigh()),

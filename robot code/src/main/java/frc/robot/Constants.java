@@ -116,7 +116,7 @@ public final class Constants {
         public static double scoreMidPos = -5.0;
         public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;
-        public static double shootPos = -2.0;
+        public static double shootPos = -2.5;
         public static double shootHighPos = -3.1;
         public static double loadPos = 0.8;
         public static double stowPos = 1.7;

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.auto.plays.DoNothing;
+import frc.robot.auto.plays.BothAlliance.BP4_Cone_NoDock;
 import frc.robot.auto.plays.BothAlliance.BScoreGiven;
 import frc.robot.auto.plays.BothAlliance.BScoreGivenLeave;
 import frc.robot.auto.plays.BothAlliance.BScoreGivenLeaveDock;
@@ -23,6 +24,7 @@ import frc.robot.auto.plays.BothAlliance.MidSetPose;
 import frc.robot.auto.plays.BothAlliance.TP1_Cone_Dock;
 import frc.robot.auto.plays.BothAlliance.TP1_Cone_NoDock;
 import frc.robot.auto.plays.BothAlliance.TP1_Cube_Dock;
+import frc.robot.auto.plays.BothAlliance.TP1_Cube_NoDock;
 import frc.robot.auto.plays.BothAlliance.TScoreGiven;
 import frc.robot.auto.plays.BothAlliance.TScoreGivenLeave;
 import frc.robot.auto.plays.BothAlliance.TScoreGivenLeaveDock;
@@ -47,6 +49,7 @@ public class AutoChooser {
         autoChooser.addOption("1: Score Given", new BScoreGiven(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("1: Score Given Leave", new BScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("1: Score Given Leave Dock", new BScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("1: Score Cone and Cube High", new BP4_Cone_NoDock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("2: Set Pose", new MidSetPose(mDrivetrainSubsystem));
         autoChooser.addOption("2: Leave Community", new MidLeaveCommunity(mDrivetrainSubsystem));
         autoChooser.addOption("2: Score Given", new MidScoreGiven(mDrivetrainSubsystem, mManipulator));
@@ -58,7 +61,7 @@ public class AutoChooser {
         autoChooser.addOption("3: Score Given Leave", new TScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("3: Score Given Leave Dock", new TScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("3: Score 2 Cube Dock", new TP1_Cube_Dock(mDrivetrainSubsystem, mManipulator));
-        autoChooser.addOption("3: Score 2 Cube", new TP1_Cube_Dock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Score 2 Cube", new TP1_Cube_NoDock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("3-Cone: Score Cone and Cube High Dock", new TP1_Cone_Dock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("3-Cone: Score Cone and Cube High", new TP1_Cone_NoDock(mDrivetrainSubsystem, mManipulator));
         
