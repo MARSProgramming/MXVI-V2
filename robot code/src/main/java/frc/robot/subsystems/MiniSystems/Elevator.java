@@ -92,6 +92,9 @@ public class Elevator extends SubsystemBase{
     public void goToStow(){
       setPosition(Constants.Elevator.stowPos);
     }
+    public void goToLoadDouble(){
+      setPosition(Constants.Elevator.loadDoublePos);
+    }
     public void setPosition(double inches){
       //if(isLimitHit){
         //master.set(ControlMode.PercentOutput, 0);

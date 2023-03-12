@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
@@ -243,10 +244,18 @@ public class DrivetrainSubsystem extends SubsystemBase{
   
   private double adjust = 0;
 
+  public void setAlignAdjust(double a){
+        adjust = a;
+  }
+
+  public DoubleSupplier getAdjust(){
+        return () -> adjust;
+  }
+
   public CommandBase leftAutoAlignAdjust(){
         return runOnce(
                 () -> {
-                        adjust += 0.02;
+                        adjust += 0.05;
                 }
         );
   }
@@ -254,7 +263,7 @@ public class DrivetrainSubsystem extends SubsystemBase{
   public CommandBase rightAutoAlignAdjust(){
         return runOnce(
                 () -> {
-                        adjust -= 0.02;
+                        adjust -= 0.05;
                 }
         );
   }

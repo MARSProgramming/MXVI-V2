@@ -24,7 +24,7 @@ public class Pivot extends SubsystemBase{
     private TalonFX pivot = new TalonFX(Constants.Pivot.motorID);
    private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
     private final DutyCycleEncoder mEncoder = new DutyCycleEncoder(0);
-    private final ProfiledPIDController mController = new ProfiledPIDController(Constants.Pivot.kP, Constants.Pivot.kI, Constants.Pivot.kD, new TrapezoidProfile.Constraints(1, 1));
+    private final ProfiledPIDController mController = new ProfiledPIDController(Constants.Pivot.kP, Constants.Pivot.kI, Constants.Pivot.kD, new TrapezoidProfile.Constraints(1.5, 1));
     
     public Pivot() {
         pivot.configFactoryDefault();
@@ -59,7 +59,7 @@ public class Pivot extends SubsystemBase{
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
              new TrapezoidProfile.State(angle, 0),
-              new TrapezoidProfile.Constraints(3, 1.5)),
+              new TrapezoidProfile.Constraints(3, 1.75)),
                -0.6, 0.6
                ) + Math.sin(getEncoderPos()) * -0.05);
     }
@@ -87,6 +87,9 @@ public class Pivot extends SubsystemBase{
     }
     public void goToStow(){
         setpos(Constants.Pivot.stowPos);
+    }
+    public void goToLoadDouble(){
+        setpos(Constants.Pivot.loadDoublePos);
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {

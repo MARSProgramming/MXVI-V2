@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Drive.AlignToScore;
 import frc.robot.commands.Drive.AlignToScoreEnum;
 import frc.robot.commands.Drive.DefaultDriveCommand;
@@ -63,7 +64,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    matchtab = new MatchTab(mDrivetrainSubsystem, mManipulator.getElevator(), mManipulator.getGrasper(), mManipulator.getPivot(), mManipulator.getWrist());
+    matchtab = new MatchTab(mDrivetrainSubsystem, mManipulator.getElevator(), mManipulator.getGrasper(), mManipulator.getPivot(), mManipulator.getWrist(), mManipulator);
     matchtab.configureDashboard();
     /*mDrivetrainSubsystem.setDefaultCommand(new DriveSnapRotation(
             mDrivetrainSubsystem,
@@ -115,8 +116,8 @@ public class RobotContainer {
     mCopilot.povUp().whileTrue(mManipulator.goToLoadCommand());
     mCopilot.povDown().whileTrue(mManipulator.goToScoreHigh());
 
-    mCopilot.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
-    mCopilot.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
+    new Trigger(() -> mCopilot.getLeftX() > 0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
+    new Trigger(() -> mCopilot.getLeftX() < -0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
     mCopilot.start().whileTrue(mManipulator.goToZero());
     mCopilot.back().whileTrue(mManipulator.swapAutoScoreCommand());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());

@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntake;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntakeHigh;
+import frc.robot.commands.Manipulator.Elevator.ElevatorLoadDouble;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
 import frc.robot.commands.Manipulator.Elevator.ElevatorStow;
@@ -18,6 +18,7 @@ import frc.robot.commands.Manipulator.Pivot.PivotToCubeIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToHighIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToLoad;
+import frc.robot.commands.Manipulator.Pivot.PivotToLoadDouble;
 import frc.robot.commands.Manipulator.Pivot.PivotToScore;
 import frc.robot.commands.Manipulator.Pivot.PivotToScoreHigh;
 import frc.robot.commands.Manipulator.Pivot.PivotToShootHigh;
@@ -31,6 +32,7 @@ import frc.robot.commands.Manipulator.Wrist.WristScoreHigh;
 import frc.robot.commands.Manipulator.Wrist.WristScoreMid;
 import frc.robot.commands.Manipulator.Wrist.WristStow;
 import frc.robot.commands.Manipulator.Wrist.WristToLoad;
+import frc.robot.commands.Manipulator.Wrist.WristToLoadDouble;
 import frc.robot.commands.Manipulator.Wrist.WristToShoot;
 import frc.robot.commands.Manipulator.Wrist.WristToShootHigh;
 import frc.robot.subsystems.MiniSystems.Elevator;
@@ -184,7 +186,15 @@ public class Manipulator extends SubsystemBase{
         loadCommand.addRequirements(this);
         return loadCommand;
     }
-
+    public CommandBase goToLoadDouble() {
+        CommandBase loadCommand = Commands.sequence(
+            new ElevatorLoadDouble(this),
+            new WristToLoadDouble(this),
+            new PivotToLoadDouble(this)
+        );
+        loadCommand.addRequirements(this);
+        return loadCommand;
+    }
     public CommandBase goToZero(){
         return runEnd(
             () -> {

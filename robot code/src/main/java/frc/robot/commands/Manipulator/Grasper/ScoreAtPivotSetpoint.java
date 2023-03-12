@@ -35,6 +35,6 @@ public class ScoreAtPivotSetpoint extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return timer.get() > 0.4;
+        return timer.get() > 0.1;
     }
 }
