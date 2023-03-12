@@ -22,7 +22,7 @@ public final class Constants {
     public static class Drive{
         public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.57;
         public static final double DRIVETRAIN_WHEELBASE_METERS = 0.57;
-        public static double MAX_SPEED_MULTIPLIER = 0.5; 
+        public static final double MAX_SPEED_MULTIPLIER = 0.5; 
 
         public static final int DRIVETRAIN_PIGEON_ID = 31; 
         public static final String kDriveCANivore = "Drivetrain";
@@ -44,9 +44,9 @@ public final class Constants {
         public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 7; 
         public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 27; 
 
-        public static double kP = 0.3;
-        public static double kI = 0.0;
-        public static double kD = 0.0;
+        public static final double kP = 0.3;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
 
         public static double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
@@ -55,29 +55,6 @@ public final class Constants {
 
         public static double autoBalanceP = 0.03;
         public static double RRTapeAlignP = 0.03;
-
-        //Alignment setpoints
-        public static double BlueBottomLOffset = 0.57; 
-        public static double BlueBottomROffset = 0.57; 
-        public static double BlueMidLOffset = 0.54; 
-        public static double BlueMidROffset = 0.56; 
-        public static double BlueTopLOffset = 0.58; 
-        public static double BlueTopROffset = 0.52; 
-        public static double RedBottomLOffset = 0.57; 
-        public static double RedBottomROffset = 0.57; 
-        public static double RedMidLOffset = 0.56; 
-        public static double RedMidROffset = 0.54; 
-        public static double RedTopLOffset = 0.52; 
-        public static double RedTopROffset = 0.58; 
-
-        public static double BlueBottomMidY = 1.0716; 
-        public static double BlueMidMidY = 2.7480; 
-        public static double BlueTopMidY = 4.4244; 
-        
-        public static double RedBottomMidY = 6.9421; 
-        public static double RedMidMidY = 5.2657; 
-        public static double RedTopMidY = 3.5893; 
-
     }
 
     public static class Auto{
