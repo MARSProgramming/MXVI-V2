@@ -798,5 +798,149 @@
     "properties": {
       "persistent": true
     }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Max Speed Multiplier",
+    "type": "double",
+    "value": 0.5,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Drive kP",
+    "type": "double",
+    "value": 0.3,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Drive kI",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Drive kD",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Auto Balance P",
+    "type": "double",
+    "value": 0.03,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/RRTape Align P",
+    "type": "double",
+    "value": 0.03,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Blue Bottom Left Offset",
+    "type": "double",
+    "value": 22.440944881889763,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Blue Bottom Right Offset",
+    "type": "double",
+    "value": 22.440944881889763,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Blue Mid Left Offset",
+    "type": "double",
+    "value": 21.25984251968504,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Blue Mid Right Offset",
+    "type": "double",
+    "value": 22.047244094488192,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Blue Top Left Offset",
+    "type": "double",
+    "value": 22.440944881889763,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Blue Top Right Offset",
+    "type": "double",
+    "value": 22.440944881889763,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Red Bottom Left Offset",
+    "type": "double",
+    "value": 22.440944881889763,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Red Bottom Right Offset",
+    "type": "double",
+    "value": 22.440944881889763,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Red Mid Left Offset",
+    "type": "double",
+    "value": 22.047244094488192,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Red Mid Right Offset",
+    "type": "double",
+    "value": 21.25984251968504,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Red Top Left Offset",
+    "type": "double",
+    "value": 20.472440944881892,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Const/Red Top Right Offset",
+    "type": "double",
+    "value": 22.834645669291337,
+    "properties": {
+      "persistent": true
+    }
   }
 ]

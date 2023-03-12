@@ -1,6 +1,7 @@
 package frc.robot.util;
 import java.util.Map;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -25,7 +26,7 @@ import frc.robot.subsystems.MiniSystems.Wrist;
 
 public class ConstantsTab extends SubsystemBase{
     private ShuffleboardTab Constant = Shuffleboard.getTab("Constants");
-    private ShuffleboardLayout DrivetrainConstants = Constant.getLayout("Drivetrain Constant", BuiltInLayouts.kList).withSize(2,5).withPosition(0,0);
+    private ShuffleboardLayout DrivetrainConstants = Constant.getLayout("Drivetrain Const", BuiltInLayouts.kList).withSize(2,5).withPosition(0,0);
     private ShuffleboardLayout ElevatorConstants = Constant.getLayout("Elevator Constants", BuiltInLayouts.kList).withSize(2,5).withPosition(2,0);
     private ShuffleboardLayout WristConstants = Constant.getLayout("Wrist Constants", BuiltInLayouts.kList).withSize(2,5).withPosition(4,0);
     private ShuffleboardLayout GrasperConstants = Constant.getLayout("Grasper Constants", BuiltInLayouts.kList).withSize(2,5).withPosition(6,0);
@@ -109,18 +110,19 @@ public class ConstantsTab extends SubsystemBase{
         DrivekD = DrivetrainConstants.addPersistent("Drive kD", Constants.Drive.kD).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         DriveAutoBalanceP = DrivetrainConstants.addPersistent("Auto Balance P", Constants.Drive.autoBalanceP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         DriveRRTapeAlignP = DrivetrainConstants.addPersistent("RRTape Align P", Constants.Drive.RRTapeAlignP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        BlueBLOff = DrivetrainConstants.addPersistent("Blue Bottom Left Offset", Constants.Drive.BlueBottomLOffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        BlueBROff = DrivetrainConstants.addPersistent("Blue Bottom Right Offset", Constants.Drive.BlueBottomROffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        BlueMLOff = DrivetrainConstants.addPersistent("Blue Mid Left Offset", Constants.Drive.BlueMidLOffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        BlueMROff = DrivetrainConstants.addPersistent("Blue Mid Right Offset", Constants.Drive.BlueMidROffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        BlueTLOff = DrivetrainConstants.addPersistent("Blue Top Left Offset", Constants.Drive.BlueBottomLOffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        BlueTROff = DrivetrainConstants.addPersistent("Blue Top Right Offset", Constants.Drive.BlueBottomROffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        RedBLOff = DrivetrainConstants.addPersistent("Red Bottom Left Offset", Constants.Drive.RedBottomLOffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        RedBROff = DrivetrainConstants.addPersistent("Red Bottom Right Offset", Constants.Drive.RedBottomROffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        RedMLOff = DrivetrainConstants.addPersistent("Red Mid Left Offset", Constants.Drive.RedMidLOffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        RedMROff = DrivetrainConstants.addPersistent("Red Mid Right Offset", Constants.Drive.RedMidROffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        RedTlOff = DrivetrainConstants.addPersistent("Red Top Left Offset", Constants.Drive.RedTopLOffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        RedTROff = DrivetrainConstants.addPersistent("Red Top Right Offset", Constants.Drive.RedTopROffset).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        
+        BlueBLOff = DrivetrainConstants.addPersistent("Blue Bottom Left Offset", Units.metersToInches(Constants.Drive.BlueBottomLOffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        BlueBROff = DrivetrainConstants.addPersistent("Blue Bottom Right Offset", Units.metersToInches(Constants.Drive.BlueBottomROffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        BlueMLOff = DrivetrainConstants.addPersistent("Blue Mid Left Offset", Units.metersToInches(Constants.Drive.BlueMidLOffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        BlueMROff = DrivetrainConstants.addPersistent("Blue Mid Right Offset",Units.metersToInches(Constants.Drive.BlueMidROffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        BlueTLOff = DrivetrainConstants.addPersistent("Blue Top Left Offset", Units.metersToInches(Constants.Drive.BlueBottomLOffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        BlueTROff = DrivetrainConstants.addPersistent("Blue Top Right Offset", Units.metersToInches(Constants.Drive.BlueBottomROffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RedBLOff = DrivetrainConstants.addPersistent("Red Bottom Left Offset", Units.metersToInches(Constants.Drive.RedBottomLOffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RedBROff = DrivetrainConstants.addPersistent("Red Bottom Right Offset", Units.metersToInches(Constants.Drive.RedBottomROffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RedMLOff = DrivetrainConstants.addPersistent("Red Mid Left Offset", Units.metersToInches(Constants.Drive.RedMidLOffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RedMROff = DrivetrainConstants.addPersistent("Red Mid Right Offset", Units.metersToInches(Constants.Drive.RedMidROffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RedTlOff = DrivetrainConstants.addPersistent("Red Top Left Offset", Units.metersToInches(Constants.Drive.RedTopLOffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RedTROff = DrivetrainConstants.addPersistent("Red Top Right Offset", Units.metersToInches(Constants.Drive.RedTopROffset)).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         
         //Elevator Constants
         ElevatorForwardLim = ElevatorConstants.addPersistent("Forward Limit (in)", Constants.Elevator.forwardLimitInches).withWidget(BuiltInWidgets.kTextView).getEntry(); 
@@ -184,18 +186,18 @@ public class ConstantsTab extends SubsystemBase{
             Constants.Drive.kD = DrivekD.getDouble(0.0); 
             Constants.Drive.autoBalanceP = DriveAutoBalanceP.getDouble(0.03); 
             Constants.Drive.RRTapeAlignP = DriveRRTapeAlignP.getDouble(0.03); 
-            Constants.Drive.BlueBottomLOffset = BlueBLOff.getDouble(0.57); 
-            Constants.Drive.BlueBottomROffset = BlueBROff.getDouble(0.57); 
-            Constants.Drive.BlueMidLOffset = BlueMLOff.getDouble(0.54); 
-            Constants.Drive.BlueMidROffset = BlueMROff.getDouble(0.56); 
-            Constants.Drive.BlueTopLOffset = BlueTLOff.getDouble(0.58); 
-            Constants.Drive.BlueTopROffset = BlueTROff.getDouble(0.52); 
-            Constants.Drive.RedBottomLOffset = RedBLOff.getDouble(0.57); 
-            Constants.Drive.RedBottomROffset = RedBROff.getDouble(0.57); 
-            Constants.Drive.RedMidLOffset = RedMLOff.getDouble(0.56); 
-            Constants.Drive.RedMidROffset = RedMROff.getDouble(0.54); 
-            Constants.Drive.RedTopLOffset = RedTlOff.getDouble(0.52); 
-            Constants.Drive.RedTopROffset = RedTROff.getDouble(0.58); 
+            Constants.Drive.BlueBottomLOffset = Units.inchesToMeters(BlueBLOff.getDouble(0.57)); 
+            Constants.Drive.BlueBottomROffset = Units.inchesToMeters(BlueBROff.getDouble(0.57)); 
+            Constants.Drive.BlueMidLOffset = Units.inchesToMeters(BlueMLOff.getDouble(0.54)); 
+            Constants.Drive.BlueMidROffset = Units.inchesToMeters(BlueMROff.getDouble(0.56)); 
+            Constants.Drive.BlueTopLOffset = Units.inchesToMeters(BlueTLOff.getDouble(0.58)); 
+            Constants.Drive.BlueTopROffset = Units.inchesToMeters(BlueTROff.getDouble(0.52)); 
+            Constants.Drive.RedBottomLOffset = Units.inchesToMeters(RedBLOff.getDouble(0.57)); 
+            Constants.Drive.RedBottomROffset = Units.inchesToMeters(RedBROff.getDouble(0.57)); 
+            Constants.Drive.RedMidLOffset = Units.inchesToMeters(RedMLOff.getDouble(0.56)); 
+            Constants.Drive.RedMidROffset = Units.inchesToMeters(RedMROff.getDouble(0.54)); 
+            Constants.Drive.RedTopLOffset = Units.inchesToMeters(RedTlOff.getDouble(0.52)); 
+            Constants.Drive.RedTopROffset = Units.inchesToMeters(RedTROff.getDouble(0.58)); 
             
             
             Constants.Elevator.forwardLimitInches = ElevatorForwardLim.getDouble(40); 
