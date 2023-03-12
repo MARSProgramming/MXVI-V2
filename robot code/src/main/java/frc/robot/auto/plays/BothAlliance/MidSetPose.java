@@ -16,7 +16,7 @@ public class MidSetPose extends SequentialCommandGroup{
         addRequirements(drivetrain);
 
         addCommands(
-            new ZeroGyroscope(drivetrain, 180),
+            new ZeroGyroscope(drivetrain, 180).withTimeout(0.05),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose())
         );
     }

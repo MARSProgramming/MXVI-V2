@@ -104,8 +104,6 @@ public class RobotContainer {
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
     mPilot.leftBumper().onTrue(mLED.swapYellowPurple());
     mPilot.povDown().onTrue(mManipulator.goToStow());
-    mPilot.povLeft().onTrue(mDrivetrainSubsystem.leftAutoAlignAdjust());
-    mPilot.povRight().onTrue(mDrivetrainSubsystem.rightAutoAlignAdjust());
     mPilot.start().onTrue(mBottomSolenoids.toggleBottomSolenoid());
 
     mCopilot.a().whileTrue(mManipulator.goToScoreMid());
@@ -122,6 +120,7 @@ public class RobotContainer {
     mCopilot.back().whileTrue(mManipulator.swapAutoScoreCommand());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());
     mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
+    mCopilot.povLeft().whileTrue(mManipulator.goToLoadDouble());
     mCopilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
     mCopilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
     mCopilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mCopilot.getLeftTriggerAxis()));

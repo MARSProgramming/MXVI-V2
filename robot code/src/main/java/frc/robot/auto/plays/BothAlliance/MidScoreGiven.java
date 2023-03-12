@@ -19,7 +19,7 @@ public class MidScoreGiven extends SequentialCommandGroup{
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
-            mManipulator.goToCubeShootHigh().withTimeout(3.0),
+            mManipulator.goToCubeShootHigh().withTimeout(3.0).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(1),
             mManipulator.goToZero()
         );

@@ -23,18 +23,17 @@ public class TP1_Cone_NoDock extends SequentialCommandGroup{
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
-            mManipulator.goToScoreHigh().withTimeout(4.0),
+            mManipulator.goToScoreHigh().withTimeout(3.5),
+            mManipulator.goToCubeIntake().withTimeout(0.3),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
                 mManipulator.goToCubeIntake(), mManipulator.getGrasper().runTestMode()
             ),
-            new ParallelCommandGroup(
-                mManipulator.getGrasper().runTestCurrent().withTimeout(3),
-                new DriveAtPath(drivetrain, P1toMarker, false, false, 4.0).deadlineWith(
-                    mManipulator.goToZero().withTimeout(0.5).andThen(mManipulator.goToCubeShootHigh())
-                )
+            new DriveAtPath(drivetrain, P1toMarker, false, false, 2.9).deadlineWith(
+                mManipulator.goToZero().withTimeout(0.5).andThen(mManipulator.goToCubeShootHigh()),
+                mManipulator.getGrasper().runTestCurrent().withTimeout(3)
             ),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
-            mManipulator.goToZero()
+            mManipulator.goToZero().withTimeout(2.0)
         );
     }
 }

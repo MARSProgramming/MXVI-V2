@@ -22,6 +22,7 @@ import frc.robot.commands.Manipulator.Pivot.PivotToLoadDouble;
 import frc.robot.commands.Manipulator.Pivot.PivotToScore;
 import frc.robot.commands.Manipulator.Pivot.PivotToScoreHigh;
 import frc.robot.commands.Manipulator.Pivot.PivotToShootHigh;
+import frc.robot.commands.Manipulator.Pivot.PivotToShootMid;
 import frc.robot.commands.Manipulator.Pivot.PivotToStow;
 import frc.robot.commands.Manipulator.Pivot.PivotToZero;
 import frc.robot.commands.Manipulator.Wrist.WristCarry;
@@ -91,8 +92,7 @@ public class Manipulator extends SubsystemBase{
     public CommandBase goToShoot() {
         CommandBase shootCommand = Commands.sequence(
         new WristCarry(this),
-        mPivot.goToZeroCommand(),
-        new WristToShoot(this)
+        new PivotToShootMid(this).alongWith(new WristToShoot(this))
         );
         shootCommand.addRequirements(this);
         return shootCommand;
@@ -187,7 +187,7 @@ public class Manipulator extends SubsystemBase{
         return loadCommand;
     }
     public CommandBase goToLoadDouble() {
-        CommandBase loadCommand = Commands.sequence(
+        CommandBase loadCommand = Commands.parallel(
             new ElevatorLoadDouble(this),
             new WristToLoadDouble(this),
             new PivotToLoadDouble(this)
@@ -217,8 +217,8 @@ public class Manipulator extends SubsystemBase{
 
     @Override
     public void periodic(){
-        if(DriverStation.isTeleop() && DriverStation.getMatchTime() < 1){
-            mGrasper.runSpitMode();
+        if(DriverStation.getMatchTime() < 0.5){
+            
         }
     }
 }

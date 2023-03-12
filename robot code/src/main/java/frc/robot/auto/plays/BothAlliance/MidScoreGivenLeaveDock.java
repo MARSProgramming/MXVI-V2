@@ -21,7 +21,7 @@ public class MidScoreGivenLeaveDock extends SequentialCommandGroup{
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
-            mManipulator.goToCubeShootHigh().withTimeout(2.0),
+            mManipulator.goToCubeShootHigh().withTimeout(3.0).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.4),
             mManipulator.goToZero().withTimeout(2),
             new DriveAtPath(drivetrain, LeaveCommunity, false, false, 10),

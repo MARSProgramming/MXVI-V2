@@ -91,6 +91,9 @@ public class Pivot extends SubsystemBase{
     public void goToLoadDouble(){
         setpos(Constants.Pivot.loadDoublePos);
     }
+    public void goToShootMid(){
+        setpos(Constants.Pivot.shootMidPos);
+    }
 
     public CommandBase runTestMode(DoubleSupplier d) {
         return runEnd(

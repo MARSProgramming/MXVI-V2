@@ -22,6 +22,6 @@ public class ElevatorLoadDouble extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return Math.abs(manipulator.getElevator().distanceToSetpoint(Constants.Elevator.intakePos)) < 0.1;
+        return Math.abs(manipulator.getElevator().distanceToSetpoint(Constants.Elevator.scoreHighPos)) < 0.1;
     }
 }
