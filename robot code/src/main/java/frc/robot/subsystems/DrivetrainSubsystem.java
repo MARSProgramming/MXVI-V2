@@ -222,6 +222,15 @@ public class DrivetrainSubsystem extends SubsystemBase{
 
     SmartDashboard.putNumber("X", getPose().getX());
     SmartDashboard.putNumber("Y", getPose().getY());
+    
+    SmartDashboard.putNumberArray("Left Y Blue", leftYBlueScoringPos); 
+    SmartDashboard.putNumberArray("Mid Y Blue", midYBlueScoringPos); 
+    SmartDashboard.putNumberArray("Right Y Blue", rightYBlueScoringPos); 
+    SmartDashboard.putNumberArray("Left Y Red", leftYRedScoringPos); 
+    SmartDashboard.putNumberArray("Mid Y Red", midYRedScoringPos); 
+    SmartDashboard.putNumberArray("Right Y Red", rightYRedScoringPos); 
+
+
 }
   public Pose2d getPose(){
     return mPoseEstimator.getEstimatedPosition();
@@ -234,13 +243,14 @@ public class DrivetrainSubsystem extends SubsystemBase{
   }
 
   //this changes with alliance
-  private double[] leftYBlueScoringPos = {Constants.Drive.leftYBlueScoringPos1, Constants.Drive.leftYBlueScoringPos2, Constants.Drive.leftYBlueScoringPos3};
-  private double[] midYBlueScoringPos = {Constants.Drive.midYBlueScoringPos1, Constants.Drive.midYBlueScoringPos2, Constants.Drive.midYBlueScoringPos3};
-  private double[] rightYBlueScoringPos = {Constants.Drive.rightYBlueScoringPos1, Constants.Drive.rightYBlueScoringPos2, Constants.Drive.rightYBlueScoringPos3};
+  private double[] leftYBlueScoringPos = {Constants.Drive.BlueTopMidY - Constants.Drive.BlueTopLOffset, Constants.Drive.BlueMidMidY - Constants.Drive.BlueMidLOffset, Constants.Drive.BlueBottomMidY - Constants.Drive.BlueBottomLOffset};
+  private double[] midYBlueScoringPos = {Constants.Drive.BlueTopMidY, Constants.Drive.BlueMidMidY, Constants.Drive.BlueBottomMidY};
+  private double[] rightYBlueScoringPos = {Constants.Drive.BlueTopMidY + Constants.Drive.BlueTopROffset, Constants.Drive.BlueMidMidY + Constants.Drive.BlueMidROffset, Constants.Drive.BlueBottomMidY + Constants.Drive.BlueBottomROffset};
 
-  private double[] leftYRedScoringPos = {Constants.Drive.leftYRedScoringPos1, Constants.Drive.leftYRedScoringPos2, Constants.Drive.leftYRedScoringPos3};
-  private double[] midYRedScoringPos = {Constants.Drive.midYRedScoringPos1, Constants.Drive.midYRedScoringPos2, Constants.Drive.midYRedScoringPos3};
-  private double[] rightYRedScoringPos = {Constants.Drive.rightYRedScoringPos1 , Constants.Drive.rightYRedScoringPos2, Constants.Drive.rightYRedScoringPos3};
+  private double[] leftYRedScoringPos = {Constants.Drive.RedTopMidY - Constants.Drive.RedTopLOffset, Constants.Drive.RedMidMidY - Constants.Drive.RedMidLOffset, Constants.Drive.RedBottomMidY - Constants.Drive.RedBottomLOffset};
+  private double[] midYRedScoringPos = {Constants.Drive.RedTopMidY, Constants.Drive.RedMidMidY, Constants.Drive.RedBottomMidY};
+  private double[] rightYRedScoringPos = {Constants.Drive.RedTopMidY + Constants.Drive.RedTopROffset, Constants.Drive.RedMidMidY + Constants.Drive.RedMidROffset, Constants.Drive.RedBottomMidY + + Constants.Drive.RedBottomROffset};
+  
   
   private double adjust = 0;
 
