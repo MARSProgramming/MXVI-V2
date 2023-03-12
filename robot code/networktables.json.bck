@@ -50,7 +50,7 @@
   {
     "name": "/Shuffleboard/Constants/Elevator Constants/Forward Limit (in)",
     "type": "double",
-    "value": 4.0,
+    "value": 40.0,
     "properties": {
       "persistent": true
     }
@@ -411,6 +411,126 @@
     "name": "/Shuffleboard/Constants/Pivot Constants/Load Double Pos",
     "type": "double",
     "value": -0.7,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Left Y Blue Scoring Alignment Pos Val 1",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Left Y Blue Scoring Alignment Pos Val 2",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Left Y Blue Scoring Alignment Pos Val 3",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Mid Y Blue Scoring Alignment Pos Val 1",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Mid Y Blue Scoring Alignment Pos Val 2",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Mid Y Blue Scoring Alignment Pos Val 3",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Right Y Blue Scoring Alignment Pos Val 1",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Right Y Blue Scoring Alignment Pos Val 2",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Right Y Blue Scoring Alignment Pos Val 3",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Left Y Red Scoring Alignment Pos Val 1",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Left Y Red Scoring Alignment Pos Val 2",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Left Y Red Scoring Alignment Pos Val 3",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Mid Y Red Scoring Alignment Pos Val 1",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Mid Y Red Scoring Alignment Pos Val 2",
+    "type": "double",
+    "value": 4.99,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Constants/Drivetrain Constants/Mid Y Red Scoring Alignment Pos Val 3",
+    "type": "double",
+    "value": 4.99,
     "properties": {
       "persistent": true
     }

@@ -234,13 +234,13 @@ public class DrivetrainSubsystem extends SubsystemBase{
   }
 
   //this changes with alliance
-  private double[] leftYBlueScoringPos = {4.99, 3.30, 1.63};
-  private double[] midYBlueScoringPos = {4.47, 2.74, 1.06};
-  private double[] rightYBlueScoringPos = {3.89, 2.20, 0.49};
+  private double[] leftYBlueScoringPos = {Constants.Drive.leftYBlueScoringPos1, Constants.Drive.leftYBlueScoringPos2, Constants.Drive.leftYBlueScoringPos3};
+  private double[] midYBlueScoringPos = {Constants.Drive.midYBlueScoringPos1, Constants.Drive.midYBlueScoringPos2, Constants.Drive.midYBlueScoringPos3};
+  private double[] rightYBlueScoringPos = {Constants.Drive.rightYBlueScoringPos1, Constants.Drive.rightYBlueScoringPos2, Constants.Drive.rightYBlueScoringPos3};
 
-  private double[] leftYRedScoringPos = {4.15, 5.84, 7.55};
-  private double[] midYRedScoringPos = {3.57, 5.30, 6.98};
-  private double[] rightYRedScoringPos = {3.05, 4.74, 6.41};
+  private double[] leftYRedScoringPos = {Constants.Drive.leftYRedScoringPos1, Constants.Drive.leftYRedScoringPos2, Constants.Drive.leftYRedScoringPos3};
+  private double[] midYRedScoringPos = {Constants.Drive.midYRedScoringPos1, Constants.Drive.midYRedScoringPos2, Constants.Drive.midYRedScoringPos3};
+  private double[] rightYRedScoringPos = {Constants.Drive.rightYRedScoringPos1 , Constants.Drive.rightYRedScoringPos2, Constants.Drive.rightYRedScoringPos3};
   
   private double adjust = 0;
 

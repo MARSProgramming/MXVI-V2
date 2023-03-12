@@ -55,6 +55,31 @@ public final class Constants {
 
         public static double autoBalanceP = 0.03;
         public static double RRTapeAlignP = 0.03;
+
+        //Alignment setpoints
+        public static double leftYBlueScoringPos1 = 4.99; 
+        public static double leftYBlueScoringPos2 = 3.30; 
+        public static double leftYBlueScoringPos3 = 1.63; 
+
+        public static double midYBlueScoringPos1 = 4.47; 
+        public static double midYBlueScoringPos2 = 2.74; 
+        public static double midYBlueScoringPos3 = 1.06; 
+
+        public static double rightYBlueScoringPos1 = 3.89; 
+        public static double rightYBlueScoringPos2 = 2.20; 
+        public static double rightYBlueScoringPos3 = 0.49; 
+        
+        public static double leftYRedScoringPos1 = 4.15; 
+        public static double leftYRedScoringPos2 = 5.84; 
+        public static double leftYRedScoringPos3 = 7.55; 
+
+        public static double midYRedScoringPos1 = 3.57; 
+        public static double midYRedScoringPos2 = 5.30; 
+        public static double midYRedScoringPos3 = 6.98; 
+
+        public static double rightYRedScoringPos1 = 3.05; 
+        public static double rightYRedScoringPos2 = 4.74; 
+        public static double rightYRedScoringPos3 = 6.41; 
     }
 
     public static class Auto{

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.Drive;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntakeHigh;
 import frc.robot.commands.Manipulator.Wrist.WristCarry;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -86,14 +87,64 @@ public class ConstantsTab extends SubsystemBase{
     private GenericEntry GrasperkD; 
     private GenericEntry GrasperkF; 
 
-    public void configureDashboard(){ 
-        DriveMultiplier = DrivetrainConstants.addPersistent("Max Speed Multiplier", 0.5).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        DrivekP = DrivetrainConstants.addPersistent("Drive kP", 0.3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        DrivekI = DrivetrainConstants.addPersistent("Drive kI", 0.0).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        DrivekD = DrivetrainConstants.addPersistent("Drive kD", 0.0).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        DriveAutoBalanceP = DrivetrainConstants.addPersistent("Auto Balance P", 0.3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
-        DriveRRTapeAlignP = DrivetrainConstants.addPersistent("RRTape Align P", 0.3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+    private GenericEntry LeftYBlue1; 
+    private GenericEntry LeftYBlue2;  
+    private GenericEntry LeftYBlue3; 
 
+    private GenericEntry MidYBlue1; 
+    private GenericEntry MidYBlue2;  
+    private GenericEntry MidYBlue3; 
+
+    private GenericEntry RightYBlue1; 
+    private GenericEntry RightYBlue2; 
+    private GenericEntry RightYBlue3; 
+    
+    private GenericEntry LeftYRed1;  
+    private GenericEntry LeftYRed2; 
+    private GenericEntry LeftYRed3; 
+
+    private GenericEntry MidYRed1; 
+    private GenericEntry MidYRed2; 
+    private GenericEntry MidYRed3; 
+
+    private GenericEntry RightYRed1; 
+    private GenericEntry RightYRed2; 
+    private GenericEntry RightYRed3; 
+
+    public void configureDashboard(){ 
+        //Drive Constants
+        DriveMultiplier = DrivetrainConstants.addPersistent("Max Speed Multiplier", Constants.Drive.MAX_SPEED_MULTIPLIER).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        DrivekP = DrivetrainConstants.addPersistent("Drive kP", Constants.Drive.kP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        DrivekI = DrivetrainConstants.addPersistent("Drive kI", Constants.Drive.kI).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        DrivekD = DrivetrainConstants.addPersistent("Drive kD", Constants.Drive.kD).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        DriveAutoBalanceP = DrivetrainConstants.addPersistent("Auto Balance P", Constants.Drive.autoBalanceP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        DriveRRTapeAlignP = DrivetrainConstants.addPersistent("RRTape Align P", Constants.Drive.RRTapeAlignP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        
+        LeftYBlue1 = DrivetrainConstants.addPersistent("Left Y Blue Scoring Alignment Pos Val 1", Constants.Drive.leftYBlueScoringPos1).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        LeftYBlue2 = DrivetrainConstants.addPersistent("Left Y Blue Scoring Alignment Pos Val 2", Constants.Drive.leftYBlueScoringPos2).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        LeftYBlue3 = DrivetrainConstants.addPersistent("Left Y Blue Scoring Alignment Pos Val 3", Constants.Drive.leftYBlueScoringPos3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        
+        MidYBlue1 = DrivetrainConstants.addPersistent("Mid Y Blue Scoring Alignment Pos Val 1", Constants.Drive.midYBlueScoringPos1).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        MidYBlue2 = DrivetrainConstants.addPersistent("Mid Y Blue Scoring Alignment Pos Val 2", Constants.Drive.midYBlueScoringPos2).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        MidYBlue3 = DrivetrainConstants.addPersistent("Mid Y Blue Scoring Alignment Pos Val 3", Constants.Drive.midYBlueScoringPos3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+       
+        RightYBlue1 = DrivetrainConstants.addPersistent("Right Y Blue Scoring Alignment Pos Val 1", Constants.Drive.rightYBlueScoringPos1).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RightYBlue2 = DrivetrainConstants.addPersistent("Right Y Blue Scoring Alignment Pos Val 2", Constants.Drive.rightYBlueScoringPos2).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RightYBlue3 = DrivetrainConstants.addPersistent("Right Y Blue Scoring Alignment Pos Val 3", Constants.Drive.rightYBlueScoringPos3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        
+        LeftYRed1 = DrivetrainConstants.addPersistent("Left Y Red Scoring Alignment Pos Val 1", Constants.Drive.leftYRedScoringPos1).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        LeftYRed2 = DrivetrainConstants.addPersistent("Left Y Red Scoring Alignment Pos Val 2", Constants.Drive.leftYRedScoringPos2).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        LeftYRed3 = DrivetrainConstants.addPersistent("Left Y Red Scoring Alignment Pos Val 3", Constants.Drive.leftYRedScoringPos3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        
+        MidYRed1 = DrivetrainConstants.addPersistent("Mid Y Red Scoring Alignment Pos Val 1", Constants.Drive.midYRedScoringPos1).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        MidYRed2 = DrivetrainConstants.addPersistent("Mid Y Red Scoring Alignment Pos Val 2", Constants.Drive.midYRedScoringPos2).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        MidYRed3 = DrivetrainConstants.addPersistent("Mid Y Red Scoring Alignment Pos Val 3", Constants.Drive.midYRedScoringPos3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        
+        RightYRed1 = DrivetrainConstants.addPersistent("Right Y Red Scoring Alignment Pos Val 1", Constants.Drive.rightYRedScoringPos1).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RightYRed2 = DrivetrainConstants.addPersistent("Right Y Red Scoring Alignment Pos Val 2", Constants.Drive.rightYRedScoringPos2).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        RightYRed3 = DrivetrainConstants.addPersistent("Right Y Red Scoring Alignment Pos Val 3", Constants.Drive.rightYRedScoringPos3).withWidget(BuiltInWidgets.kTextView).getEntry(); 
+        
+        //Elevator Constants
         ElevatorForwardLim = ElevatorConstants.addPersistent("Forward Limit (in)", Constants.Elevator.forwardLimitInches).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         ElevatorReverseLim = ElevatorConstants.addPersistent("Reverse Limit (in)", Constants.Elevator.reverseLimitInches).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         ElevatorkP = ElevatorConstants.addPersistent("Elevator kP", Constants.Elevator.kP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
@@ -108,6 +159,7 @@ public class ConstantsTab extends SubsystemBase{
         ElevatorScoreMidPos = ElevatorConstants.addPersistent("Score Mid Pos", Constants.Elevator.scoreMidPos).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         ElevatorStowPos = ElevatorConstants.addPersistent("Stow Pos", Constants.Elevator.stowPos).withWidget(BuiltInWidgets.kTextView).getEntry(); 
 
+        //Wrist Constants
         WristkP = WristConstants.addPersistent("Wrist kP", Constants.Wrist.kP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         WristkI= WristConstants.addPersistent("Wrist kI", Constants.Wrist.kI).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         WristkD = WristConstants.addPersistent("Wrist kD", Constants.Wrist.kD).withWidget(BuiltInWidgets.kTextView).getEntry(); 
@@ -124,6 +176,7 @@ public class ConstantsTab extends SubsystemBase{
         WristLoadPos = WristConstants.addPersistent("Load Pos", Constants.Wrist.loadPos).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         WristStowPos = WristConstants.addPersistent("Stow Pos", Constants.Wrist.stowPos).withWidget(BuiltInWidgets.kTextView).getEntry(); 
 
+        //Pivot Constants
         PivotkP = PivotConstants.addPersistent("Pivot kP", Constants.Pivot.kP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         PivotkI = PivotConstants.addPersistent("Pivot kI", Constants.Pivot.kI).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         PivotkD = PivotConstants.addPersistent("Pivot kD", Constants.Pivot.kD).withWidget(BuiltInWidgets.kTextView).getEntry(); 
@@ -139,6 +192,7 @@ public class ConstantsTab extends SubsystemBase{
         PivotStowPos = PivotConstants.addPersistent("Stow Pos", Constants.Pivot.stowPos).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         PivotLoadDoublePos = PivotConstants.addPersistent("Load Double Pos", Constants.Pivot.loadDoublePos).withWidget(BuiltInWidgets.kTextView).getEntry(); 
 
+        //Grasper Constants
         GrasperkP = GrasperConstants.addPersistent("Grasper kP", Constants.Grasper.kP).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         GrasperkI = GrasperConstants.addPersistent("Grasper kI", Constants.Grasper.kI).withWidget(BuiltInWidgets.kTextView).getEntry(); 
         GrasperkD = GrasperConstants.addPersistent("Grasper kD", Constants.Grasper.kD).withWidget(BuiltInWidgets.kTextView).getEntry(); 
@@ -146,11 +200,30 @@ public class ConstantsTab extends SubsystemBase{
     } 
         @Override
         public void periodic() {
+            Constants.Drive.MAX_SPEED_MULTIPLIER = DriveMultiplier.getDouble(0.5); 
             Constants.Drive.kP = DrivekP.getDouble(0.3); 
             Constants.Drive.kI = DrivekI.getDouble(0.0); 
             Constants.Drive.kD = DrivekD.getDouble(0.0); 
             Constants.Drive.autoBalanceP = DriveAutoBalanceP.getDouble(0.03); 
             Constants.Drive.RRTapeAlignP = DriveRRTapeAlignP.getDouble(0.03); 
+            Constants.Drive.leftYBlueScoringPos1 = LeftYBlue1.getDouble(4.99); 
+            Constants.Drive.leftYBlueScoringPos2 = LeftYBlue2.getDouble(3.30); 
+            Constants.Drive.leftYBlueScoringPos3 = LeftYBlue3.getDouble(1.63); 
+            Constants.Drive.midYBlueScoringPos1 = MidYBlue1.getDouble(4.47); 
+            Constants.Drive.midYBlueScoringPos2 = MidYBlue2.getDouble(2.74); 
+            Constants.Drive.midYBlueScoringPos3 = MidYBlue3.getDouble(1.06); 
+            Constants.Drive.rightYBlueScoringPos1 = RightYBlue1.getDouble(3.89); 
+            Constants.Drive.rightYBlueScoringPos2 = RightYBlue2.getDouble(2.20); 
+            Constants.Drive.rightYBlueScoringPos3 = RightYBlue3.getDouble(0.49); 
+            Constants.Drive.leftYRedScoringPos1 = LeftYRed1.getDouble(4.15); 
+            Constants.Drive.leftYRedScoringPos2 = LeftYRed2.getDouble(5.84); 
+            Constants.Drive.leftYRedScoringPos3 = LeftYRed3.getDouble(7.55); 
+            Constants.Drive.midYRedScoringPos1 = MidYRed1.getDouble(3.57);    
+            Constants.Drive.midYRedScoringPos2 = MidYRed2.getDouble(5.30); 
+            Constants.Drive.midYRedScoringPos3 = MidYRed3.getDouble(6.98); 
+            Constants.Drive.rightYRedScoringPos1 = RightYBlue1.getDouble(3.05); 
+            Constants.Drive.rightYRedScoringPos2 = RightYBlue2.getDouble(4.74); 
+            Constants.Drive.rightYRedScoringPos3 = RightYBlue3.getDouble(6.41); 
 
             Constants.Elevator.forwardLimitInches = ElevatorForwardLim.getDouble(40); 
             Constants.Elevator.reverseLimitInches = ElevatorReverseLim.getDouble(0); 
@@ -201,10 +274,6 @@ public class ConstantsTab extends SubsystemBase{
             Constants.Grasper.kI = GrasperkI.getDouble(0.17); 
             Constants.Grasper.kD = GrasperkD.getDouble(0.0); 
             Constants.Grasper.kF = GrasperkF.getDouble(0.0); 
-
-
-
-
     }
 
 }
