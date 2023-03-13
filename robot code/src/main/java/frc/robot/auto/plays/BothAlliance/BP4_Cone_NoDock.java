@@ -26,11 +26,11 @@ public class BP4_Cone_NoDock extends SequentialCommandGroup{
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
             mManipulator.goToScoreHigh().withTimeout(3.0),
             mManipulator.goToCubeIntake().withTimeout(0.2),
-            new DriveAtPath(drivetrain, MarkertoP4, false, false, 5).deadlineWith(
+            new DriveAtPath(drivetrain, MarkertoP4, false, false, 7).deadlineWith(
                 mManipulator.goToCubeIntake(),
                 mManipulator.getGrasper().runTestMode()
             ),
-            new DriveAtPath(drivetrain, P4toMarker, false, false, 5).deadlineWith(
+            new DriveAtPath(drivetrain, P4toMarker, false, false, 7).deadlineWith(
                 mManipulator.goToZero(),
                 mManipulator.getGrasper().runTestCurrent()
             ),

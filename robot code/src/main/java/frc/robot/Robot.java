@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {}
 
-  //Compressor comp = new Compressor(1, PneumaticsModuleType.REVPH);
+  private boolean teleopConfigured = false;
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -74,7 +74,10 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.configureTeleopBindings();
+    if(!teleopConfigured){
+      m_robotContainer.configureTeleopBindings();
+      teleopConfigured = true;
+    }
   }
   @Override
   
@@ -86,12 +89,15 @@ public class Robot extends TimedRobot {
     m_robotContainer.resetPose();
   }
 
+  private boolean testConfigured = false;
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     LiveWindow.setEnabled(false);
-    m_robotContainer.configureTestBindings();
+    if(!testConfigured){
+      m_robotContainer.configureTestBindings();
+    }
   }
 
   /** This function is called periodically during test mode. */

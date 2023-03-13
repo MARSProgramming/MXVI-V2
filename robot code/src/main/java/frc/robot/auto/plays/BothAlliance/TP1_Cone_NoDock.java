@@ -24,6 +24,7 @@ public class TP1_Cone_NoDock extends SequentialCommandGroup{
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
             mManipulator.goToScoreHigh().withTimeout(3.5),
+            mManipulator.swapAutoScoreCommand().withTimeout(0.03),
             mManipulator.goToCubeIntake().withTimeout(0.3),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
                 mManipulator.goToCubeIntake(), mManipulator.getGrasper().runTestMode()

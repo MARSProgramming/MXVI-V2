@@ -22,7 +22,7 @@ public final class Constants {
     public static class Drive{
         public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.57;
         public static final double DRIVETRAIN_WHEELBASE_METERS = 0.57;
-        public static final double MAX_SPEED_MULTIPLIER = 0.5; 
+        public static final double MAX_SPEED_MULTIPLIER = 1.0; 
 
         public static final int DRIVETRAIN_PIGEON_ID = 31; 
         public static final String kDriveCANivore = "Drivetrain";
@@ -53,7 +53,7 @@ public final class Constants {
         public static double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
 
-        public static double autoBalanceP = 0.03;
+        public static double autoBalanceP = 0.035;
         public static double RRTapeAlignP = 0.03;
     }
 
@@ -90,13 +90,13 @@ public final class Constants {
         public static double peakOutForward = 1;
         public static double peakOutReverse = -1;
 
-        public static double intakeHighPos = 12.6;
+        public static double intakeHighPos = 15;
         public static double intakePos = 8.5;
         public static double bottomPos = 0.5;
         public static double scoreHighPos = 35;
         public static double scoreMidPos = 13.3;
-        public static double loadDoublePos = 15;
-        public static double stowPos = 0;
+        public static double loadDoublePos = 17;
+        public static double stowPos = 1;
     }
 
     public static class Wrist{
@@ -109,7 +109,7 @@ public final class Constants {
         public static double reverseLimit = -10.75;
 
         public static double intakeBackPos = 3.3;
-        public static double intakeUpPos = 4.8;
+        public static double intakeUpPos = 4.08;
         public static double intakeCubePos = 5.5;
         public static double loadDoublePos = -5.0;
         public static double scoreHighPos = -4.7;
@@ -117,14 +117,14 @@ public final class Constants {
         public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;
         public static double shootPos = -2.5;
-        public static double shootHighPos = -3.1;
+        public static double shootHighPos = -3.3;
         public static double loadPos = 0.8;
         public static double stowPos = 1.7;
     }
 
     public static class Pivot{
         public static int motorID = 11;
-        public static double kP = 1.0;
+        public static double kP = 1.2;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
@@ -135,13 +135,12 @@ public final class Constants {
         public static double scoreHighPos = -1.2;
         public static double scoreMidPos = -1.0;
         public static double cubePos = 1.65;
-        public static double intakeHighPos = 2.0;
+        public static double intakeHighPos = 2.13;
         public static double loadPos = 1.45;
         public static double loadDoublePos = -0.5;
 
-        public static double zero = 0.96;
         public static double shootHighPos = -0.5;
-        public static double stowPos = -0.7;
+        public static double stowPos = -0.75;
         public static double shootMidPos = -0.4;
         
     }

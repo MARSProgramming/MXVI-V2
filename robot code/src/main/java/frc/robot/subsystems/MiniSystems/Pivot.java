@@ -61,7 +61,7 @@ public class Pivot extends SubsystemBase{
              new TrapezoidProfile.State(angle, 0),
               new TrapezoidProfile.Constraints(3, 1.75)),
                -0.6, 0.6
-               ) + Math.sin(getEncoderPos()) * -0.05);
+               + + Math.sin(getEncoderPos()) * -0.08));
     }
 
     public void goToScoreHigh(){

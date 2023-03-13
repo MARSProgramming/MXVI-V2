@@ -124,14 +124,12 @@ public class Manipulator extends SubsystemBase{
     }
 
     public CommandBase goToHighIntake() {
-        CommandBase intakeHighCommand = Commands.sequence(
-        new WristCarry(this), 
+        CommandBase intakeHighCommand = 
         new ParallelCommandGroup(
             new ElevatorIntakeHigh(this), 
             new PivotToHighIntake(this), 
             new WristHighIntake(this)
-        )
-        );    
+        );
         intakeHighCommand.addRequirements(this);
         return intakeHighCommand;
     }
@@ -178,8 +176,8 @@ public class Manipulator extends SubsystemBase{
     public CommandBase goToStow() {
         CommandBase loadCommand = Commands.sequence(
             new ElevatorStow(this).alongWith(
-            new WristCarry(this)),
-            new PivotToZero(this),
+            new WristCarry(this),
+            new PivotToZero(this)),
             new WristStow(this),
             new PivotToStow(this)
         );

@@ -103,7 +103,7 @@ public class RobotContainer {
     mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
     mPilot.leftBumper().onTrue(mLED.swapYellowPurple());
-    mPilot.povDown().onTrue(mManipulator.goToStow());
+    mPilot.povDown().whileTrue(mManipulator.goToStow());
     mPilot.start().onTrue(mBottomSolenoids.toggleBottomSolenoid());
 
     mCopilot.a().whileTrue(mManipulator.goToScoreMid());
@@ -117,7 +117,7 @@ public class RobotContainer {
     new Trigger(() -> mCopilot.getLeftX() > 0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     new Trigger(() -> mCopilot.getLeftX() < -0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
     mCopilot.start().whileTrue(mManipulator.goToZero());
-    mCopilot.back().whileTrue(mManipulator.swapAutoScoreCommand());
+    mCopilot.back().onTrue(mManipulator.swapAutoScoreCommand());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());
     mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
     mCopilot.povLeft().whileTrue(mManipulator.goToLoadDouble());
