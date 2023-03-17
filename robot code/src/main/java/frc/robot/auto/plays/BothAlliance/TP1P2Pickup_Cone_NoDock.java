@@ -37,7 +37,7 @@ public class TP1P2Pickup_Cone_NoDock extends SequentialCommandGroup{
                 mManipulator.getGrasper().runTestCurrent().withTimeout(2.3).andThen(mManipulator.getGrasper().runSpitMode().withTimeout(0.1))
             ),
             new SequentialCommandGroup(
-                new DriveAtPath(drivetrain, MarkerToP2, false, false, 4.0),
+                new DriveAtPath(drivetrain, MarkerToP2, false, false, 3.7),
                 new DriveAtPath(drivetrain, MarkerToP2_Part2, false, false, 4.0).deadlineWith(
                     mManipulator.getGrasper().runTestMode()
                 )

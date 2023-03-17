@@ -109,14 +109,14 @@ public final class Constants {
         public static double reverseLimit = -10.75;
 
         public static double intakeBackPos = 3.3;
-        public static double intakeUpPos = 4.08;
+        public static double intakeUpPos = 4.01;
         public static double intakeCubePos = 5.5;
-        public static double loadDoublePos = -5.0;
+        public static double loadDoublePos = -5.3;
         public static double scoreHighPos = -4.7;
         public static double scoreMidPos = -5.0;
         public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;
-        public static double shootPos = -2.5;
+        public static double shootPos = -2.9;
         public static double shootHighPos = -3.3;
         public static double loadPos = 0.8;
         public static double stowPos = 1.7;
