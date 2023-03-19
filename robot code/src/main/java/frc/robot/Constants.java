@@ -134,7 +134,7 @@ public final class Constants {
         public static double intakeBackPos = 2.2;
         public static double scoreHighPos = -1.2;
         public static double scoreMidPos = -1.0;
-        public static double cubePos = 1.65;
+        public static double cubePos = 1.60;
         public static double intakeHighPos = 2.13;
         public static double loadPos = 1.45;
         public static double loadDoublePos = -0.5;

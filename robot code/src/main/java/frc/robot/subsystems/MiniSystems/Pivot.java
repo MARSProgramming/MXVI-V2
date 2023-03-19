@@ -20,7 +20,7 @@ import frc.robot.Constants;
 
 public class Pivot extends SubsystemBase{
     
-    private final double kGearRatio = 81;
+    private final double kGearRatio = 49;
     private TalonFX pivot = new TalonFX(Constants.Pivot.motorID);
    private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
     private final DutyCycleEncoder mEncoder = new DutyCycleEncoder(0);
@@ -32,7 +32,7 @@ public class Pivot extends SubsystemBase{
         pivot.setInverted(true);
 
         mEncoder.setDistancePerRotation(Math.PI * 2);
-        mEncoder.setPositionOffset(0.2312);
+        mEncoder.setPositionOffset(0.8727);
         //mEncoder.reset();
 
         mController.reset(new State(getEncoderPos(), 0));
@@ -59,9 +59,9 @@ public class Pivot extends SubsystemBase{
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
              new TrapezoidProfile.State(angle, 0),
-              new TrapezoidProfile.Constraints(3, 1.75)),
-               -0.6, 0.6
-               + + Math.sin(getEncoderPos()) * -0.08));
+              new TrapezoidProfile.Constraints(3, 1.5)),
+               -0.5, 0.5
+                + Math.sin(getEncoderPos()) * -0.1));
     }
 
     public void goToScoreHigh(){
