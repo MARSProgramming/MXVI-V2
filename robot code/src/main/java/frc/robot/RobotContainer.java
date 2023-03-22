@@ -108,25 +108,26 @@ public class RobotContainer {
     mPilot.povDown().whileTrue(mManipulator.goToStow());
     mPilot.start().onTrue(mBottomSolenoids.toggleBottomSolenoid());
 
-    mCopilot.a().whileTrue(mManipulator.goToScoreMid());
+    mCopilot.a().whileTrue(mManipulator.goToLoadDouble());
     mCopilot.b().whileTrue(mManipulator.goToCubeIntake());
     mCopilot.y().whileTrue(mManipulator.goToHighIntake());
     mCopilot.x().whileTrue(mManipulator.goToIntake());
 
-    mCopilot.povUp().whileTrue(mManipulator.goToLoadCommand());
-    mCopilot.povDown().whileTrue(mManipulator.goToScoreHigh());
+    mCopilot.povUp().whileTrue(mManipulator.goToScoreHigh());
+    mCopilot.povDown().whileTrue(mManipulator.goToLoadCommand());
 
     new Trigger(() -> mCopilot.getLeftX() > 0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     new Trigger(() -> mCopilot.getLeftX() < -0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
-    mCopilot.start().whileTrue(mManipulator.goToZero());
+    new Trigger(() -> mCopilot.getLeftY() > -0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> 0.4));
+    new Trigger(() -> mCopilot.getLeftY() < 0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> -0.4));
+
+    mCopilot.rightTrigger().whileTrue(mManipulator.goToZero());
     mCopilot.back().onTrue(mManipulator.swapAutoScoreCommand());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());
     mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
-    mCopilot.povLeft().whileTrue(mManipulator.goToLoadDouble());
+    mCopilot.povLeft().whileTrue(mManipulator.goToScoreMid());
     mCopilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
     mCopilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
-    mCopilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mCopilot.getLeftTriggerAxis()));
-    mCopilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mCopilot.getRightTriggerAxis()));
     System.out.println("Teleop Bindings Configured");
   }
 
