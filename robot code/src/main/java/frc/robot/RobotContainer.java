@@ -152,12 +152,12 @@ public class RobotContainer {
 
     mPilot.leftTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> -mPilot.getLeftTriggerAxis()));
     mPilot.rightTrigger(0.2).whileTrue(mManipulator.getElevator().runTestMode(() -> mPilot.getRightTriggerAxis()));
-    mPilot.y().onTrue(mManipulator.goToHighIntake());
-    mPilot.start().whileTrue(mManipulator.goToZero());
-    mPilot.back().whileTrue(mManipulator.getWrist().zero());
-    mPilot.x().whileTrue(mManipulator.goToIntake());
-    mPilot.a().onTrue(mManipulator.getGrasper().runTestCurrent());
-    mPilot.b().whileTrue(mManipulator.goToScoreHigh());
+    //mPilot.y().onTrue(mManipulator.goToHighIntake());
+   //disable elevator limit= mPilot.start().whileTrue(mManipulator.goToZero());
+    //mPilot.back().whileTrue(mManipulator.getWrist().zero());
+    //mPilot.x().whileTrue(mManipulator.goToIntake());
+    //mPilot.a().onTrue(mManipulator.getGrasper().runTestCurrent());
+    //mPilot.b().whileTrue(mManipulator.goToScoreHigh());
     mPilot.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
     mPilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));

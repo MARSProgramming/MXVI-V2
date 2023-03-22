@@ -29,6 +29,8 @@ public class MatchTab extends SubsystemBase {
       private ShuffleboardTab TestInfo = Shuffleboard.getTab("Test");
       private ShuffleboardLayout PilotControlsList = Match.getLayout("Pilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(6,0);
       private ShuffleboardLayout CopilotControlsList = Match.getLayout("Copilot Controls", BuiltInLayouts.kList).withSize(2,5).withPosition(8,0);
+      private ShuffleboardLayout TestPilotControlsList = TestInfo.getLayout("Pilot Controls [TEST]", BuiltInLayouts.kList).withSize(2,5).withPosition(6,0);
+
       private ShuffleboardLayout LEDLegend = Match.getLayout("LED Legend", BuiltInLayouts.kList).withSize(2,5).withPosition(10,0);
       // pose information from Drivetrain
       private GenericEntry XPos =  Match.add("Robot X Position", 0).withSize(2,1).withPosition(0, 4).getEntry();
@@ -63,11 +65,20 @@ public class MatchTab extends SubsystemBase {
         mGrasper = grasper;
         mPivot = pivot;
         mWrist = wrist;
+
+        // Test Controls: Pilot
+        TestPilotControlsList.addString("MANUAL Elevator Down", () -> "Left Trigger");
+        TestPilotControlsList.addString("MANUAL Elevator Up", () -> "Right Trigger");
+        TestPilotControlsList.addString("Run Grasper Intake", () -> "D-Pad Up");
+        TestPilotControlsList.addString("Pivot Back", () -> "Left Bumper");
+        TestPilotControlsList.addString("Pivot Forward", () -> "Right Bumper");
+        TestPilotControlsList.addString("Wrist Forward", () -> "D-Pad Right");
+        TestPilotControlsList.addString("Wrist Backward", () -> "D-Pad Left"); 
+
     }
 
     public void configureDashboard() {
 
-        // add command scheduler
         
         // Create camera
         HttpCamera httpCamera = new HttpCamera("Cameras", "http://limelight.local:5800/stream.mjpg");
