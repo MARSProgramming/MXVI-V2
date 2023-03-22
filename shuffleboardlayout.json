@@ -29,8 +29,7 @@
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
               "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/X": true,
-              "Visible data/SmartDashboard/desiredX": true
+              "Visible data/SmartDashboard/X": true
             }
           },
           "3,0": {
@@ -51,8 +50,7 @@
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
               "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/Y": true,
-              "Visible data/SmartDashboard/desiredY": true
+              "Visible data/SmartDashboard/Y": true
             }
           },
           "9,0": {
@@ -268,8 +266,7 @@
               "Y-axis/Upper bound": 185.0,
               "Y-axis/Lower bound": 175.0,
               "Y-axis/Unit": "ul",
-              "Visible data/Shuffleboard/Match/Robot Pigeon Angle": true,
-              "Visible data/SmartDashboard/desiredrot": true
+              "Visible data/Shuffleboard/Match/Robot Pigeon Angle": true
             }
           },
           "2,3": {

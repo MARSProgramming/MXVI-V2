@@ -87,8 +87,8 @@ public final class Constants {
         public static int followerMotorID = 9;
         public static int limitSwitchID = 9;
 
-        public static double peakOutForward = 1;
-        public static double peakOutReverse = -1;
+        public static double peakOutForward = 0.8;
+        public static double peakOutReverse = -0.8;
 
         public static double intakeHighPos = 15;
         public static double intakePos = 8.5;
@@ -130,6 +130,7 @@ public final class Constants {
 
         public static double forwardLimit = 1000;
         public static double reverseLimit = -1000;
+        public static double zero = 0.8727;
 
         public static double intakeBackPos = 2.2;
         public static double scoreHighPos = -1.2;

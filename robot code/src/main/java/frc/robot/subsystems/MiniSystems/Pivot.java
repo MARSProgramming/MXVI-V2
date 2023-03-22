@@ -32,7 +32,7 @@ public class Pivot extends SubsystemBase{
         pivot.setInverted(true);
 
         mEncoder.setDistancePerRotation(Math.PI * 2);
-        mEncoder.setPositionOffset(0.8727);
+        mEncoder.setPositionOffset(Constants.Pivot.zero);
         //mEncoder.reset();
 
         mController.reset(new State(getEncoderPos(), 0));

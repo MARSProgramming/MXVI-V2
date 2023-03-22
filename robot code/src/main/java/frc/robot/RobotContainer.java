@@ -23,6 +23,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.SubsystemIO;
 import frc.robot.util.AutoChooser;
 import frc.robot.util.MatchTab;
 
@@ -45,6 +46,7 @@ public class RobotContainer {
   private final Limelight mLimelight = new Limelight(mDrivetrainSubsystem);
   //private final Limelight mLimelight = new Limelight();
   private final Manipulator mManipulator = new Manipulator();
+  private final SubsystemIO mSubsystemIO = new SubsystemIO();
   private MatchTab matchtab;
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
   private LED mLED = new LED();
