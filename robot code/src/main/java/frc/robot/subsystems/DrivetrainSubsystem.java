@@ -46,7 +46,6 @@ import frc.robot.Constants;
 import frc.robot.util.MoreMath;
 
 public class DrivetrainSubsystem extends SubsystemBase{
-  private static DrivetrainSubsystem mInstance;
   private ShuffleboardTab Match = Shuffleboard.getTab("Match");
 
 
@@ -55,14 +54,6 @@ public class DrivetrainSubsystem extends SubsystemBase{
  // private GenericEntry YPos =  Match.add("Robot Y Position", 0).withSize(2,1).withPosition(2, 3).getEntry();
   //private GenericEntry Rotation = Match.add("Robot Rotation", 0).withSize(2,1).withPosition(0, 4).getEntry();
   //private GenericEntry Pigeon =  Match.add("Robot Pigeon Angle", 0).withSize(2,1).withPosition(2, 4).getEntry();
-
-  
-  public static DrivetrainSubsystem getInstance(){
-        if (mInstance == null) mInstance = new DrivetrainSubsystem();
-        return mInstance;
-        
-  } 
-
 
   public static final double MAX_VOLTAGE = 12.0;
   private ProfiledPIDController mSnapController;
@@ -199,7 +190,6 @@ public class DrivetrainSubsystem extends SubsystemBase{
     return Rotation2d.fromDegrees(m_pigeon.getYaw());
   }
   public void drive(ChassisSpeeds chassisSpeeds) {
-        SmartDashboard.putNumber("speeds", chassisSpeeds.vxMetersPerSecond);
     m_chassisSpeeds = chassisSpeeds;
   }
 
@@ -231,6 +221,10 @@ public class DrivetrainSubsystem extends SubsystemBase{
   }
   public SwerveDriveKinematics getSwerveKinematics(){
        return m_kinematics;
+  }
+
+  public double getSpeed(){
+        return Math.sqrt(Math.pow(m_chassisSpeeds.vxMetersPerSecond, 2) + Math.pow(m_chassisSpeeds.vyMetersPerSecond, 2));
   }
 
   //this changes with alliance
