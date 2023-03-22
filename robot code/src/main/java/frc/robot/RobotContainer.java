@@ -136,7 +136,6 @@ public class RobotContainer {
     mTestCtrl.rightTrigger(0.1).whileTrue(mManipulator.getElevator().runTestMode(() -> mTestCtrl.getRightTriggerAxis()));
     mTestCtrl.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
     mTestCtrl.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
-    //mTestCtrl.a().whileTrue(mManipulator.goToCubeIntake());
     mTestCtrl.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
     mTestCtrl.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
     mTestCtrl.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
