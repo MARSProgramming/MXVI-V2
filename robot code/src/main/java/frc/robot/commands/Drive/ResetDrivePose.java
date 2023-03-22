@@ -23,6 +23,8 @@ public class ResetDrivePose extends CommandBase{
     public ResetDrivePose(DrivetrainSubsystem driveSubsystem, Pose2d pose){
         mDrivetrainSubsystem = driveSubsystem;
         this.pose = pose;
+        mX = pose.getX();
+        mY = pose.getY();
         mRotation = pose.getRotation();
         addRequirements(driveSubsystem);
     }

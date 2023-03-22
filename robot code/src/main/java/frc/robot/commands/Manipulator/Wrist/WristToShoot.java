@@ -12,12 +12,14 @@ public class WristToShoot extends CommandBase{
 
     @Override
     public void execute(){
-        manipulator.getWrist().goToShoot();
+        if(manipulator.getPivot().getEncoderPos() > -0.6){
+            manipulator.getWrist().goToShoot();
+        }
     }
 
     @Override
     public void end(boolean interrupted){
-        manipulator.getWrist().setPercentOutput(0);
+        manipulator.getWrist().setPercentOutput(0);   
     }
 
     @Override

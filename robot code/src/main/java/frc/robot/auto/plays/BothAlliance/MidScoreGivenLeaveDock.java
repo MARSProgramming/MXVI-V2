@@ -17,14 +17,14 @@ public class MidScoreGivenLeaveDock extends SequentialCommandGroup{
         addRequirements(drivetrain);
 
         PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFileForAlliance("BLUE_MiddleLeaveCommunity", new PathConstraints(1, 0.5));
-        PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFileForAlliance("BLUE_MiddleLeaveCommunity", new PathConstraints(1, 0.5));
+        PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFileForAlliance("BLUE_MiddleMarker_M-C", new PathConstraints(1, 0.5));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
-            mManipulator.goToCubeShootHigh().withTimeout(2.0),
-            mManipulator.getGrasper().runSpitMode().withTimeout(0.4),
-            mManipulator.goToZero().withTimeout(2),
-            new DriveAtPath(drivetrain, LeaveCommunity, false, false, 10),
+            mManipulator.goToCubeShootHigh().withTimeout(1.0).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
+            mManipulator.getGrasper().runSpitMode().withTimeout(0.2),
+            mManipulator.goToZero().withTimeout(1),
+            new DriveAtPath(drivetrain, LeaveCommunity, false, false, 5),
             new DriveAtPath(drivetrain, Dock, false, false, 10),
             new AutoBalance(drivetrain)
         );

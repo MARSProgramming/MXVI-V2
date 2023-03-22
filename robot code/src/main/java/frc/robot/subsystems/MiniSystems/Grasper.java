@@ -3,20 +3,15 @@
 
 package frc.robot.subsystems.MiniSystems;
 
-import java.util.function.DoubleSupplier;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.util.UtilityFunctions;
 
 
 
@@ -63,6 +58,17 @@ public class Grasper extends SubsystemBase{
         BeltController.set(ControlMode.PercentOutput, v);
     }
 
+    public CommandBase setPercentOutputCommand(double v) {
+      return runEnd(
+        () -> {
+          setPercentOutput(v);
+        },
+        () -> {
+          BeltController.set(ControlMode.PercentOutput, 0);
+        }
+        ).withName("Test Grasper");
+    }
+
     public CommandBase runTestMode() {
         return runEnd(
           () -> {
@@ -98,7 +104,5 @@ public class Grasper extends SubsystemBase{
     
     @Override
     public void periodic(){
-      SmartDashboard.putNumber("Grasper Current", BeltController.getSupplyCurrent());
-      SmartDashboard.putNumber("Error", BeltController.getClosedLoopError());
     }
 }

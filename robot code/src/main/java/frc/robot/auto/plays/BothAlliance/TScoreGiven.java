@@ -21,7 +21,7 @@ public class TScoreGiven extends SequentialCommandGroup{
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
-            mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
+            mManipulator.goToCubeShootHigh().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(2),
             mManipulator.goToZero()
          );

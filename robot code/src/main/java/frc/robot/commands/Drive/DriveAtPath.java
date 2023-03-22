@@ -8,7 +8,7 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -38,6 +38,7 @@ public class DriveAtPath extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        mTrajectory = PathPlannerTrajectory.transformTrajectoryForAlliance(mTrajectory, DriverStation.getAlliance());
         mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.05)));
         mTimer.reset();
         mTimer.start();

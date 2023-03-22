@@ -19,12 +19,12 @@ public class TP1_Cube_Dock extends SequentialCommandGroup{
 
         PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1", new PathConstraints(1.5, 0.5));
         PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P1-M", new PathConstraints(3, 1));
-        PathPlannerTrajectory CSPath = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-CNoLeave", new PathConstraints(1.5, 1));
+        PathPlannerTrajectory CSPath = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-CNoLeave", new PathConstraints(1.0, 0.5));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()),
-            mManipulator.goToShoot().withTimeout(3).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
-            mManipulator.getGrasper().runSpitMode().withTimeout(0.3),
+            new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.1),
+            mManipulator.goToShoot().withTimeout(0.4).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
+            mManipulator.getGrasper().setPercentOutputCommand(-0.3).withTimeout(0.3),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
                 mManipulator.goToCubeIntake(),
                 mManipulator.getGrasper().runTestMode()
@@ -33,9 +33,9 @@ public class TP1_Cube_Dock extends SequentialCommandGroup{
                 new DriveAtPath(drivetrain, P1toMarker, false, false, 4.0).deadlineWith(
                     mManipulator.getGrasper().runTestCurrent()
                 ),
-                mManipulator.goToZero().withTimeout(2.0).andThen(mManipulator.goToCubeShootHigh().withTimeout(1.0))
+                mManipulator.goToZero().withTimeout(1.0).andThen(mManipulator.goToCubeShootHigh().withTimeout(2.0))
             ),
-            mManipulator.getGrasper().runSpitMode().withTimeout(0.5),
+            mManipulator.getGrasper().runSpitMode().withTimeout(0.2),
             mManipulator.goToZero().withTimeout(1).alongWith(
             new DriveAtPath(drivetrain, CSPath, false, false, 5.0)),
             new AutoBalance(drivetrain)

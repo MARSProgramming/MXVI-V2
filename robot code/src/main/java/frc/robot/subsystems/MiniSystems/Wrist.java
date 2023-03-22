@@ -70,10 +70,15 @@ public class Wrist extends SubsystemBase{
     public void goToLoad(){
       setPosition(Constants.Wrist.loadPos);
     }
+    public void goToLoadDouble(){
+      setPosition(Constants.Wrist.loadDoublePos);
+    }
     public void goToShoot(){
       setPosition(Constants.Wrist.shootPos);
     }
-
+    public void goToShootHigh(){
+      setPosition(Constants.Wrist.shootHighPos);
+    }
     public void goToCarry(){
       setPosition(Constants.Wrist.carryPos);
     }
@@ -144,11 +149,10 @@ public class Wrist extends SubsystemBase{
     }
 
     public double getWristVelocity(){
-      return mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits * 10;
+      return mWrist.getSelectedSensorVelocity() / kRadiansToNativeUnits * 10;
     }
     
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Wrist Position", mWrist.getSelectedSensorPosition() / kRadiansToNativeUnits);
     }
 }

@@ -18,7 +18,7 @@ public class AutoBalance extends CommandBase{
             mDrivetrainSubsystem.drive(new ChassisSpeeds(-Constants.Drive.autoBalanceP * (88 - mDrivetrainSubsystem.getRoll()), 0, 0));
         }
         else if(mDrivetrainSubsystem.getRoll() < 0){
-            mDrivetrainSubsystem.drive(new ChassisSpeeds(Constants.Drive.autoBalanceP * (88 + mDrivetrainSubsystem.getRoll()), 0, 0));
+            mDrivetrainSubsystem.drive(new ChassisSpeeds(Constants.Drive.autoBalanceP * (90 + mDrivetrainSubsystem.getRoll()), 0, 0));
         }
         else{
             mDrivetrainSubsystem.drive(new ChassisSpeeds());

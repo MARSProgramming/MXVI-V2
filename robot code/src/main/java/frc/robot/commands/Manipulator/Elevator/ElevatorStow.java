@@ -22,6 +22,6 @@ public class ElevatorStow extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return Math.abs(manipulator.getElevator().distanceToSetpoint(Constants.Elevator.stowPos)) < 0.1;
+        return Math.abs(manipulator.getElevator().distanceToSetpoint(Constants.Elevator.stowPos)) < 0.4;
     }
 }

@@ -12,11 +12,16 @@ public class PivotToHighIntake extends CommandBase{
 
     @Override
     public void execute(){
-        manipulator.getPivot().goToIntakeHigh();
+            manipulator.getPivot().goToIntakeHigh();
     }
 
     @Override
     public void end(boolean interrupted){
         manipulator.getPivot().Run(0);
+    }
+
+    @Override
+    public boolean isFinished(){
+        return Math.abs(manipulator.getPivot().distanceToSetpoint(Constants.Pivot.intakeHighPos)) < 0.03;
     }
 }

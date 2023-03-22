@@ -10,6 +10,7 @@ import com.pathplanner.lib.PathPoint;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
@@ -23,6 +24,7 @@ public class AlignToScore extends CommandBase {
     private HolonomicDriveController mController;
     private Timer mTimer;
     private AlignToScoreEnum mPos = AlignToScoreEnum.LEFT;
+    private double align = 0;
 
     public AlignToScore(DrivetrainSubsystem subsystem, AlignToScoreEnum pos) {
         mPos = pos;
@@ -38,6 +40,7 @@ public class AlignToScore extends CommandBase {
     public void initialize() {
         mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.004)));
         double y = 0;
+        mDrivetrainSubsystem.setAlignAdjust(0);
         if(mPos == AlignToScoreEnum.LEFT){
             y = mDrivetrainSubsystem.getAlignLeftY();
         }
@@ -45,12 +48,12 @@ public class AlignToScore extends CommandBase {
             y = mDrivetrainSubsystem.getAlignMidY();
         }
         else if(mPos == AlignToScoreEnum.RIGHT){
-            y = mDrivetrainSubsystem.getAlignRightY();
+            y = mDrivetrainSubsystem.getAlignRightY();    
         }
 
         mTrajectory = PathPlanner.generatePath(
-      new PathConstraints(0.8, 0.5), 
-      new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), mDrivetrainSubsystem.getGyroscopeRotation()),
+      new PathConstraints(1, 1.5), 
+      new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), mDrivetrainSubsystem.getGyroscopeRotation(), mDrivetrainSubsystem.getSpeed()),
       new PathPoint(new Translation2d(1.95, y), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
         );
         mTimer.reset();
@@ -61,6 +64,10 @@ public class AlignToScore extends CommandBase {
     @Override
     public void execute() {
         var state = (PathPlannerState) mTrajectory.sample(mTimer.get() + 0.3);
+        if(align != mDrivetrainSubsystem.getAdjust().getAsDouble()){
+            mTrajectory.transformBy(new Transform2d(new Translation2d(0, mDrivetrainSubsystem.getAdjust().getAsDouble()), new Rotation2d()));
+            align = mDrivetrainSubsystem.getAdjust().getAsDouble();
+        }
         mDrivetrainSubsystem.drive(mController.calculate(mDrivetrainSubsystem.getPose(), mTrajectory.sample(mTimer.get() + 0.3), state.holonomicRotation));
         SmartDashboard.putNumber("desiredX", mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
         SmartDashboard.putNumber("autoXError", mDrivetrainSubsystem.getPose().getX() - mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
