@@ -118,7 +118,7 @@ public class Elevator extends SubsystemBase{
             setPercentOutput(d.getAsDouble());
           },
           () -> {
-            master.set(ControlMode.PercentOutput, 0);
+            setPercentOutput(0);
           }
           ).withName("Test Elevator");
     }

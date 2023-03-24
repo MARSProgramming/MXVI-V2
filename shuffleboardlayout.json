@@ -18,8 +18,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/X",
-              "_source1": "network_table:///SmartDashboard/desiredX",
+              "_source0": "network_table:///SmartDashboard/desiredX",
+              "_source1": "network_table:///SmartDashboard/X",
               "_title": "desiredX",
               "_glyph": 148,
               "_showGlyph": false,
@@ -39,8 +39,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/Y",
-              "_source1": "network_table:///SmartDashboard/desiredY",
+              "_source0": "network_table:///SmartDashboard/desiredY",
+              "_source1": "network_table:///SmartDashboard/Y",
               "_title": "desiredY",
               "_glyph": 148,
               "_showGlyph": false,
@@ -255,8 +255,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///Shuffleboard/Match/Robot Pigeon Angle",
-              "_source1": "network_table:///SmartDashboard/desiredrot",
+              "_source0": "network_table:///SmartDashboard/desiredrot",
+              "_source1": "network_table:///Shuffleboard/Match/Robot Pigeon Angle",
               "_title": "Shuffleboard/Match/Robot Pigeon Angle",
               "_glyph": 148,
               "_showGlyph": false,

@@ -1,36 +1,32 @@
 
 package frc.robot.commands.Drive;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
-import com.pathplanner.lib.PathPoint;
-
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class AlignToScore extends CommandBase {
     private final DrivetrainSubsystem mDrivetrainSubsystem;
-    private PathPlannerTrajectory mTrajectory;
-    private HolonomicDriveController mController;
+    private static ProfiledPIDController xController = new ProfiledPIDController(Constants.Auto.holonomicXkP, 0, 0, new TrapezoidProfile.Constraints(1, 0.7));
+    private static ProfiledPIDController yController = new ProfiledPIDController(Constants.Auto.holonomicYkP, 0, 0, new TrapezoidProfile.Constraints(1, 0.7));
+    private ProfiledPIDController thetaController;
     private Timer mTimer;
     private AlignToScoreEnum mPos = AlignToScoreEnum.LEFT;
-    private double align = 0;
+    private double yGoal = 0;
+    private double xGoal = 1.85;
 
     public AlignToScore(DrivetrainSubsystem subsystem, AlignToScoreEnum pos) {
         mPos = pos;
         mDrivetrainSubsystem = subsystem;
-        mController = subsystem.getDrivePathController();
         mTimer = new Timer();
+        thetaController = subsystem.getSnapController();
+        yController.setTolerance(0.01);
+        xController.setTolerance(0.01);
         
         addRequirements(subsystem);
     }
@@ -38,24 +34,19 @@ public class AlignToScore extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.004)));
-        double y = 0;
         mDrivetrainSubsystem.setAlignAdjust(0);
         if(mPos == AlignToScoreEnum.LEFT){
-            y = mDrivetrainSubsystem.getAlignLeftY();
+            yGoal = mDrivetrainSubsystem.getAlignLeftY();
         }
         else if(mPos == AlignToScoreEnum.MID){
-            y = mDrivetrainSubsystem.getAlignMidY();
+            yGoal = mDrivetrainSubsystem.getAlignMidY();
         }
         else if(mPos == AlignToScoreEnum.RIGHT){
-            y = mDrivetrainSubsystem.getAlignRightY();    
+            yGoal = mDrivetrainSubsystem.getAlignRightY();    
         }
 
-        mTrajectory = PathPlanner.generatePath(
-      new PathConstraints(1, 1.5), 
-      new PathPoint(mDrivetrainSubsystem.getPose().getTranslation(), new Rotation2d(Math.PI/2), mDrivetrainSubsystem.getGyroscopeRotation(), mDrivetrainSubsystem.getSpeed()),
-      new PathPoint(new Translation2d(1.95, y), new Rotation2d(Math.PI/2), new Rotation2d(Math.PI))
-        );
+        xController.reset(mDrivetrainSubsystem.getPose().getX(), -mDrivetrainSubsystem.getChassisSpeeds().vxMetersPerSecond);
+        yController.reset(mDrivetrainSubsystem.getPose().getY(), -mDrivetrainSubsystem.getChassisSpeeds().vyMetersPerSecond);
         mTimer.reset();
         mTimer.start();
     }
@@ -63,18 +54,19 @@ public class AlignToScore extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        var state = (PathPlannerState) mTrajectory.sample(mTimer.get() + 0.3);
-        if(align != mDrivetrainSubsystem.getAdjust().getAsDouble()){
-            mTrajectory.transformBy(new Transform2d(new Translation2d(0, mDrivetrainSubsystem.getAdjust().getAsDouble()), new Rotation2d()));
-            align = mDrivetrainSubsystem.getAdjust().getAsDouble();
-        }
-        mDrivetrainSubsystem.drive(mController.calculate(mDrivetrainSubsystem.getPose(), mTrajectory.sample(mTimer.get() + 0.3), state.holonomicRotation));
-        SmartDashboard.putNumber("desiredX", mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
-        SmartDashboard.putNumber("autoXError", mDrivetrainSubsystem.getPose().getX() - mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
-        SmartDashboard.putNumber("desiredY", mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getY());
-        SmartDashboard.putNumber("autoYError", mDrivetrainSubsystem.getPose().getY() - mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getY());
-        SmartDashboard.putNumber("desiredrot", state.holonomicRotation.getDegrees());
+        ChassisSpeeds cs = new ChassisSpeeds(
+            -xController.calculate(mDrivetrainSubsystem.getPose().getX(), xGoal),
+            -yController.calculate(mDrivetrainSubsystem.getPose().getY(), yGoal + mDrivetrainSubsystem.getAdjust().getAsDouble()),
+            thetaController.calculate(mDrivetrainSubsystem.getPigeonAngle(), Math.PI));
+        mDrivetrainSubsystem.drive(cs);
+        System.out.println("xgoal: " + xGoal + "   ygoal: " + yGoal);
+        System.out.println("x:" + mDrivetrainSubsystem.getPose().getX() + "y:" + mDrivetrainSubsystem.getPose().getY());
+        System.out.println(yController.calculate(mDrivetrainSubsystem.getPose().getY(), yGoal + mDrivetrainSubsystem.getAdjust().getAsDouble()));
+        System.out.println(yController.getPositionError());
+        System.out.println(yController.getSetpoint().position);
+        System.out.println(thetaController.calculate(mDrivetrainSubsystem.getPigeonAngle(), Math.PI));
     }
+    
 
     // Called once the command ends or is interrupted.
     @Override
@@ -86,6 +78,6 @@ public class AlignToScore extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(mTrajectory.getEndState().poseMeters.getTranslation()) < 0.01;
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) < 0.01;
     }
 }

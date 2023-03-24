@@ -18,6 +18,8 @@ import frc.robot.commands.Drive.AlignToScoreEnum;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
+import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
+import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LED;
@@ -118,8 +120,8 @@ public class RobotContainer {
 
     new Trigger(() -> mCopilot.getLeftX() > 0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     new Trigger(() -> mCopilot.getLeftX() < -0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
-    new Trigger(() -> mCopilot.getLeftY() > -0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> 0.4));
-    new Trigger(() -> mCopilot.getLeftY() < 0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> -0.4));
+    new Trigger(() -> mCopilot.getLeftY() > -0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> 0.2));
+    new Trigger(() -> mCopilot.getLeftY() < 0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> -0.2));
 
     mCopilot.rightTrigger().whileTrue(mManipulator.goToZero());
     mCopilot.back().onTrue(mManipulator.swapAutoScoreCommand());
@@ -136,11 +138,15 @@ public class RobotContainer {
     mTestCtrl.rightTrigger(0.1).whileTrue(mManipulator.getElevator().runTestMode(() -> mTestCtrl.getRightTriggerAxis()));
     mTestCtrl.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
     mTestCtrl.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
-    mTestCtrl.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
-    mTestCtrl.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
+    mTestCtrl.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.5));
+    mTestCtrl.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.5));
     mTestCtrl.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     mTestCtrl.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
     mTestCtrl.start().whileTrue(mManipulator.getElevator().disableSoftLimits());
+    mTestCtrl.a().whileTrue(mManipulator.getWrist().testIntake());
+    mTestCtrl.x().whileTrue(new ElevatorScoreMid(mManipulator));
+    mTestCtrl.y().whileTrue(new PivotToIntake(mManipulator));
+    mTestCtrl.b().whileTrue(mManipulator.goToZero());
 
 
     System.out.println("Test Bindings Configured");

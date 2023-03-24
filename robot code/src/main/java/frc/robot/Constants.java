@@ -44,7 +44,7 @@ public final class Constants {
         public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 7; 
         public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 27; 
 
-        public static final double kP = 0.3;
+        public static final double kP = 2;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
 
@@ -87,8 +87,8 @@ public final class Constants {
         public static int followerMotorID = 9;
         public static int limitSwitchID = 9;
 
-        public static double peakOutForward = 0.8;
-        public static double peakOutReverse = -0.8;
+        public static double peakOutForward = 1;
+        public static double peakOutReverse = -1;
 
         public static double intakeHighPos = 15;
         public static double intakePos = 8.5;
@@ -101,7 +101,7 @@ public final class Constants {
 
     public static class Wrist{
         public static int motorID = 12;
-        public static double kP = 0.03;
+        public static double kP = 0.07;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
@@ -120,17 +120,18 @@ public final class Constants {
         public static double shootHighPos = -3.3;
         public static double loadPos = 0.8;
         public static double stowPos = 1.7;
+        
     }
 
     public static class Pivot{
         public static int motorID = 11;
-        public static double kP = 1.2;
+        public static double kP = 1.5;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
         public static double forwardLimit = 1000;
         public static double reverseLimit = -1000;
-        public static double zero = 0.8727;
+        public static double zero = 0.213;
 
         public static double intakeBackPos = 2.2;
         public static double scoreHighPos = -1.2;

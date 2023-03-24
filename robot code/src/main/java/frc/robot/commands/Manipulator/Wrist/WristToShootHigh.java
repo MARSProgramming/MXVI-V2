@@ -12,7 +12,9 @@ public class WristToShootHigh extends CommandBase{
 
     @Override
     public void execute(){
-        manipulator.getWrist().goToShootHigh();
+        if(manipulator.getElevator().getPosition() > 2){
+            manipulator.getWrist().goToShootHigh();
+        }
     }
 
     @Override

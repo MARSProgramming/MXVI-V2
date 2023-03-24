@@ -12,7 +12,9 @@ public class WristStow extends CommandBase{
 
     @Override
     public void execute(){
+        if(manipulator.getPivot().getEncoderPos() > -0.4){
             manipulator.getWrist().goToStow();
+        }
     }
 
     @Override
