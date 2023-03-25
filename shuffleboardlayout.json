@@ -18,8 +18,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/desiredX",
-              "_source1": "network_table:///SmartDashboard/X",
+              "_source0": "network_table:///SmartDashboard/X",
+              "_source1": "network_table:///SmartDashboard/desiredX",
               "_title": "desiredX",
               "_glyph": 148,
               "_showGlyph": false,
@@ -29,7 +29,8 @@
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
               "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/X": true
+              "Visible data/SmartDashboard/X": true,
+              "Visible data/SmartDashboard/desiredX": true
             }
           },
           "3,0": {
@@ -39,8 +40,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/desiredY",
-              "_source1": "network_table:///SmartDashboard/Y",
+              "_source0": "network_table:///SmartDashboard/Y",
+              "_source1": "network_table:///SmartDashboard/desiredY",
               "_title": "desiredY",
               "_glyph": 148,
               "_showGlyph": false,
@@ -50,7 +51,8 @@
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
               "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/Y": true
+              "Visible data/SmartDashboard/Y": true,
+              "Visible data/SmartDashboard/desiredY": true
             }
           },
           "9,0": {
@@ -255,8 +257,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/desiredrot",
-              "_source1": "network_table:///Shuffleboard/Match/Robot Pigeon Angle",
+              "_source0": "network_table:///Shuffleboard/Match/Robot Pigeon Angle",
+              "_source1": "network_table:///SmartDashboard/desiredrot",
               "_title": "Shuffleboard/Match/Robot Pigeon Angle",
               "_glyph": 148,
               "_showGlyph": false,
@@ -266,7 +268,8 @@
               "Y-axis/Upper bound": 185.0,
               "Y-axis/Lower bound": 175.0,
               "Y-axis/Unit": "ul",
-              "Visible data/Shuffleboard/Match/Robot Pigeon Angle": true
+              "Visible data/Shuffleboard/Match/Robot Pigeon Angle": true,
+              "Visible data/SmartDashboard/desiredrot": true
             }
           },
           "2,3": {

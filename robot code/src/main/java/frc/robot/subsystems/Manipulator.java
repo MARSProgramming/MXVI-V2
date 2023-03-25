@@ -7,13 +7,17 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.Manipulator.Elevator.ElevatorCloseIntake;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntake;
 import frc.robot.commands.Manipulator.Elevator.ElevatorIntakeHigh;
+import frc.robot.commands.Manipulator.Elevator.ElevatorLoad;
 import frc.robot.commands.Manipulator.Elevator.ElevatorLoadDouble;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
 import frc.robot.commands.Manipulator.Elevator.ElevatorStow;
+import frc.robot.commands.Manipulator.Grasper.ScoreAtPivotElevatorSetpoint;
 import frc.robot.commands.Manipulator.Grasper.ScoreAtPivotSetpoint;
+import frc.robot.commands.Manipulator.Pivot.PivotToCubeCloseIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToCubeIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToHighIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
@@ -26,6 +30,7 @@ import frc.robot.commands.Manipulator.Pivot.PivotToShootMid;
 import frc.robot.commands.Manipulator.Pivot.PivotToStow;
 import frc.robot.commands.Manipulator.Pivot.PivotToZero;
 import frc.robot.commands.Manipulator.Wrist.WristCarry;
+import frc.robot.commands.Manipulator.Wrist.WristCubeCloseIntake;
 import frc.robot.commands.Manipulator.Wrist.WristCubeIntake;
 import frc.robot.commands.Manipulator.Wrist.WristHighIntake;
 import frc.robot.commands.Manipulator.Wrist.WristIntake;
@@ -100,7 +105,7 @@ public class Manipulator extends SubsystemBase{
 
     public CommandBase goToScoreHigh() {
         CommandBase scoreHighCommand = Commands.sequence(
-            new ScoreAtPivotSetpoint(this, Constants.Pivot.scoreHighPos).deadlineWith(
+            new ScoreAtPivotElevatorSetpoint(this, Constants.Pivot.scoreHighPos, Constants.Elevator.scoreHighPos).deadlineWith(
                 new ElevatorScoreHigh(this).alongWith(new WaitCommand(0.4).andThen(new PivotToScoreHigh(this).alongWith(new WristScoreHigh(this))))
             ),
             goToZero()
@@ -138,9 +143,22 @@ public class Manipulator extends SubsystemBase{
         CommandBase scoreMidCommand = Commands.sequence(
             new ParallelCommandGroup(
                 new ElevatorScoreMid(this),
-                new ScoreAtPivotSetpoint(this, Constants.Pivot.scoreMidPos).deadlineWith(
+                new ScoreAtPivotElevatorSetpoint(this, Constants.Pivot.scoreMidPos, Constants.Elevator.scoreMidPos).deadlineWith(
                     new PivotToScore(this), new WristScoreMid(this)
                 )
+            ), 
+            goToZero()
+        );
+        scoreMidCommand.addRequirements(this);
+        return scoreMidCommand;
+    }
+
+    public CommandBase goToScoreMidAlign() {
+        CommandBase scoreMidCommand = Commands.sequence(
+            new ParallelCommandGroup(
+                new ElevatorScoreMid(this),
+                new PivotToScore(this),
+                new WristScoreMid(this)
             ), 
             goToZero()
         );
@@ -161,11 +179,24 @@ public class Manipulator extends SubsystemBase{
         return intakeCubeCommand;
     }
 
+    public CommandBase goToCloseCubeIntake() {
+        CommandBase intakeCubeCommand = Commands.sequence(
+        new WristCarry(this), 
+        new ParallelCommandGroup(
+            new ElevatorCloseIntake(this), 
+            new PivotToCubeCloseIntake(this), 
+            new WristCubeCloseIntake(this)
+        )
+        );
+        intakeCubeCommand.addRequirements(this);
+        return intakeCubeCommand;
+    }
+
     public CommandBase goToLoadCommand() {
         CommandBase loadCommand = Commands.sequence(
         new WristCarry(this), 
         new ParallelCommandGroup(
-            mElevator.testBottomSetpoint(), 
+            new ElevatorLoad(this), 
             new PivotToLoad(this), 
             new WristToLoad(this)
         )
@@ -203,7 +234,9 @@ public class Manipulator extends SubsystemBase{
                     mWrist.goToCarry();
                 }
                 mElevator.goToBottom();
-                mPivot.setpos(0);
+                if(mPivot.getEncoderPos() > -0.4 || Math.abs(mWrist.distanceToSetpoint(Constants.Wrist.carryPos)) < 0.1){
+                    mPivot.setpos(0);
+                }
             },
             () -> {
                 mWrist.setPercentOutput(0);

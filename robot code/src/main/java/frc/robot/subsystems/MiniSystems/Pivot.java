@@ -59,7 +59,7 @@ public class Pivot extends SubsystemBase{
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
              new TrapezoidProfile.State(angle, 0),
-              new TrapezoidProfile.Constraints(15, 12)),
+              new TrapezoidProfile.Constraints(14, 11)) + (Math.sin(getEncoderPos()) * -0.07),
                -1, 1));
     }
 
@@ -68,6 +68,9 @@ public class Pivot extends SubsystemBase{
     }
     public void goToScoreMid(){
         setpos(Constants.Pivot.scoreMidPos);
+    }
+    public void goToScoreLow(){
+        setpos(Constants.Pivot.scoreLowPos);
     }
     public void goToIntakeHigh(){
         setpos(Constants.Pivot.intakeHighPos);
@@ -81,6 +84,9 @@ public class Pivot extends SubsystemBase{
     public void goToShootHigh(){
         setpos(Constants.Pivot.shootHighPos);
     }
+    public void goToCloseCubeIntake(){
+        setpos(Constants.Pivot.intakeCloseCubePos);
+    }
     public void goToIntakeCube(){
         setpos(Constants.Pivot.cubePos);
     }
@@ -92,6 +98,14 @@ public class Pivot extends SubsystemBase{
     }
     public void goToShootMid(){
         setpos(Constants.Pivot.shootMidPos);
+    }
+
+    public CommandBase zeroPivot() {
+        return runOnce(
+            () -> {
+                
+            }
+            ).withName("Zero Pivot");
     }
 
     public CommandBase runTestMode(DoubleSupplier d) {

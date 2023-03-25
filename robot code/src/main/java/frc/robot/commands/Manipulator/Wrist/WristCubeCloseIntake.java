@@ -4,17 +4,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Manipulator;
 
-public class WristToLoad extends CommandBase{
+public class WristCubeCloseIntake extends CommandBase{
     private Manipulator manipulator;
-    public WristToLoad(Manipulator m){
+    public WristCubeCloseIntake(Manipulator m){
         manipulator = m;
     }
 
     @Override
     public void execute(){
-        if(manipulator.getPivot().getEncoderPos() < -0.6
-        ){
-            manipulator.getWrist().goToLoad();
+        if(manipulator.getPivot().getEncoderPos() > 0.5){
+            manipulator.getWrist().goToCloseCubeIntake();
         }
     }
 

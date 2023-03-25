@@ -22,7 +22,7 @@ public class Limelight extends SubsystemBase{
     }
 
     public void resetPose(){
-        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1.0 && NetworkTableInstance.getDefault().getTable("limelight").getEntry("targetpose_cameraspace").getDoubleArray(new double[7])[2] < 1.6){
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1.0 && NetworkTableInstance.getDefault().getTable("limelight").getEntry("targetpose_cameraspace").getDoubleArray(new double[7])[2] < 2.6){
             if(dt.getPose().getX() > 13){
                 dt.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.03, 0.1, 0.07));
             }
@@ -35,14 +35,12 @@ public class Limelight extends SubsystemBase{
             double y = botpose[1];
             double z = botpose[2];
 
-            if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 30){
-                if(mTimer.hasElapsed(0.1)){
-                    if(!mTimer.hasElapsed(0.2) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.1){
-                        dt.addVisionMeasurement(new Pose2d(x, y, dt.getGyroscopeRotation()), botpose[6]/1000);
-                    }
+            //if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 4){
+                if(!mTimer.hasElapsed(0.1) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.1){
+                    dt.addVisionMeasurement(new Pose2d(x, y, dt.getGyroscopeRotation()), botpose[6]/1000);
                 }
                 mTimer.start();
-            }
+            //}
         }
         else{
             mTimer.stop();

@@ -50,12 +50,16 @@ public class Grasper extends SubsystemBase{
         //if (UtilityFunctions.isStalling(BeltController.getSelectedSensorPosition(), 1000) && BeltController.getMotorOutputPercent() != 0) {
             //BeltController.set(TalonFXControlMode.PercentOutput, 0);
         //} else {
-            BeltController.set(TalonFXControlMode.PercentOutput, 1);
+            BeltController.set(TalonFXControlMode.PercentOutput, 0.8);
         //}
     }
 
     public void setPercentOutput(double v){
         BeltController.set(ControlMode.PercentOutput, v);
+    }
+
+    public double getStatorCurrent(){
+        return BeltController.getStatorCurrent();
     }
 
     public CommandBase setPercentOutputCommand(double v) {

@@ -19,6 +19,7 @@ import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
+import frc.robot.commands.Manipulator.Grasper.RunIntakeUntilStall;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -100,18 +101,19 @@ public class RobotContainer {
   public void configureTeleopBindings() {
 
     mPilot.y().whileTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
-    mPilot.x().whileTrue(new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT));
-    mPilot.a().whileTrue(new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID));
-    mPilot.b().whileTrue(new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT));
+    mPilot.x().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(mManipulator.goToScoreMidAlign()));
+    mPilot.a().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(mManipulator.goToScoreMidAlign()));
+    mPilot.b().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(mManipulator.goToScoreMidAlign()));
+    //mPilot.leftTrigger().whileTrue(new RunIntakeUntilStall(mManipulator).andThen(mManipulator.getGrasper().runTestCurrent()));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
-    mPilot.rightBumper().onTrue(mManipulator.getGrasper().runTestCurrent());
+    mPilot.rightBumper().toggleOnTrue(mManipulator.getGrasper().runTestCurrent());
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
     mPilot.leftBumper().onTrue(mLED.swapYellowPurple());
     mPilot.povDown().whileTrue(mManipulator.goToStow());
     mPilot.start().onTrue(mBottomSolenoids.toggleBottomSolenoid());
 
     mCopilot.a().whileTrue(mManipulator.goToLoadDouble());
-    mCopilot.b().whileTrue(mManipulator.goToCubeIntake());
+    mCopilot.b().whileTrue(mManipulator.goToCloseCubeIntake());
     mCopilot.y().whileTrue(mManipulator.goToHighIntake());
     mCopilot.x().whileTrue(mManipulator.goToIntake());
 

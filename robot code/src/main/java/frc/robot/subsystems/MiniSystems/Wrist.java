@@ -58,11 +58,17 @@ public class Wrist extends SubsystemBase{
     public void goToScoreHigh(){
       setPosition(Constants.Wrist.scoreHighPos);
     }
+    public void goToScoreLow(){
+        setPosition(Constants.Wrist.scoreLowPos);
+      }
     public void goToHighIntake(){
       setPosition(Constants.Wrist.intakeUpPos);
     }
     public void goToCubeIntake(){
       setPosition(Constants.Wrist.intakeCubePos);
+    }
+    public void goToCloseCubeIntake(){
+        setPosition(Constants.Wrist.intakeCloseCubePos);
     }
     public void goToScoreMid(){
       setPosition(Constants.Wrist.scoreMidPos);
