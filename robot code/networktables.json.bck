@@ -18,7 +18,7 @@
   {
     "name": "/Shuffleboard/Pivot/Pivot: zero",
     "type": "double",
-    "value": 0.8727,
+    "value": 0.021156,
     "properties": {
       "persistent": true
     }
@@ -122,7 +122,7 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: peakOutForward",
     "type": "double",
-    "value": 0.8,
+    "value": 1,
     "properties": {
       "persistent": true
     }
@@ -130,7 +130,7 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: peakOutReverse",
     "type": "double",
-    "value": -0.8,
+    "value": -1,
     "properties": {
       "persistent": true
     }
@@ -154,7 +154,7 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: bottomPos",
     "type": "double",
-    "value": 0.5,
+    "value": 0.1,
     "properties": {
       "persistent": true
     }
@@ -299,54 +299,6 @@
     "name": "/Shuffleboard/Wrist/Wrist: stowPos",
     "type": "double",
     "value": 1.7,
-    "properties": {
-      "persistent": true
-    }
-  },
-  {
-    "name": "/Shuffleboard/Pivot/Pivot: intakeCloseCubePos",
-    "type": "double",
-    "value": 2.0,
-    "properties": {
-      "persistent": true
-    }
-  },
-  {
-    "name": "/Shuffleboard/Pivot/Pivot: scoreLowPos",
-    "type": "double",
-    "value": -1.0,
-    "properties": {
-      "persistent": true
-    }
-  },
-  {
-    "name": "/Shuffleboard/Elevator/Elevator: intakeCloseCubePos",
-    "type": "double",
-    "value": 8.5,
-    "properties": {
-      "persistent": true
-    }
-  },
-  {
-    "name": "/Shuffleboard/Elevator/Elevator: scoreLowPos",
-    "type": "double",
-    "value": 0.1,
-    "properties": {
-      "persistent": true
-    }
-  },
-  {
-    "name": "/Shuffleboard/Elevator/Elevator: loadPos",
-    "type": "double",
-    "value": 10.0,
-    "properties": {
-      "persistent": true
-    }
-  },
-  {
-    "name": "/Shuffleboard/Wrist/Wrist: intakeCloseCubePos",
-    "type": "double",
-    "value": 4.0,
     "properties": {
       "persistent": true
     }

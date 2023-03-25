@@ -11,7 +11,7 @@ import frc.robot.util.AutoChooser;
 
 public class MidSetPose extends SequentialCommandGroup{
 
-    PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFileForAlliance("BLUE_MiddleLeaveCommunity", new PathConstraints(1, 0.5));
+    PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_MiddleLeaveCommunity", new PathConstraints(1, 0.5));
     public MidSetPose(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 

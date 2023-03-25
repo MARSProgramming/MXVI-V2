@@ -17,8 +17,8 @@ public class TP1_Cone_NoDock extends SequentialCommandGroup{
     public TP1_Cone_NoDock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1Cone", new PathConstraints(3, 1));
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P1-MCone", new PathConstraints(3, 1));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1Cone", new PathConstraints(3, 1));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-MCone", new PathConstraints(3, 1));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),

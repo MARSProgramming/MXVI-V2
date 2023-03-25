@@ -17,6 +17,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class DriveAtPath extends CommandBase {
     private final DrivetrainSubsystem mDrivetrainSubsystem;
     private PathPlannerTrajectory mTrajectory;
+    private PathPlannerTrajectory transformedTrajectory;
     private HolonomicDriveController mController;
     private Timer mTimer;
     private double timeout;
@@ -38,7 +39,8 @@ public class DriveAtPath extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        mTrajectory = PathPlannerTrajectory.transformTrajectoryForAlliance(mTrajectory, DriverStation.getAlliance());
+        transformedTrajectory = PathPlannerTrajectory.transformTrajectoryForAlliance(mTrajectory, DriverStation.getAlliance());
+        System.out.println("alliance: " + DriverStation.getAlliance());
         mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.05)));
         mTimer.reset();
         mTimer.start();
@@ -47,12 +49,13 @@ public class DriveAtPath extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        var state = (PathPlannerState) mTrajectory.sample(mTimer.get() + 0.3);
-        mDrivetrainSubsystem.drive(mController.calculate(mDrivetrainSubsystem.getPose(), mTrajectory.sample(mTimer.get() + 0.3), state.holonomicRotation));
-        SmartDashboard.putNumber("desiredX", mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
-        SmartDashboard.putNumber("autoXError", mDrivetrainSubsystem.getPose().getX() - mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
-        SmartDashboard.putNumber("desiredY", mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getY());
-        SmartDashboard.putNumber("autoYError", mDrivetrainSubsystem.getPose().getY() - mTrajectory.sample(mTimer.get() + 0.3).poseMeters.getY());
+        var state = (PathPlannerState) transformedTrajectory.sample(mTimer.get() + 0.3);
+        System.out.println(state.poseMeters.getTranslation().toString());
+        mDrivetrainSubsystem.drive(mController.calculate(mDrivetrainSubsystem.getPose(), transformedTrajectory.sample(mTimer.get() + 0.3), state.holonomicRotation));
+        SmartDashboard.putNumber("desiredX", transformedTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
+        SmartDashboard.putNumber("autoXError", mDrivetrainSubsystem.getPose().getX() - transformedTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
+        SmartDashboard.putNumber("desiredY", transformedTrajectory.sample(mTimer.get() + 0.3).poseMeters.getY());
+        SmartDashboard.putNumber("autoYError", mDrivetrainSubsystem.getPose().getY() - transformedTrajectory.sample(mTimer.get() + 0.3).poseMeters.getY());
         SmartDashboard.putNumber("desiredrot", state.holonomicRotation.getDegrees());
     }
 

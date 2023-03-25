@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Drive.AlignToLoadDouble;
 import frc.robot.commands.Drive.AlignToScore;
 import frc.robot.commands.Drive.AlignToScoreEnum;
 import frc.robot.commands.Drive.DefaultDriveCommand;
@@ -109,6 +110,7 @@ public class RobotContainer {
     mPilot.rightBumper().toggleOnTrue(mManipulator.getGrasper().runTestCurrent());
     mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
     mPilot.leftBumper().onTrue(mLED.swapYellowPurple());
+    mPilot.rightStick().onTrue(new AlignToLoadDouble(mDrivetrainSubsystem, mLED));
     mPilot.povDown().whileTrue(mManipulator.goToStow());
     mPilot.start().onTrue(mBottomSolenoids.toggleBottomSolenoid());
 

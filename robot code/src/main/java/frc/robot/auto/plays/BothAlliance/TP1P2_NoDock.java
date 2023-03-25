@@ -17,10 +17,10 @@ public class TP1P2_NoDock extends SequentialCommandGroup{
     public TP1P2_NoDock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1", new PathConstraints(2, 0.75));
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P1-M", new PathConstraints(2.5, 1.5));
-        PathPlannerTrajectory MarkertoP2 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P2", new PathConstraints(2, 1.5));
-        PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P2-M", new PathConstraints(2.5, 1.5));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1", new PathConstraints(2, 0.75));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-M", new PathConstraints(2.5, 1.5));
+        PathPlannerTrajectory MarkertoP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2", new PathConstraints(2, 1.5));
+        PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P2-M", new PathConstraints(2.5, 1.5));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()),

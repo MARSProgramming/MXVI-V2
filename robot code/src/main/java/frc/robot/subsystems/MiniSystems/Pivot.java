@@ -30,6 +30,7 @@ public class Pivot extends SubsystemBase{
         pivot.configFactoryDefault();
         pivot.setNeutralMode(NeutralMode.Brake);
         pivot.setInverted(true);
+        pivot.configOpenloopRamp(0.05);
 
         mEncoder.setDistancePerRotation(Math.PI * 2);
         mEncoder.setPositionOffset(Constants.Pivot.zero);

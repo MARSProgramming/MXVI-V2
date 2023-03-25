@@ -135,7 +135,7 @@ public final class Constants {
 
         public static double forwardLimit = 1000;
         public static double reverseLimit = -1000;
-        public static double zero = 0.2753;
+        public static double zero = 0.021156;
 
         public static double intakeBackPos = 2.2;
         public static double intakeCloseCubePos = 2.0;

@@ -18,10 +18,10 @@ public class TP1P2Pickup_Cone_NoDock extends SequentialCommandGroup{
     public TP1P2Pickup_Cone_NoDock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1Cone", new PathConstraints(3, 1.5));
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P1-MCone_Three", new PathConstraints(3, 2.0));
-        PathPlannerTrajectory MarkerToP2 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P2_Fast", new PathConstraints(3, 2.0));
-        PathPlannerTrajectory MarkerToP2_Part2 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P2_Fast_Part2", new PathConstraints(1.0, 1.0));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1Cone", new PathConstraints(3, 1.5));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-MCone_Three", new PathConstraints(3, 2.0));
+        PathPlannerTrajectory MarkerToP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2_Fast", new PathConstraints(3, 2.0));
+        PathPlannerTrajectory MarkerToP2_Part2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2_Fast_Part2", new PathConstraints(1.0, 1.0));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),

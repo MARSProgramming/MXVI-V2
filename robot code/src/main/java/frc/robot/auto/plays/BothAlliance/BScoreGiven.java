@@ -16,7 +16,7 @@ public class BScoreGiven extends SequentialCommandGroup{
     private DrivetrainSubsystem mDrivetrain;
     private Manipulator mManipulator;
 
-    PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomLeaveCommunity", new PathConstraints(1.0, 0.5));
+    PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_BottomLeaveCommunity", new PathConstraints(1.0, 0.5));
     public BScoreGiven(DrivetrainSubsystem drivetrain, Manipulator manipulator){
         mDrivetrain = drivetrain;
         mManipulator = manipulator;

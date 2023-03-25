@@ -18,10 +18,10 @@ public class TP1_Cone_DockFar extends SequentialCommandGroup{
     public TP1_Cone_DockFar(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1Cone", new PathConstraints(3, 2.0));
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P1-MCone_Three", new PathConstraints(3, 2.0));
-        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFileForAlliance("Blue_TopMarker_M-CConeLeave", new PathConstraints(3.5, 2.5));
-        PathPlannerTrajectory MarkerToDockP2 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-CConeLeaveP2", new PathConstraints(1.5, 2));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1Cone", new PathConstraints(3, 2.0));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-MCone_Three", new PathConstraints(3, 2.0));
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("Blue_TopMarker_M-CConeLeave", new PathConstraints(3.5, 2.5));
+        PathPlannerTrajectory MarkerToDockP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-CConeLeaveP2", new PathConstraints(1.5, 2));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),

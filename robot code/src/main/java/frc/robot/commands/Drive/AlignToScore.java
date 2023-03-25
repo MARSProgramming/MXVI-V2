@@ -61,6 +61,8 @@ public class AlignToScore extends CommandBase {
     @Override
     public void execute() {
         ChassisSpeeds cs = new ChassisSpeeds();
+        double angleAdjust = Math.atan((mDrivetrainSubsystem.getPose().getY()-yGoal)/(mDrivetrainSubsystem.getPose().getX() - midScoreX));
+        System.out.println(angleAdjust);
         if(mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) > 0.04){
             cs = new ChassisSpeeds(
             -xController.calculate(mDrivetrainSubsystem.getPose().getX(), xGoal),
@@ -68,8 +70,6 @@ public class AlignToScore extends CommandBase {
             thetaController.calculate(mDrivetrainSubsystem.getPigeonAngle(), Math.PI));
         }
         else{
-            double angleAdjust = Math.atan((mDrivetrainSubsystem.getPose().getY()-yGoal)/(mDrivetrainSubsystem.getPose().getX() - midScoreX));
-            System.out.println(angleAdjust);
             cs = new ChassisSpeeds(0, 0, thetaController.calculate(mDrivetrainSubsystem.getPigeonAngle(), Math.PI + angleAdjust));
         }
         

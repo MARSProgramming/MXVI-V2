@@ -17,9 +17,9 @@ public class BP4_Dock extends SequentialCommandGroup{
     public BP4_Dock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_M-P4", new PathConstraints(4, 3));
-        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_P4-M", new PathConstraints(4, 3));
-        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_M-C", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_M-P4", new PathConstraints(4, 3));
+        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_P4-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_M-C", new PathConstraints(4, 3));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, MarkertoP4.getInitialHolonomicPose()),

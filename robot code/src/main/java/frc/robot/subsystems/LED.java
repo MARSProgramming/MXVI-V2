@@ -107,7 +107,24 @@ public class LED extends SubsystemBase {
   }
 
   
-
+  public void setFlashing(boolean flash){
+    if(flash){
+        if(state == LEDState.PURPLE){
+            state = LEDState.FLASHING_PURPLE;
+        }
+        if(state == LEDState.YELLOW){
+            state = LEDState.FLASHING_YELLOW;
+        }
+    }
+    else{
+        if(state == LEDState.FLASHING_PURPLE){
+            state = LEDState.PURPLE;
+        }
+        if(state == LEDState.FLASHING_YELLOW){
+            state = LEDState.YELLOW;
+        }
+    }
+  }
 
   @Override
   public void periodic() {
