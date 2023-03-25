@@ -2,6 +2,11 @@
 
 package frc.robot.subsystems.MiniSystems;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -12,17 +17,22 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.MoreMath;
 
 public class Pivot extends SubsystemBase{
-    
+
     private final double kGearRatio = 49;
     private TalonFX pivot = new TalonFX(Constants.Pivot.motorID);
-   private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
+    private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
     private final DutyCycleEncoder mEncoder = new DutyCycleEncoder(0);
     private final ProfiledPIDController mController = new ProfiledPIDController(Constants.Pivot.kP, Constants.Pivot.kI, Constants.Pivot.kD, new TrapezoidProfile.Constraints(1.5, 1));
     
@@ -32,16 +42,58 @@ public class Pivot extends SubsystemBase{
         pivot.setInverted(true);
 
         mEncoder.setDistancePerRotation(Math.PI * 2);
-        mEncoder.setPositionOffset(Constants.Pivot.zero);
         //mEncoder.reset();
-
         mController.reset(new State(getEncoderPos(), 0));
+
+        File pivotZero = new File("/home/lvuser/constants/PivotZero.txt");
+        if (pivotZero.exists()) {
+            try {
+                Scanner sc = new Scanner(pivotZero);
+                Constants.Pivot.zero = Double.parseDouble(sc.nextLine());
+                sc.close();
+                System.out.println(Constants.Pivot.zero);
+            } catch (FileNotFoundException e) {
+                System.out.println("Pivot Zero file not found");
+            }
+        }
+
+        mEncoder.setPositionOffset(Constants.Pivot.zero);
     }
 
     public double getEncoderPos(){
         return -(mEncoder.getDistance());
     }
 
+    /* public void zeroPivot() {
+        Constants.Pivot.zero = (mEncoder.getDistance() / (Math.PI*2)) - Constants.Pivot.zero;
+        mEncoder.setPositionOffset(Constants.Pivot.zero); */
+
+        public void zeroPivot(boolean run) {
+            if (run) {
+                
+                Constants.Pivot.zero = (mEncoder.getDistance() / (Math.PI*2)) + Constants.Pivot.zero;
+                mEncoder.setPositionOffset(Constants.Pivot.zero);
+                NetworkTableInstance.getDefault().getTable("Shuffleboard").getSubTable("Pivot").getEntry("Pivot: zero").setDouble(Constants.Pivot.zero);
+                
+                mEncoder.reset();
+                File pivotZero = new File("/home/lvuser/constants/PivotZero.txt");
+                pivotZero.setExecutable(true);
+                pivotZero.setReadable(true);
+                pivotZero.setWritable(true);
+                System.out.println("/home/lvuser/constants/PivotZero.txt");
+                try {
+                    pivotZero.createNewFile();
+                    FileWriter writer = new FileWriter("/home/lvuser/constants/PivotZero.txt");
+                    writer.write(Constants.Pivot.zero + "\n");
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("File could not be found when writing to pivot zero");
+                }
+            }
+        }
+    
+        
+    
     public void Run(double voltage) {
         if(getEncoderPos() > Constants.Pivot.forwardLimit && voltage > 0){
             pivot.set(ControlMode.PercentOutput, 0);
@@ -99,14 +151,14 @@ public class Pivot extends SubsystemBase{
     public void goToShootMid(){
         setpos(Constants.Pivot.shootMidPos);
     }
-
+    /*
     public CommandBase zeroPivot() {
         return runOnce(
             () -> {
                 
             }
             ).withName("Zero Pivot");
-    }
+    } */
 
     public CommandBase runTestMode(DoubleSupplier d) {
         return runEnd(
@@ -136,9 +188,11 @@ public class Pivot extends SubsystemBase{
 
     @Override
     public void periodic(){
+   
         SmartDashboard.putNumber("Pivot Setpoint", mController.getSetpoint().position);
         SmartDashboard.putNumber("Pivot Setpoint Velocity", mController.getSetpoint().velocity);
         SmartDashboard.putNumber("Pivot Position", getEncoderPos());
+
     }
 }
 

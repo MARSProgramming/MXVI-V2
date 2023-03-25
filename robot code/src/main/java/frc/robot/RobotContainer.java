@@ -21,12 +21,14 @@ import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
 import frc.robot.commands.Manipulator.Grasper.RunIntakeUntilStall;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
+import frc.robot.commands.Manipulator.Pivot.ZeroPivot;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.SubsystemIO;
+import frc.robot.subsystems.MiniSystems.Pivot;
 import frc.robot.util.AutoChooser;
 import frc.robot.util.MatchTab;
 
@@ -50,6 +52,7 @@ public class RobotContainer {
   //private final Limelight mLimelight = new Limelight();
   private final Manipulator mManipulator = new Manipulator();
   private final SubsystemIO mSubsystemIO = new SubsystemIO();
+  private final Pivot mPivot  = new Pivot();
   private MatchTab matchtab;
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
   private LED mLED = new LED();
@@ -86,6 +89,8 @@ public class RobotContainer {
             () -> -modifyAxis(mPilot.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
     SmartDashboard.putData("Zero Swerves", new ZeroSwerves(mDrivetrainSubsystem).withTimeout(1).ignoringDisable(true));
+    SmartDashboard.putData("Zero Pivot", new ZeroPivot(mPivot).withTimeout(1).ignoringDisable(true));
+
   }
 
   public void initializeSolenoids(){
