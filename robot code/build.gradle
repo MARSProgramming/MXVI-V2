@@ -103,6 +103,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.ShawnLi14:swerve-lib:47afbca94d6bd6ef33de9523930bab4af8a417b2'
+    implementation 'com.github.MARSProgramming:swerve-lib:42481d936fedc60044f74f37c72878c46e767877'
     implementation "com.github.Oblarg:Oblog:5.1.0"
 }
