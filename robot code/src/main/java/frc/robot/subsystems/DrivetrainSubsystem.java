@@ -170,8 +170,6 @@ public class DrivetrainSubsystem extends SubsystemBase{
         Constants.Drive.kD,
         new TrapezoidProfile.Constraints(Constants.Auto.holonomicOMaxVelocity, Constants.Auto.holonomicOMaxAcceleration));
         mSnapController.enableContinuousInput(-Math.PI, Math.PI);
-
-    Timer.delay(1.0); 
     
     mPoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, new Rotation2d(m_pigeon.getYaw()), getSwerveModulePositions(), new Pose2d(),
         new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.01, 0.01, 0.03), new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.07, 0.07, 0.07)
