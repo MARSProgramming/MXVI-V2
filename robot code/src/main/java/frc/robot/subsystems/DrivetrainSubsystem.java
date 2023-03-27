@@ -255,6 +255,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("X", getPose().getX());
         SmartDashboard.putNumber("Y", getPose().getY());
+        SmartDashboard.putNumber("roll", m_pigeon.getRoll());
     }
 
     public Pose2d getPose() {
@@ -297,18 +298,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return () -> adjust;
     }
 
-    public CommandBase leftAutoAlignAdjust() {
-        return runOnce(
-                () -> {
-                    adjust += 0.05;
-                });
+    public void alignAdjust(double d){
+        adjust += d;
     }
 
-    public CommandBase rightAutoAlignAdjust() {
-        return runOnce(
-                () -> {
-                    adjust -= 0.05;
-                });
+    public CommandBase resetAlign(){
+        return runOnce(() -> {setAlignAdjust(0);});
     }
 
     public double getAlignLeftY() {

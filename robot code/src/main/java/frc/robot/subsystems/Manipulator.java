@@ -52,6 +52,7 @@ public class Manipulator extends SubsystemBase{
     private Pivot mPivot = new Pivot();
     private Wrist mWrist = new Wrist();
     private boolean autoScore = false;
+    private int alignType = 1;
     
     public boolean getAutoScore(){
         return autoScore;
@@ -153,17 +154,8 @@ public class Manipulator extends SubsystemBase{
         return scoreMidCommand;
     }
 
-    public CommandBase goToScoreMidAlign() {
-        CommandBase scoreMidCommand = Commands.sequence(
-            new ParallelCommandGroup(
-                new ElevatorScoreMid(this),
-                new PivotToScore(this),
-                new WristScoreMid(this)
-            ), 
-            goToZero()
-        );
-        scoreMidCommand.addRequirements(this);
-        return scoreMidCommand;
+    public int getAlignType(){
+        return alignType;
     }
 
     public CommandBase goToCubeIntake() {
@@ -224,6 +216,19 @@ public class Manipulator extends SubsystemBase{
         loadCommand.addRequirements(this);
         return loadCommand;
     }
+
+    public void setAlignType(int d){
+        alignType = d;
+        System.out.println(d);
+    }
+
+    public CommandBase setAlignTypeCommand(int d){
+        return runOnce(
+            () -> {
+                setAlignType(d);
+            }
+        );
+    }
     public CommandBase goToZero(){
         return runEnd(
             () -> {
@@ -234,7 +239,7 @@ public class Manipulator extends SubsystemBase{
                     mWrist.goToCarry();
                 }
                 mElevator.goToBottom();
-                if(mPivot.getEncoderPos() > -0.4 || Math.abs(mWrist.distanceToSetpoint(Constants.Wrist.carryPos)) < 0.1){
+                if(mPivot.getEncoderPos() > -0.4 || mElevator.getPosition() > 4 || Math.abs(mWrist.distanceToSetpoint(Constants.Wrist.carryPos)) < 0.1){
                     mPivot.setpos(0);
                 }
             },

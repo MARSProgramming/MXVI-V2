@@ -11,14 +11,17 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Drive.AlignToLoadDouble;
 import frc.robot.commands.Drive.AlignToScore;
 import frc.robot.commands.Drive.AlignToScoreEnum;
+import frc.robot.commands.Drive.AutoAlignAdjust;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
+import frc.robot.commands.Manipulator.AlignToScoreManipulator;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
 import frc.robot.commands.Manipulator.Grasper.RunIntakeUntilStall;
 import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
@@ -47,13 +50,12 @@ public class RobotContainer {
   private CommandXboxController mPilot = new CommandXboxController(0);
   private CommandXboxController mCopilot = new CommandXboxController(1);
   private CommandXboxController mTestCtrl = new CommandXboxController(2);
+  private CommandJoystick mKeypad = new CommandJoystick(3);
 
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final Limelight mLimelight = new Limelight(mDrivetrainSubsystem);
-  //private final Limelight mLimelight = new Limelight();
   private final Manipulator mManipulator = new Manipulator();
   private final SubsystemIO mSubsystemIO = new SubsystemIO();
-  private final Pivot mPivot  = new Pivot();
   private MatchTab matchtab;
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
   private LED mLED = new LED();
@@ -90,7 +92,7 @@ public class RobotContainer {
             () -> -modifyAxis(mPilot.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
     SmartDashboard.putData("Zero Swerves", new ZeroSwerves(mDrivetrainSubsystem).withTimeout(1).ignoringDisable(true));
-    SmartDashboard.putData("Zero Pivot", new ZeroPivot(mPivot).withTimeout(1).ignoringDisable(true));
+    SmartDashboard.putData("Zero Pivot", new ZeroPivot(mManipulator.getPivot()).withTimeout(1).ignoringDisable(true));
 
   }
 
@@ -105,19 +107,25 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureTeleopBindings() {
+    mKeypad.button(3).onTrue(mManipulator.setAlignTypeCommand(2));
+    mKeypad.button(2).onTrue(mManipulator.setAlignTypeCommand(1));
+    mKeypad.button(1).onTrue(mManipulator.setAlignTypeCommand(0));
 
     mPilot.y().whileTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
-    mPilot.x().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(mManipulator.goToScoreMidAlign()));
-    mPilot.a().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(mManipulator.goToScoreMidAlign()));
-    mPilot.b().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(mManipulator.goToScoreMidAlign()));
+    mPilot.x().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
+    mPilot.a().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
+    mPilot.b().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
     //mPilot.leftTrigger().whileTrue(new RunIntakeUntilStall(mManipulator).andThen(mManipulator.getGrasper().runTestCurrent()));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().toggleOnTrue(mManipulator.getGrasper().runTestCurrent());
-    mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode());
-    mPilot.leftBumper().onTrue(mLED.swapYellowPurple());
+    mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode().alongWith(mDrivetrainSubsystem.resetAlign()));
+    mPilot.leftBumper().onTrue(mLED.swapYellowPurple().andThen(mLED.setFlashingCommand(true).withTimeout(1)).andThen(mLED.setFlashingCommand(false).withTimeout(0.05)));
     mPilot.rightStick().onTrue(new AlignToLoadDouble(mDrivetrainSubsystem, mLED));
     mPilot.povDown().whileTrue(mManipulator.goToStow());
     mPilot.start().onTrue(mBottomSolenoids.toggleBottomSolenoid());
+
+    mPilot.povLeft().whileTrue(new AutoAlignAdjust(mDrivetrainSubsystem, 0.05));
+    mPilot.povRight().whileTrue(new AutoAlignAdjust(mDrivetrainSubsystem, -0.05));
 
     mCopilot.a().whileTrue(mManipulator.goToLoadDouble());
     mCopilot.b().whileTrue(mManipulator.goToCloseCubeIntake());
@@ -129,8 +137,8 @@ public class RobotContainer {
 
     new Trigger(() -> mCopilot.getLeftX() > 0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     new Trigger(() -> mCopilot.getLeftX() < -0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
-    new Trigger(() -> mCopilot.getLeftY() > -0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> 0.2));
-    new Trigger(() -> mCopilot.getLeftY() < 0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> -0.2));
+    new Trigger(() -> mCopilot.getLeftY() < -0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> 0.2));
+    new Trigger(() -> mCopilot.getLeftY() > 0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> -0.2));
 
     mCopilot.rightTrigger().whileTrue(mManipulator.goToZero());
     mCopilot.back().onTrue(mManipulator.swapAutoScoreCommand());
@@ -147,8 +155,8 @@ public class RobotContainer {
     mTestCtrl.rightTrigger(0.1).whileTrue(mManipulator.getElevator().runTestMode(() -> mTestCtrl.getRightTriggerAxis()));
     mTestCtrl.povUp().whileTrue(mManipulator.getGrasper().runTestMode());
     mTestCtrl.povDown().whileTrue(mManipulator.getGrasper().runSpitMode());
-    mTestCtrl.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.5));
-    mTestCtrl.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.5));
+    mTestCtrl.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
+    mTestCtrl.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
     mTestCtrl.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     mTestCtrl.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
     mTestCtrl.start().whileTrue(mManipulator.getElevator().disableSoftLimits());

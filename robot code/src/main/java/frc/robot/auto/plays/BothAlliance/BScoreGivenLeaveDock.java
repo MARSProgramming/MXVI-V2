@@ -23,7 +23,7 @@ public class BScoreGivenLeaveDock extends SequentialCommandGroup{
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
             mManipulator.goToCubeShootHigh().withTimeout(1).deadlineWith(mManipulator.getGrasper().runTestCurrent()),
             mManipulator.getGrasper().runSpitMode().withTimeout(0.5),
-            new DriveAtPath(drivetrain, LeaveCommunity, false, false, 100).deadlineWith(mManipulator.goToZero()),
+            new DriveAtPath(drivetrain, LeaveCommunity, true, false, 100).deadlineWith(mManipulator.goToZero()),
             new AutoBalance(drivetrain)
          );
     }

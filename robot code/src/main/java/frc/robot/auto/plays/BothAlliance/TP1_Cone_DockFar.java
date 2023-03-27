@@ -26,11 +26,10 @@ public class TP1_Cone_DockFar extends SequentialCommandGroup{
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
-            mManipulator.goToScoreHigh().withTimeout(3.0),
+            mManipulator.goToScoreHigh().withTimeout(2.6),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
-            mManipulator.goToCubeIntake().withTimeout(0.3),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
-                mManipulator.goToCubeIntake(), mManipulator.getGrasper().runTestMode()
+                mManipulator.goToCloseCubeIntake(), mManipulator.getGrasper().runTestMode()
             ),
             new DriveAtPath(drivetrain, P1toMarker, false, false, 2.9).deadlineWith(
                 mManipulator.goToZero().withTimeout(0.3).andThen(mManipulator.goToCubeShootHigh()),

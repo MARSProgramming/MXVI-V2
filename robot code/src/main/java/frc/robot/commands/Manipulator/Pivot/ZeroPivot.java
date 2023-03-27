@@ -6,7 +6,7 @@ import frc.robot.subsystems.MiniSystems.Pivot;
 public class ZeroPivot extends CommandBase{
     private Pivot mPivot;
     public ZeroPivot(Pivot pivot){
-        pivot = mPivot;
+        mPivot = pivot;
     }
     @Override
     public void initialize() {

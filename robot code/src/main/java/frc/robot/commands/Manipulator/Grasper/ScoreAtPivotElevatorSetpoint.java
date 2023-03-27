@@ -23,7 +23,7 @@ public class ScoreAtPivotElevatorSetpoint extends CommandBase{
 
     @Override
     public void execute(){
-        if(Math.abs(mManipulator.getElevator().distanceToSetpoint(elevatorSetpoint)) < 2 && Math.abs(mManipulator.getPivot().distanceToSetpoint(pivotSetpoint)) < 0.15 && mManipulator.getAutoScore()){
+        if(Math.abs(mManipulator.getElevator().distanceToSetpoint(elevatorSetpoint)) < 1 && Math.abs(mManipulator.getPivot().distanceToSetpoint(pivotSetpoint)) < 0.15 && mManipulator.getAutoScore()){
             timer.start();
             mManipulator.getGrasper().setPercentOutput(-1);
         }
@@ -37,6 +37,6 @@ public class ScoreAtPivotElevatorSetpoint extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return timer.get() > 0.25;
+        return timer.get() > 0.3;
     }
 }

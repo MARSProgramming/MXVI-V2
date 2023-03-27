@@ -19,7 +19,7 @@ public class AlignToScore extends CommandBase {
     private Timer mTimer;
     private AlignToScoreEnum mPos = AlignToScoreEnum.LEFT;
     private double yGoal = 0;
-    private double xGoal = 1.81;
+    private double xGoal = 1.84;
     private double highScoreX = 0.37;
     private double midScoreX = 0.79;
 
@@ -37,7 +37,7 @@ public class AlignToScore extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        mDrivetrainSubsystem.setAlignAdjust(0);
+        //mDrivetrainSubsystem.setAlignAdjust(0);
         if(mPos == AlignToScoreEnum.LEFT){
             yGoal = mDrivetrainSubsystem.getAlignLeftY();
         }
@@ -60,18 +60,18 @@ public class AlignToScore extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        ChassisSpeeds cs = new ChassisSpeeds();
+        //ChassisSpeeds cs = new ChassisSpeeds();
         double angleAdjust = Math.atan((mDrivetrainSubsystem.getPose().getY()-yGoal)/(mDrivetrainSubsystem.getPose().getX() - midScoreX));
-        System.out.println(angleAdjust);
-        if(mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) > 0.04){
-            cs = new ChassisSpeeds(
+        System.out.println(mDrivetrainSubsystem.getAdjust().getAsDouble());
+        //if(mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) > 0.04){
+            ChassisSpeeds cs = new ChassisSpeeds(
             -xController.calculate(mDrivetrainSubsystem.getPose().getX(), xGoal),
             -yController.calculate(mDrivetrainSubsystem.getPose().getY(), yGoal + mDrivetrainSubsystem.getAdjust().getAsDouble()),
             thetaController.calculate(mDrivetrainSubsystem.getPigeonAngle(), Math.PI));
-        }
-        else{
+        //}
+        /*else{
             cs = new ChassisSpeeds(0, 0, thetaController.calculate(mDrivetrainSubsystem.getPigeonAngle(), Math.PI + angleAdjust));
-        }
+        }*/
         
         mDrivetrainSubsystem.drive(cs);
     }
@@ -87,6 +87,6 @@ public class AlignToScore extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return thetaController.atSetpoint() && mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) < 0.04;
+        return thetaController.atSetpoint() && mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) < 0.04 || mDrivetrainSubsystem.getPose().getX() > 3.6 || mDrivetrainSubsystem.getPose().getX() < 1.7;
     }
 }

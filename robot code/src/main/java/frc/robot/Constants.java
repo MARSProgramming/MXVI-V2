@@ -53,8 +53,7 @@ public final class Constants {
         public static double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
 
-        public static double autoBalanceP = 0.035;
-        public static double RRTapeAlignP = 0.03;
+        public static double autoBalanceP = 0.045;
     }
 
     public static class Auto{
@@ -129,7 +128,7 @@ public final class Constants {
 
     public static class Pivot{
         public static int motorID = 11;
-        public static double kP = 1.5;
+        public static double kP = 1.3;
         public static double kI = 0.0;
         public static double kD = 0.0;
 

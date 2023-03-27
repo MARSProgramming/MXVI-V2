@@ -40,11 +40,9 @@ public class Pivot extends SubsystemBase{
         pivot.configFactoryDefault();
         pivot.setNeutralMode(NeutralMode.Brake);
         pivot.setInverted(true);
-        pivot.configOpenloopRamp(0.05);
+        pivot.configOpenloopRamp(0.01);
 
         mEncoder.setDistancePerRotation(Math.PI * 2);
-        //mEncoder.reset();
-        mController.reset(new State(getEncoderPos(), 0));
 
         File pivotZero = new File("/home/lvuser/constants/PivotZero.txt");
         if (pivotZero.exists()) {
@@ -59,6 +57,8 @@ public class Pivot extends SubsystemBase{
         }
 
         mEncoder.setPositionOffset(Constants.Pivot.zero);
+        mController.reset(new State(getEncoderPos(), 0));
+        mController.setTolerance(0.05);
     }
 
     public double getEncoderPos(){
@@ -71,12 +71,14 @@ public class Pivot extends SubsystemBase{
 
         public void zeroPivot(boolean run) {
             if (run) {
+                mEncoder.setPositionOffset(0);
+                Constants.Pivot.zero = mEncoder.getDistance() / (Math.PI*2);
+                if(Constants.Pivot.zero < 0){
+                    Constants.Pivot.zero++;
+                }
+                //mEncoder.setPositionOffset(Constants.Pivot.zero);
+                //NetworkTableInstance.getDefault().getTable("Shuffleboard").getSubTable("Pivot").getEntry("Pivot: zero").setDouble(Constants.Pivot.zero);
                 
-                Constants.Pivot.zero = (mEncoder.getDistance() / (Math.PI*2)) + Constants.Pivot.zero;
-                mEncoder.setPositionOffset(Constants.Pivot.zero);
-                NetworkTableInstance.getDefault().getTable("Shuffleboard").getSubTable("Pivot").getEntry("Pivot: zero").setDouble(Constants.Pivot.zero);
-                
-                mEncoder.reset();
                 File pivotZero = new File("/home/lvuser/constants/PivotZero.txt");
                 pivotZero.setExecutable(true);
                 pivotZero.setReadable(true);
@@ -85,7 +87,7 @@ public class Pivot extends SubsystemBase{
                 try {
                     pivotZero.createNewFile();
                     FileWriter writer = new FileWriter("/home/lvuser/constants/PivotZero.txt");
-                    writer.write(Constants.Pivot.zero + "\n");
+                    writer.write(Constants.Pivot.zero + "");
                     writer.close();
                 } catch (IOException e) {
                     System.out.println("File could not be found when writing to pivot zero");
@@ -108,11 +110,22 @@ public class Pivot extends SubsystemBase{
     } 
 
     public void setpos(double angle) {
+        pivot.configOpenloopRamp(0.2);
         //System.out.println(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
              new TrapezoidProfile.State(angle, 0),
-              new TrapezoidProfile.Constraints(14, 11)) + (Math.sin(getEncoderPos()) * -0.07),
+              new TrapezoidProfile.Constraints(12, 8)) + (Math.sin(getEncoderPos()) * -0.07),
+               -1, 1));
+    }
+
+    public void setposSlower(double angle) {
+        //System.out.println(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
+        pivot.configOpenloopRamp(1);
+        Run(MathUtil.clamp(
+            mController.calculate(getEncoderPos(),
+             new TrapezoidProfile.State(angle, 0),
+              new TrapezoidProfile.Constraints(12, 8)) + (Math.sin(getEncoderPos()) * -0.07),
                -1, 1));
     }
 
@@ -147,7 +160,7 @@ public class Pivot extends SubsystemBase{
         setpos(Constants.Pivot.stowPos);
     }
     public void goToLoadDouble(){
-        setpos(Constants.Pivot.loadDoublePos);
+        setposSlower(Constants.Pivot.loadDoublePos);
     }
     public void goToShootMid(){
         setpos(Constants.Pivot.shootMidPos);

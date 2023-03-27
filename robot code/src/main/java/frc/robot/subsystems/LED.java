@@ -126,6 +126,14 @@ public class LED extends SubsystemBase {
     }
   }
 
+  public CommandBase setFlashingCommand(boolean flash){
+    return run(
+        () -> {
+            setFlashing(flash);
+        }
+    );
+  }
+
   @Override
   public void periodic() {
         /*for (var i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -210,7 +218,7 @@ public class LED extends SubsystemBase {
       // For every pixel
       for (var i = 0; i < m_ledBuffer.getLength(); i++) {
         // Sets the specified LED to the RGB values for red
-        if ((iterations / 25) % 2 == 0) {
+        if ((iterations / 5) % 2 == 0) {
           m_ledBuffer.setRGB(i, 0, 128, 128);
         } else {
           m_ledBuffer.setRGB(i, 0,0,0);
@@ -225,7 +233,7 @@ public class LED extends SubsystemBase {
       // For every pixel
       for (var i = 0; i < m_ledBuffer.getLength(); i++) {
         // Sets the specified LED to the RGB values for red
-        if ((iterations / 25) % 2 == 0) {
+        if ((iterations / 5) % 2 == 0) {
           m_ledBuffer.setRGB(i, 255, 255, 0);
         } else {
           m_ledBuffer.setRGB(i, 0,0,0);

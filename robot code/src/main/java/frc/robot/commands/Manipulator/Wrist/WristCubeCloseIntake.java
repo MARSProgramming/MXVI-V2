@@ -12,7 +12,7 @@ public class WristCubeCloseIntake extends CommandBase{
 
     @Override
     public void execute(){
-        if(manipulator.getPivot().getEncoderPos() > 0.5){
+        if(manipulator.getPivot().getEncoderPos() > 0){
             manipulator.getWrist().goToCloseCubeIntake();
         }
     }

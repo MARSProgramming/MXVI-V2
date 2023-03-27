@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.auto.plays.DoNothing;
+import frc.robot.auto.plays.BothAlliance.BP4_Cone_Dock;
 import frc.robot.auto.plays.BothAlliance.BP4_Cone_NoDock;
 import frc.robot.auto.plays.BothAlliance.BScoreGiven;
 import frc.robot.auto.plays.BothAlliance.BScoreGivenLeave;
@@ -22,8 +23,9 @@ import frc.robot.auto.plays.BothAlliance.MidScoreGivenLeave;
 import frc.robot.auto.plays.BothAlliance.MidScoreGivenLeaveDock;
 import frc.robot.auto.plays.BothAlliance.MidSetPose;
 import frc.robot.auto.plays.BothAlliance.TP1P2Pickup_Cone_NoDock;
-import frc.robot.auto.plays.BothAlliance.TP1P2_LowerCone_Dock;
+import frc.robot.auto.plays.BothAlliance.TP1P2_LowerCone_Mid_Dock;
 import frc.robot.auto.plays.BothAlliance.TP1P2_LowerCone_NoDock;
+import frc.robot.auto.plays.BothAlliance.TP1P2_LowerCone_PickupDock;
 import frc.robot.auto.plays.BothAlliance.TP1_Cone_Dock;
 import frc.robot.auto.plays.BothAlliance.TP1_Cone_DockFar;
 import frc.robot.auto.plays.BothAlliance.TP1_Cone_NoDock;
@@ -54,6 +56,7 @@ public class AutoChooser {
         autoChooser.addOption("3: Score Given Leave", new BScoreGivenLeave(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("3: Score Given Leave Dock", new BScoreGivenLeaveDock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("3: Score Cone and Cube High", new BP4_Cone_NoDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("3: Score Cone and Cube High Dock", new BP4_Cone_Dock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("2: Set Pose", new MidSetPose(mDrivetrainSubsystem));
         autoChooser.addOption("2: Leave Community", new MidLeaveCommunity(mDrivetrainSubsystem));
         autoChooser.addOption("2: Score Given", new MidScoreGiven(mDrivetrainSubsystem, mManipulator));
@@ -71,6 +74,8 @@ public class AutoChooser {
         autoChooser.addOption("1-Cone: Score Cone and Cube High Pickup Third", new TP1P2Pickup_Cone_NoDock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("1-Cone: Score Cone and Cube High", new TP1_Cone_NoDock(mDrivetrainSubsystem, mManipulator));
         autoChooser.addOption("1-LowerCone: Score 3", new TP1P2_LowerCone_NoDock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("1-LowerCone: Score 3 Mid and Dock", new TP1P2_LowerCone_Mid_Dock(mDrivetrainSubsystem, mManipulator));
+        autoChooser.addOption("1-LowerCone: 2 Pickup Dock", new TP1P2_LowerCone_PickupDock(mDrivetrainSubsystem, mManipulator));
         //autoChooser.addOption("1-LowerCone: Score 3 Dock", new TP1P2_LowerCone_Dock(mDrivetrainSubsystem, mManipulator));
 
 

@@ -127,15 +127,15 @@ public class Elevator extends SubsystemBase{
             setPercentOutput(d.getAsDouble());
           },
           () -> {
-            setPercentOutput(0);
+            master.set(ControlMode.PercentOutput, 0);
           }
           ).withName("Test Elevator");
     }
 
-    public CommandBase testSetpoint() {
+    public CommandBase testSetpoint(DoubleSupplier d) {
         return runEnd(
           () -> {
-            goToIntake();
+            setPosition(d.getAsDouble());
           },
           () -> {
             master.set(ControlMode.PercentOutput, 0);
