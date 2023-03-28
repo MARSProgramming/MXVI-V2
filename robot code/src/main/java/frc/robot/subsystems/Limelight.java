@@ -38,7 +38,6 @@ public class Limelight extends SubsystemBase{
             //if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 4){
                 if(!mTimer.hasElapsed(0.3) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.1){
                     dt.addVisionMeasurement(new Pose2d(x, y, dt.getGyroscopeRotation()), botpose[6]/1000);
-                    System.out.println("reset");
                 }
                 mTimer.start();
             //}

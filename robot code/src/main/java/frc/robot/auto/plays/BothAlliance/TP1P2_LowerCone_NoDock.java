@@ -24,7 +24,7 @@ public class TP1P2_LowerCone_NoDock extends SequentialCommandGroup{
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
-            mManipulator.goToScoreHigh().withTimeout(2.3),
+            mManipulator.goToScoreHigh().withTimeout(2.1),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
                 mManipulator.goToIntake(), mManipulator.getGrasper().setPercentOutputCommand(1)
             ),

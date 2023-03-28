@@ -40,7 +40,6 @@ public class DriveAtPath extends CommandBase {
     @Override
     public void initialize() {
         transformedTrajectory = PathPlannerTrajectory.transformTrajectoryForAlliance(mTrajectory, DriverStation.getAlliance());
-        System.out.println("alliance: " + DriverStation.getAlliance());
         mController.setTolerance(new Pose2d(0.01, 0.01, new Rotation2d(0.05)));
         mTimer.reset();
         mTimer.start();
@@ -50,7 +49,6 @@ public class DriveAtPath extends CommandBase {
     @Override
     public void execute() {
         var state = (PathPlannerState) transformedTrajectory.sample(mTimer.get() + 0.3);
-        System.out.println(state.poseMeters.getTranslation().toString());
         mDrivetrainSubsystem.drive(mController.calculate(mDrivetrainSubsystem.getPose(), transformedTrajectory.sample(mTimer.get() + 0.3), state.holonomicRotation));
         SmartDashboard.putNumber("desiredX", transformedTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());
         SmartDashboard.putNumber("autoXError", mDrivetrainSubsystem.getPose().getX() - transformedTrajectory.sample(mTimer.get() + 0.3).poseMeters.getX());

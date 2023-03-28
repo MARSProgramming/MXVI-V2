@@ -62,7 +62,6 @@ public class AlignToScore extends CommandBase {
     public void execute() {
         //ChassisSpeeds cs = new ChassisSpeeds();
         double angleAdjust = Math.atan((mDrivetrainSubsystem.getPose().getY()-yGoal)/(mDrivetrainSubsystem.getPose().getX() - midScoreX));
-        System.out.println(mDrivetrainSubsystem.getAdjust().getAsDouble());
         //if(mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) > 0.04){
             ChassisSpeeds cs = new ChassisSpeeds(
             -xController.calculate(mDrivetrainSubsystem.getPose().getX(), xGoal),

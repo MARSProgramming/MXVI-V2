@@ -40,7 +40,7 @@ public class Pivot extends SubsystemBase{
         pivot.configFactoryDefault();
         pivot.setNeutralMode(NeutralMode.Brake);
         pivot.setInverted(true);
-        pivot.configOpenloopRamp(0.01);
+        pivot.configOpenloopRamp(0.2);
 
         mEncoder.setDistancePerRotation(Math.PI * 2);
 
@@ -110,7 +110,7 @@ public class Pivot extends SubsystemBase{
     } 
 
     public void setpos(double angle) {
-        pivot.configOpenloopRamp(0.2);
+        pivot.configOpenloopRamp(0.05);
         //System.out.println(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
