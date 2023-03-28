@@ -74,7 +74,7 @@ public class Pivot extends SubsystemBase{
                 mEncoder.setPositionOffset(0);
                 Constants.Pivot.zero = mEncoder.getDistance() / (Math.PI*2);
                 if(Constants.Pivot.zero < 0){
-                    Constants.Pivot.zero++;
+                    Constants.Pivot.zero += 1;
                 }
                 //mEncoder.setPositionOffset(Constants.Pivot.zero);
                 //NetworkTableInstance.getDefault().getTable("Shuffleboard").getSubTable("Pivot").getEntry("Pivot: zero").setDouble(Constants.Pivot.zero);

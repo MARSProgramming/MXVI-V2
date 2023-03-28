@@ -25,13 +25,12 @@ public class TP1P2_LowerCone_PickupDock extends SequentialCommandGroup{
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
-            mManipulator.goToScoreHigh().withTimeout(2.3),
+            mManipulator.goToScoreHigh().withTimeout(2.1),
             new DriveAtPath(drivetrain, MarkertoP1, false, false, 5.0).deadlineWith(
                 mManipulator.goToIntake(), mManipulator.getGrasper().setPercentOutputCommand(1)
             ),
-            mManipulator.getGrasper().setPercentOutputCommand(1).withTimeout(0.15),
             new DriveAtPath(drivetrain, P1toMarker, false, false, 2.5).alongWith
-            (new WaitCommand(1.8).deadlineWith(mManipulator.goToZero(), mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.goToScoreHigh().withTimeout(2.4))),
+            (new WaitCommand(1.5).deadlineWith(mManipulator.goToZero(), mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.goToScoreHigh().withTimeout(2.4))),
             new DriveAtPath(drivetrain, MarkerToP2, false, false, 2.6).deadlineWith(
                 new WaitCommand(0.4).andThen(mManipulator.goToCloseCubeIntake()), mManipulator.getGrasper().setPercentOutputCommand(1)
             ),
