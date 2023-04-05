@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import java.sql.Driver;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -92,6 +94,7 @@ public class AutoChooser {
     }
     public static PathPlannerTrajectory openTrajectoryFileForAlliance(String name, PathConstraints constraints){
         PathPlannerTrajectory t = PathPlanner.loadPath(name, constraints);
+        DriverStation.reportWarning(name + ": " + DriverStation.getAlliance().toString(), false);
         return PathPlannerTrajectory.transformTrajectoryForAlliance(t, DriverStation.getAlliance());
     }
 }

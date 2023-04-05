@@ -16,8 +16,8 @@ public class MidScoreGivenLeaveDock extends SequentialCommandGroup{
     public MidScoreGivenLeaveDock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_MiddleLeaveCommunity", new PathConstraints(1, 0.5));
-        PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFile("BLUE_MiddleMarker_M-C", new PathConstraints(1, 0.5));
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFileForAlliance("BLUE_MiddleLeaveCommunity", new PathConstraints(1, 0.5));
+        PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFileForAlliance("BLUE_MiddleMarker_M-C", new PathConstraints(1, 0.5));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),

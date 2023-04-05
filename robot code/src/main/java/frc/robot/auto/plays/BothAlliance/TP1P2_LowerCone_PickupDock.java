@@ -17,10 +17,10 @@ public class TP1P2_LowerCone_PickupDock extends SequentialCommandGroup{
     public TP1P2_LowerCone_PickupDock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_M-P1", new PathConstraints(2.3, 1.6));
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_P1-M", new PathConstraints(3, 2));
-        PathPlannerTrajectory MarkerToP2 = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_M-P2", new PathConstraints(3.5, 2.5));
-        PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_M-CFar", new PathConstraints(2.0, 2.0));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_M-P1", new PathConstraints(2.3, 1.6));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_P1-M", new PathConstraints(3, 2));
+        PathPlannerTrajectory MarkerToP2 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_M-P2", new PathConstraints(3.5, 2.5));
+        PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_M-CFar", new PathConstraints(2.0, 2.0));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),

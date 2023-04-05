@@ -15,7 +15,7 @@ public class BScoreGivenLeave extends SequentialCommandGroup{
     public BScoreGivenLeave(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain);
         // Add stuff here to leave community
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_BottomLeaveCommunity", new PathConstraints(1.0, 0.5));
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomLeaveCommunity", new PathConstraints(1.0, 0.5));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),

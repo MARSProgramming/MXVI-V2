@@ -15,11 +15,11 @@ public class TP1P2_Dock extends SequentialCommandGroup{
     public TP1P2_Dock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1", new PathConstraints(4, 3));
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-M", new PathConstraints(4, 3));
-        PathPlannerTrajectory MarkertoP2 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P2", new PathConstraints(4, 3));
-        PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P2-M", new PathConstraints(4, 3));
-        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-C", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1", new PathConstraints(4, 3));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P1-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkertoP2 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P2", new PathConstraints(4, 3));
+        PathPlannerTrajectory P2toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P2-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-C", new PathConstraints(4, 3));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()),

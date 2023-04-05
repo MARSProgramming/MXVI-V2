@@ -53,7 +53,7 @@ public final class Constants {
         public static double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
 
-        public static double autoBalanceP = 0.045;
+        public static double autoBalanceP = 0.035;
     }
 
     public static class Auto{
@@ -98,7 +98,7 @@ public final class Constants {
         public static double scoreLowPos = 0.1;
         public static double loadDoublePos = 17;
         public static double stowPos = 1;
-        public static double loadPos = 10;
+        public static double loadPos = 0;
     }
 
     public static class Wrist{
@@ -111,17 +111,17 @@ public final class Constants {
         public static double reverseLimit = -10.75;
 
         public static double intakeBackPos = 3.3;
-        public static double intakeUpPos = 4.01;
+        public static double intakeUpPos = 3.8;
         public static double intakeCubePos = 5.5;
         public static double intakeCloseCubePos = 4.0;
         public static double loadDoublePos = -5.3;
-        public static double scoreHighPos = -4.7;
+        public static double scoreHighPos = -4.9;
         public static double scoreMidPos = -5.0;
         public static double scoreLowPos = -2.63;
         public static double carryPos = -1.0;
         public static double shootPos = -2.9;
         public static double shootHighPos = -3.3;
-        public static double loadPos = 0.8;
+        public static double loadPos = -1.5;
         public static double stowPos = 1.7;
         
     }
@@ -134,7 +134,7 @@ public final class Constants {
 
         public static double forwardLimit = 1000;
         public static double reverseLimit = -1000;
-        public static double zero = 0.0361156;
+        public static double zero = 0.958;
 
         public static double intakeBackPos = 2.2;
         public static double intakeCloseCubePos = 2.0;
@@ -143,7 +143,7 @@ public final class Constants {
         public static double scoreLowPos = -1.0;
         public static double cubePos = 1.60;
         public static double intakeHighPos = 2.13;
-        public static double loadPos = 1.45;
+        public static double loadPos = -1;
         public static double loadDoublePos = -0.5;
 
         public static double shootHighPos = -0.5;

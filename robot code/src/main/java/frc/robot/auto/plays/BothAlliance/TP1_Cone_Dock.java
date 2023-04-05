@@ -17,9 +17,9 @@ public class TP1_Cone_Dock extends SequentialCommandGroup{
     public TP1_Cone_Dock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopMarker_M-P1Cone", new PathConstraints(3, 2));
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopMarker_P1-MCone", new PathConstraints(3, 2));
-        PathPlannerTrajectory CSPath = AutoChooser.openTrajectoryFile("Blue_TopMarker_M-CCone", new PathConstraints(1, 1));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_M-P1Cone", new PathConstraints(3, 2));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopMarker_P1-MCone", new PathConstraints(3, 2));
+        PathPlannerTrajectory CSPath = AutoChooser.openTrajectoryFileForAlliance("Blue_TopMarker_M-CCone", new PathConstraints(1, 1));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()).withTimeout(0.03),

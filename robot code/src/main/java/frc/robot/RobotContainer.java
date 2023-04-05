@@ -137,16 +137,16 @@ public class RobotContainer {
 
     new Trigger(() -> mCopilot.getLeftX() > 0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     new Trigger(() -> mCopilot.getLeftX() < -0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
-    new Trigger(() -> mCopilot.getLeftY() < -0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> 0.2));
-    new Trigger(() -> mCopilot.getLeftY() > 0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> -0.2));
+    new Trigger(() -> mCopilot.getLeftY() < -0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> 0.45));
+    new Trigger(() -> mCopilot.getLeftY() > 0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> -0.45));
 
     mCopilot.rightTrigger().whileTrue(mManipulator.goToZero());
     mCopilot.back().onTrue(mManipulator.swapAutoScoreCommand());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());
     mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
     mCopilot.povLeft().whileTrue(mManipulator.goToScoreMid());
-    mCopilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.2));
-    mCopilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.2));
+    mCopilot.leftBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> -0.4));
+    mCopilot.rightBumper().whileTrue(mManipulator.getPivot().runTestMode(() -> 0.4));
     System.out.println("Teleop Bindings Configured");
   }
 

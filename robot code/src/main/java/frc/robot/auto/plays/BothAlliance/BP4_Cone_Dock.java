@@ -19,9 +19,9 @@ public class BP4_Cone_Dock extends SequentialCommandGroup{
     public BP4_Cone_Dock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_M-P4Cone", new PathConstraints(2, 2.0));
-        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_P4-MCone", new PathConstraints(2, 2.0));
-        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_M-CCone", new PathConstraints(2, 1.5));
+        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_M-P4Cone", new PathConstraints(2, 2.0));
+        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_P4-MCone", new PathConstraints(2, 2.0));
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_M-CCone", new PathConstraints(2, 1.5));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.05),
             new ResetDrivePose(drivetrain, MarkertoP4.getInitialHolonomicPose()),

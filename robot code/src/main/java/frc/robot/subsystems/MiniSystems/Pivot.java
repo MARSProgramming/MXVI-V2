@@ -2,11 +2,6 @@
 
 package frc.robot.subsystems.MiniSystems;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -17,20 +12,16 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.util.MoreMath;
 
 public class Pivot extends SubsystemBase{
 
-    private final double kGearRatio = 49;
+    private final double kGearRatio = 48.0 / 18.0 * 100.0;
     private TalonFX pivot = new TalonFX(Constants.Pivot.motorID);
     private final double kRadianstoNativeUnits = 2048 / Math.PI / 2 * kGearRatio;
     private final DutyCycleEncoder mEncoder = new DutyCycleEncoder(0);
@@ -42,9 +33,11 @@ public class Pivot extends SubsystemBase{
         pivot.setInverted(true);
         pivot.configOpenloopRamp(0.2);
 
+        Timer.delay(1);
+        mEncoder.setPositionOffset(Constants.Pivot.zero);
         mEncoder.setDistancePerRotation(Math.PI * 2);
 
-        File pivotZero = new File("/home/lvuser/constants/PivotZero.txt");
+        /*File pivotZero = new File("/home/lvuser/constants/PivotZero.txt");
         if (pivotZero.exists()) {
             try {
                 Scanner sc = new Scanner(pivotZero);
@@ -54,22 +47,37 @@ public class Pivot extends SubsystemBase{
             } catch (FileNotFoundException e) {
                 System.out.println("Pivot Zero file not found");
             }
-        }
-
-        mEncoder.setPositionOffset(Constants.Pivot.zero);
+        }*/
+        
+        pivot.setSelectedSensorPosition(0);
         mController.reset(new State(getEncoderPos(), 0));
         mController.setTolerance(0.05);
     }
 
     public double getEncoderPos(){
-        return -(mEncoder.getDistance());
+        if(mEncoder.getDistance() > 3.5){
+            //return mEncoder.getDistance() - (Math.PI * 2);
+            return getIntegratedEncoderPos();
+            //mEncoder.reset();
+        }
+        if(mEncoder.getDistance() < -3.5){
+            //return mEncoder.getDistance() + (Math.PI * 2);
+            return getIntegratedEncoderPos();
+            //mEncoder.reset();
+        }
+        return -mEncoder.getDistance();
+        //return -(mEncoder.getAbsolutePosition() - Constants.Pivot.zero) * Math.PI * 2;
+    }
+
+    public double getIntegratedEncoderPos(){
+        return pivot.getSelectedSensorPosition() / kRadianstoNativeUnits;
     }
 
     /* public void zeroPivot() {
         Constants.Pivot.zero = (mEncoder.getDistance() / (Math.PI*2)) - Constants.Pivot.zero;
         mEncoder.setPositionOffset(Constants.Pivot.zero); */
 
-        public void zeroPivot(boolean run) {
+        /*public void zeroPivot(boolean run) {
             if (run) {
                 mEncoder.setPositionOffset(0);
                 Constants.Pivot.zero = mEncoder.getDistance() / (Math.PI*2);
@@ -93,7 +101,7 @@ public class Pivot extends SubsystemBase{
                     System.out.println("File could not be found when writing to pivot zero");
                 }
             }
-        }
+        }*/
     
         
     
@@ -115,13 +123,13 @@ public class Pivot extends SubsystemBase{
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
              new TrapezoidProfile.State(angle, 0),
-              new TrapezoidProfile.Constraints(12, 8)) + (Math.sin(getEncoderPos()) * -0.07),
+              new TrapezoidProfile.Constraints(12, 10)) + (Math.sin(getEncoderPos()) * -0.07),
                -1, 1));
     }
 
     public void setposSlower(double angle) {
         //System.out.println(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
-        pivot.configOpenloopRamp(1);
+        pivot.configOpenloopRamp(0.5);
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
              new TrapezoidProfile.State(angle, 0),
@@ -145,7 +153,7 @@ public class Pivot extends SubsystemBase{
         setpos(Constants.Pivot.intakeBackPos);
     }
     public void goToLoad(){
-        setpos(Constants.Pivot.loadPos);
+        setposSlower(Constants.Pivot.loadPos);
     }
     public void goToShootHigh(){
         setpos(Constants.Pivot.shootHighPos);
@@ -205,7 +213,9 @@ public class Pivot extends SubsystemBase{
    
         SmartDashboard.putNumber("Pivot Setpoint", mController.getSetpoint().position);
         SmartDashboard.putNumber("Pivot Setpoint Velocity", mController.getSetpoint().velocity);
-        SmartDashboard.putNumber("Pivot Position", getEncoderPos());
+        SmartDashboard.putNumber("Pivot Position", -mEncoder.getDistance());
+
+        SmartDashboard.putNumber("Pivot Integrated Position", getIntegratedEncoderPos());
 
     }
 }

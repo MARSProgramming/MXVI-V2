@@ -16,7 +16,7 @@ public class TScoreGivenLeave extends SequentialCommandGroup{
     public TScoreGivenLeave(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         mDrivetrain = drivetrain;
         addRequirements(drivetrain);
-        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_TopLeaveCommunity", new PathConstraints(0.5, 0.5));
+        PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLeaveCommunity", new PathConstraints(0.5, 0.5));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),

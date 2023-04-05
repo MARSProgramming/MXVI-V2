@@ -16,11 +16,11 @@ import frc.robot.util.AutoChooser;
 public class BP3P4_Dock extends SequentialCommandGroup{
     public BP3P4_Dock(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
-        PathPlannerTrajectory MarkertoP3 = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_M-P3", new PathConstraints(4, 3));
-        PathPlannerTrajectory P3toMarker = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_P3-M", new PathConstraints(4, 3));
-        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_M-P4", new PathConstraints(4, 3));
-        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_P4-M", new PathConstraints(4, 3));
-        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFile("BLUE_BottomMarker_M-C", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkertoP3 = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_M-P3", new PathConstraints(4, 3));
+        PathPlannerTrajectory P3toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_P3-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkertoP4 = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_M-P4", new PathConstraints(4, 3));
+        PathPlannerTrajectory P4toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_P4-M", new PathConstraints(4, 3));
+        PathPlannerTrajectory MarkerToDock = AutoChooser.openTrajectoryFileForAlliance("BLUE_BottomMarker_M-C", new PathConstraints(4, 3));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, MarkertoP3.getInitialHolonomicPose()),

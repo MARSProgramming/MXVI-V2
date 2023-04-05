@@ -11,7 +11,7 @@ import frc.robot.util.AutoChooser;
 
 public class TopSetPose extends SequentialCommandGroup{
 
-    PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_TopLeaveCommunity", new PathConstraints(0.5, 1));
+    PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLeaveCommunity", new PathConstraints(0.5, 1));
     public TopSetPose(DrivetrainSubsystem drivetrain){
         addRequirements(drivetrain);
 

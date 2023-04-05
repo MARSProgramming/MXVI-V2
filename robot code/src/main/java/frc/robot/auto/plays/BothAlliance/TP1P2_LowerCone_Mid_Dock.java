@@ -17,11 +17,11 @@ public class TP1P2_LowerCone_Mid_Dock extends SequentialCommandGroup{
     public TP1P2_LowerCone_Mid_Dock(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain, mManipulator);
 
-        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_M-P1Mid", new PathConstraints(2.0, 1.6));
-        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_P1-MMid", new PathConstraints(3.5, 2.5));
-        PathPlannerTrajectory MarkerToP2 = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_M-P2Mid", new PathConstraints(3.0, 2.0));
-        PathPlannerTrajectory MarkerToP2_Part2 = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_P2-MMidDock", new PathConstraints(4, 3));
-        PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFile("BLUE_TopLowerCone_M-C", new PathConstraints(1.5, 1));
+        PathPlannerTrajectory MarkertoP1 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_M-P1Mid", new PathConstraints(2.0, 1.6));
+        PathPlannerTrajectory P1toMarker = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_P1-MMid", new PathConstraints(3.5, 2.5));
+        PathPlannerTrajectory MarkerToP2 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_M-P2Mid", new PathConstraints(3.0, 2.0));
+        PathPlannerTrajectory MarkerToP2_Part2 = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_P2-MMidDock", new PathConstraints(4, 3));
+        PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLowerCone_M-C", new PathConstraints(1.5, 1));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.02),
             new ResetDrivePose(drivetrain, MarkertoP1.getInitialHolonomicPose()),

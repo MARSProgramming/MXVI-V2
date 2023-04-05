@@ -13,7 +13,7 @@ import frc.robot.util.AutoChooser;
 public class TScoreGiven extends SequentialCommandGroup{
     private DrivetrainSubsystem mDrivetrain;
 
-    PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFile("BLUE_TopLeaveCommunity", new PathConstraints(0.5, 1));
+    PathPlannerTrajectory LeaveCommunity = AutoChooser.openTrajectoryFileForAlliance("BLUE_TopLeaveCommunity", new PathConstraints(0.5, 1));
     public TScoreGiven(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         mDrivetrain = drivetrain;
         addRequirements(drivetrain);
