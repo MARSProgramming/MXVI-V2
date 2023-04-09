@@ -2,6 +2,11 @@
 
 package frc.robot.subsystems.MiniSystems;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -34,10 +39,9 @@ public class Pivot extends SubsystemBase{
         pivot.configOpenloopRamp(0.2);
 
         Timer.delay(1);
-        mEncoder.setPositionOffset(Constants.Pivot.zero);
         mEncoder.setDistancePerRotation(Math.PI * 2);
 
-        /*File pivotZero = new File("/home/lvuser/constants/PivotZero.txt");
+        File pivotZero = new File("/home/lvuser/constants/PivotZero.txt");
         if (pivotZero.exists()) {
             try {
                 Scanner sc = new Scanner(pivotZero);
@@ -47,25 +51,29 @@ public class Pivot extends SubsystemBase{
             } catch (FileNotFoundException e) {
                 System.out.println("Pivot Zero file not found");
             }
-        }*/
+        }
         
+        mEncoder.setPositionOffset(Constants.Pivot.zero);
         pivot.setSelectedSensorPosition(0);
         mController.reset(new State(getEncoderPos(), 0));
         mController.setTolerance(0.05);
     }
 
     public double getEncoderPos(){
-        if(mEncoder.getDistance() > 3.5){
+        double pos = (mEncoder.getAbsolutePosition() - Constants.Pivot.zero) * 2 * Math.PI;
+        if(pos > 3.14159) pos = pos - Math.PI * 2;
+        if(pos > 2.5){
             //return mEncoder.getDistance() - (Math.PI * 2);
             return getIntegratedEncoderPos();
             //mEncoder.reset();
         }
-        if(mEncoder.getDistance() < -3.5){
+        if(pos < -2.5){
             //return mEncoder.getDistance() + (Math.PI * 2);
             return getIntegratedEncoderPos();
             //mEncoder.reset();
         }
-        return -mEncoder.getDistance();
+        return -pos;
+        //return -mEncoder.getDistance();
         //return -(mEncoder.getAbsolutePosition() - Constants.Pivot.zero) * Math.PI * 2;
     }
 
@@ -77,7 +85,7 @@ public class Pivot extends SubsystemBase{
         Constants.Pivot.zero = (mEncoder.getDistance() / (Math.PI*2)) - Constants.Pivot.zero;
         mEncoder.setPositionOffset(Constants.Pivot.zero); */
 
-        /*public void zeroPivot(boolean run) {
+        public void zeroPivot(boolean run) {
             if (run) {
                 mEncoder.setPositionOffset(0);
                 Constants.Pivot.zero = mEncoder.getDistance() / (Math.PI*2);
@@ -101,7 +109,7 @@ public class Pivot extends SubsystemBase{
                     System.out.println("File could not be found when writing to pivot zero");
                 }
             }
-        }*/
+        }
     
         
     
@@ -118,12 +126,12 @@ public class Pivot extends SubsystemBase{
     } 
 
     public void setpos(double angle) {
-        pivot.configOpenloopRamp(0.05);
+        pivot.configOpenloopRamp(0.2);
         //System.out.println(MathUtil.clamp(mController.calculate(getEncoderPos(), angle), -0.3, 0.3) + Math.sin(getEncoderPos()) * -0.07);
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
              new TrapezoidProfile.State(angle, 0),
-              new TrapezoidProfile.Constraints(12, 10)) + (Math.sin(getEncoderPos()) * -0.07),
+              new TrapezoidProfile.Constraints(15, 12)) + (Math.sin(getEncoderPos()) * -0.08),
                -1, 1));
     }
 
@@ -133,7 +141,7 @@ public class Pivot extends SubsystemBase{
         Run(MathUtil.clamp(
             mController.calculate(getEncoderPos(),
              new TrapezoidProfile.State(angle, 0),
-              new TrapezoidProfile.Constraints(12, 8)) + (Math.sin(getEncoderPos()) * -0.07),
+              new TrapezoidProfile.Constraints(12, 8)) + (Math.sin(getEncoderPos()) * -0.08),
                -1, 1));
     }
 
@@ -214,9 +222,10 @@ public class Pivot extends SubsystemBase{
         SmartDashboard.putNumber("Pivot Setpoint", mController.getSetpoint().position);
         SmartDashboard.putNumber("Pivot Setpoint Velocity", mController.getSetpoint().velocity);
         SmartDashboard.putNumber("Pivot Position", -mEncoder.getDistance());
+        SmartDashboard.putNumber("Pivot Absolute Position", mEncoder.getAbsolutePosition());
 
         SmartDashboard.putNumber("Pivot Integrated Position", getIntegratedEncoderPos());
-
+        
     }
 }
 

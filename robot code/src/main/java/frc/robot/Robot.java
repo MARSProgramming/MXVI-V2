@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    SmartDashboard.putString("Alliance:", DriverStation.getAlliance().toString());
+    //m_robotContainer.resetPose();
   }
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
@@ -83,13 +83,8 @@ public class Robot extends TimedRobot {
     }
   }
   @Override
-  
-
-
-  
   public void teleopPeriodic() {
 
-    m_robotContainer.resetPose();
   }
 
   private boolean testConfigured = false;

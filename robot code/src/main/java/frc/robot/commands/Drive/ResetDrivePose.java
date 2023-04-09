@@ -34,6 +34,6 @@ public class ResetDrivePose extends CommandBase{
     }
     @Override
     public boolean isFinished(){
-        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(mX, mY)) < 0.01;
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(mX, mY)) < 0.5;
     }
 }

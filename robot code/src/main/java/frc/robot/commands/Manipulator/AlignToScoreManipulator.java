@@ -40,5 +40,6 @@ public class AlignToScoreManipulator extends CommandBase{
         mManipulator.getElevator().setPercentOutput(0);
         mManipulator.getPivot().Run(0);
         mManipulator.getWrist().setPercentOutput(0);
+        mManipulator.getGrasper().setPercentOutput(0);
     }
 }

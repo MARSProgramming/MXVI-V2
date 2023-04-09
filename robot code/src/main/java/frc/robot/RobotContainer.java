@@ -106,15 +106,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
   public void configureTeleopBindings() {
     mKeypad.button(3).onTrue(mManipulator.setAlignTypeCommand(2));
     mKeypad.button(2).onTrue(mManipulator.setAlignTypeCommand(1));
     mKeypad.button(1).onTrue(mManipulator.setAlignTypeCommand(0));
 
     mPilot.y().whileTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
-    mPilot.x().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
-    mPilot.a().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
-    mPilot.b().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
+    mPilot.x().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
+    mPilot.a().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
+    mPilot.b().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
     //mPilot.leftTrigger().whileTrue(new RunIntakeUntilStall(mManipulator).andThen(mManipulator.getGrasper().runTestCurrent()));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().toggleOnTrue(mManipulator.getGrasper().runTestCurrent());
@@ -134,6 +135,7 @@ public class RobotContainer {
 
     mCopilot.povUp().whileTrue(mManipulator.goToScoreHigh());
     mCopilot.povDown().whileTrue(mManipulator.goToLoadCommand());
+    mCopilot.povRight().whileTrue(mManipulator.goToScoreLow());
 
     new Trigger(() -> mCopilot.getLeftX() > 0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     new Trigger(() -> mCopilot.getLeftX() < -0.7).whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));

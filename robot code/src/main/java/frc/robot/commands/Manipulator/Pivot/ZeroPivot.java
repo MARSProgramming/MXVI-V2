@@ -13,7 +13,7 @@ public class ZeroPivot extends CommandBase{
     }
     @Override
     public void execute(){
-        //mPivot.zeroPivot(true);
+        mPivot.zeroPivot(true);
     }
     @Override
     public void end(boolean interrupted){

@@ -256,6 +256,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("X", getPose().getX());
         SmartDashboard.putNumber("Y", getPose().getY());
         SmartDashboard.putNumber("roll", m_pigeon.getRoll());
+        //System.out.print("x speed: " + m_chassisSpeeds.vxMetersPerSecond + "     ");
+        //System.out.println("y speed: " + m_chassisSpeeds.vyMetersPerSecond);
     }
 
     public Pose2d getPose() {
@@ -280,13 +282,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     // this changes with alliance
-    private double[] leftYBlueScoringPos = { 5.08, 3.35, 1.63 };
-    private double[] midYBlueScoringPos = { 4.47, 2.74, 1.06 };
-    private double[] rightYBlueScoringPos = { 3.90, 2.20, 0.49 };
+    private double[] leftYBlueScoringPos = { 4.98, 3.30, 1.63 };
+    private double[] midYBlueScoringPos = { 4.42, 2.75, 1.07 };
+    private double[] rightYBlueScoringPos = { 3.86, 2.19, 0.51 };
 
-    private double[] leftYRedScoringPos = { 4.15, 5.84, 7.55 };
-    private double[] midYRedScoringPos = { 3.57, 5.30, 6.98 };
-    private double[] rightYRedScoringPos = { 3.05, 4.74, 6.41 };
+    private double[] leftYRedScoringPos = { 4.15, 5.82, 7.50 };
+    private double[] midYRedScoringPos = { 3.59, 5.27, 6.98 };
+    private double[] rightYRedScoringPos = { 3.03, 4.71, 6.38 };
 
     private double adjust = 0;
 

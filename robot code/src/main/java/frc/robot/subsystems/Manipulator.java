@@ -13,7 +13,9 @@ import frc.robot.commands.Manipulator.Elevator.ElevatorIntakeHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorLoad;
 import frc.robot.commands.Manipulator.Elevator.ElevatorLoadDouble;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreHigh;
+import frc.robot.commands.Manipulator.Elevator.ElevatorScoreLow;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
+import frc.robot.commands.Manipulator.Elevator.ElevatorShootHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorStow;
 import frc.robot.commands.Manipulator.Grasper.ScoreAtPivotElevatorSetpoint;
 import frc.robot.commands.Manipulator.Grasper.ScoreAtPivotSetpoint;
@@ -25,6 +27,7 @@ import frc.robot.commands.Manipulator.Pivot.PivotToLoad;
 import frc.robot.commands.Manipulator.Pivot.PivotToLoadDouble;
 import frc.robot.commands.Manipulator.Pivot.PivotToScore;
 import frc.robot.commands.Manipulator.Pivot.PivotToScoreHigh;
+import frc.robot.commands.Manipulator.Pivot.PivotToScoreLow;
 import frc.robot.commands.Manipulator.Pivot.PivotToShootHigh;
 import frc.robot.commands.Manipulator.Pivot.PivotToShootMid;
 import frc.robot.commands.Manipulator.Pivot.PivotToStow;
@@ -35,6 +38,7 @@ import frc.robot.commands.Manipulator.Wrist.WristCubeIntake;
 import frc.robot.commands.Manipulator.Wrist.WristHighIntake;
 import frc.robot.commands.Manipulator.Wrist.WristIntake;
 import frc.robot.commands.Manipulator.Wrist.WristScoreHigh;
+import frc.robot.commands.Manipulator.Wrist.WristScoreLow;
 import frc.robot.commands.Manipulator.Wrist.WristScoreMid;
 import frc.robot.commands.Manipulator.Wrist.WristStow;
 import frc.robot.commands.Manipulator.Wrist.WristToLoad;
@@ -119,7 +123,7 @@ public class Manipulator extends SubsystemBase{
     public CommandBase goToCubeShootHigh() {
         CommandBase scoreHighCommand = Commands.sequence(
             new ParallelCommandGroup(
-                new ElevatorScoreMid(this), 
+                new ElevatorShootHigh(this), 
                 new PivotToShootHigh(this),
                 new WristToShootHigh(this)
             )
@@ -217,6 +221,11 @@ public class Manipulator extends SubsystemBase{
         return loadCommand;
     }
 
+    public CommandBase goToScoreLow(){
+        return new WristCarry(this).andThen(Commands.parallel(
+            new WristScoreLow(this), new ElevatorScoreLow(this), new PivotToScoreLow(this)
+        ));
+    }
     public void setAlignType(int d){
         alignType = d;
         System.out.println(d);
@@ -240,7 +249,7 @@ public class Manipulator extends SubsystemBase{
                 }
                 mElevator.goToBottom();
                 if(mPivot.getEncoderPos() > -0.4 || mElevator.getPosition() > 4 || Math.abs(mWrist.distanceToSetpoint(Constants.Wrist.carryPos)) < 0.1){
-                    mPivot.setpos(0);
+                    mPivot.setpos(-0.1);
                 }
             },
             () -> {
@@ -249,12 +258,5 @@ public class Manipulator extends SubsystemBase{
                 mPivot.Run(0);
             }
         );
-    }
-
-    @Override
-    public void periodic(){
-        if(DriverStation.getMatchTime() < 0.5){
-            
-        }
     }
 }
