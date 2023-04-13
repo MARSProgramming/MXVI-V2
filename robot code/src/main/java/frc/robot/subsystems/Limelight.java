@@ -43,7 +43,7 @@ public class Limelight extends SubsystemBase{
             double y = botpose[1];
             double z = botpose[2];
 
-            if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 1 || DriverStation.isTeleop()){
+            if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 1 || DriverStation.isTeleop() || DriverStation.isDisabled()){
                 if(!mTimerLeft.hasElapsed(0.2) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.3){
                     dt.addVisionMeasurement(new Pose2d(x, y, dt.getGyroscopeRotation()), botpose[6]/1000);
                     mTimerLeft.start();
@@ -68,7 +68,7 @@ public class Limelight extends SubsystemBase{
             double y = botpose[1];
             double z = botpose[2];
 
-            if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 1 || DriverStation.isTeleop()){
+            if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 1 || DriverStation.isTeleop() || DriverStation.isDisabled()){
                 if(!mTimerRight.hasElapsed(0.2) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.3){
                     dt.addVisionMeasurement(new Pose2d(x, y, dt.getGyroscopeRotation()), botpose[6]/1000);
                     mTimerRight.start();
