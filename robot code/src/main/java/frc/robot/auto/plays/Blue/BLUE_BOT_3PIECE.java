@@ -27,7 +27,7 @@ public class BLUE_BOT_3PIECE extends SequentialCommandGroup{
             new DriveAtPath(drivetrain, P1, false, false, 5).deadlineWith(
                 mManipulator.goToZero().until(() -> drivetrain.getPose().getX() > 2.6).andThen(mManipulator.goToCloseCubeIntake().alongWith(mManipulator.getGrasper().setPercentOutputCommand(1)))
             ),
-            new DriveAtPath(drivetrain, ScoreP1, false, false, 3).alongWith(
+            new DriveAtPath(drivetrain, ScoreP1, false, false, 3.5).alongWith(
                 mManipulator.goToZero().until(() -> drivetrain.getPose().getX() < 4.2).andThen(mManipulator.goToCubeShootHigh().withTimeout(1.5)).deadlineWith(mManipulator.getGrasper().runTestCurrent())
             ),
             mManipulator.getGrasper().setPercentOutputCommand(-1).withTimeout(0.2),

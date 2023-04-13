@@ -24,20 +24,20 @@
     },
     {
       "anchorPoint": {
-        "x": 3.672279897751286,
-        "y": 0.8527931949480937
+        "x": 3.6225336280459803,
+        "y": 0.8172601451585889
       },
       "prevControl": {
-        "x": 2.9829387318349116,
-        "y": 0.8527931949480937
+        "x": 2.9606862748057794,
+        "y": 0.8226410179491592
       },
       "nextControl": {
-        "x": 5.093619655745296,
-        "y": 0.8527931949480937
+        "x": 4.496646652867775,
+        "y": 0.8101535352006887
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
-      "velOverride": 1.5,
+      "velOverride": 2.0,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -49,15 +49,40 @@
     },
     {
       "anchorPoint": {
-        "x": 6.912894038554035,
-        "y": 2.011170618085918
+        "x": 5.434719167310676,
+        "y": 0.9096460746112991
       },
       "prevControl": {
-        "x": 5.9002021195531755,
-        "y": 1.318276147190593
+        "x": 4.745378001394301,
+        "y": 0.731980825663779
+      },
+      "nextControl": {
+        "x": 6.329263704816802,
+        "y": 1.140198790463395
+      },
+      "holonomicAngle": -127.46055486049066,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.877360988764532,
+        "y": 1.9614243483806124
+      },
+      "prevControl": {
+        "x": 6.575330065553749,
+        "y": 1.5634541907381703
       },
       "nextControl": null,
-      "holonomicAngle": -131.10832370591925,
+      "holonomicAngle": -131.69325351975752,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -70,8 +95,8 @@
       }
     }
   ],
-  "maxVelocity": 3.0,
-  "maxAcceleration": null,
+  "maxVelocity": 2.0,
+  "maxAcceleration": 2.0,
   "isReversed": null,
   "markers": []
 }

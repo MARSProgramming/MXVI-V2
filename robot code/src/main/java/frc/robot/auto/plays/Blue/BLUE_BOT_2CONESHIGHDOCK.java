@@ -27,10 +27,9 @@ public class BLUE_BOT_2CONESHIGHDOCK extends SequentialCommandGroup{
             new DriveAtPath(drivetrain, P1, false, false, 3.5).deadlineWith(
                 mManipulator.goToZero().until(() -> drivetrain.getPose().getX() > 2.6).andThen(mManipulator.goToCloseCubeIntake().alongWith(mManipulator.getGrasper().setPercentOutputCommand(1)))
             ),
-            new DriveAtPath(drivetrain, ScoreP1, false, false, 3.5).deadlineWith(
-                mManipulator.goToZero().until(() -> drivetrain.getPose().getX() < 3.6).andThen(mManipulator.goToScoreHigh())
+            new DriveAtPath(drivetrain, ScoreP1, false, false, 5).alongWith(
+                mManipulator.goToZero().until(() -> drivetrain.getPose().getX() < 3.6).andThen(mManipulator.goToScoreHigh().withTimeout(2.5)).deadlineWith(mManipulator.getGrasper().runTestCurrent())
             ),
-            mManipulator.getGrasper().setPercentOutputCommand(-1).withTimeout(0.2),
             new DriveAtPath(drivetrain, Dock, false, false, 4).deadlineWith(mManipulator.goToZero()),
             new AutoBalance(drivetrain).alongWith(mManipulator.swapAutoScoreCommand().withTimeout(0.03))
         );

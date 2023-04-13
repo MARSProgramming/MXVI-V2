@@ -53,7 +53,7 @@ public final class Constants {
         public static double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
         public static double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
 
-        public static double autoBalanceP = 0.035;
+        public static double autoBalanceP = 0.04;
     }
 
     public static class Auto{
@@ -78,7 +78,7 @@ public final class Constants {
         public static double forwardLimitInches = 40;
         public static double reverseLimitInches = 0;
 
-        public static double kP = 0.04;
+        public static double kP = 0.06;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
@@ -92,7 +92,7 @@ public final class Constants {
         public static double intakeHighPos = 15;
         public static double intakePos = 8.5;
         public static double intakeCloseCubePos = 8.5;
-        public static double bottomPos = 0.5;
+        public static double bottomPos = 0;
         public static double shootHighPos = 19;
         public static double scoreHighPos = 35;
         public static double scoreMidPos = 13.3;
@@ -129,7 +129,7 @@ public final class Constants {
 
     public static class Pivot{
         public static int motorID = 11;
-        public static double kP = 1.3;
+        public static double kP = 1.4;
         public static double kI = 0.0;
         public static double kD = 0.0;
 
@@ -141,7 +141,7 @@ public final class Constants {
         public static double intakeCloseCubePos = 2.0;
         public static double scoreHighPos = -1.1;
         public static double scoreMidPos = -1.0;
-        public static double scoreLowPos = -0.8;
+        public static double scoreLowPos = -1.1;
         public static double cubePos = 1.60;
         public static double intakeHighPos = 2.08;
         public static double loadPos = -1.3;

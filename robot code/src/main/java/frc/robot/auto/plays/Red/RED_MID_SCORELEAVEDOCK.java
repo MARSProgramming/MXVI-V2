@@ -22,9 +22,9 @@ public class RED_MID_SCORELEAVEDOCK extends SequentialCommandGroup{
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
             new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
             mManipulator.swapAutoScoreCommand().withTimeout(0.1),
-            mManipulator.goToScoreHigh().withTimeout(4),
+            mManipulator.goToScoreHigh().withTimeout(3),
             mManipulator.swapAutoScoreCommand().withTimeout(0.1),
-            new DriveAtPath(drivetrain, LeaveCommunity, false, false, 5.5),
+            new DriveAtPath(drivetrain, LeaveCommunity, false, false, 5).deadlineWith(mManipulator.goToZero()),
             new DriveAtPath(drivetrain, Dock, false, false, 3),
             new AutoBalance(drivetrain)
         );

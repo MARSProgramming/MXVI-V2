@@ -7,9 +7,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Manipulator;
 
 public class AlignToScore extends CommandBase {
     private final DrivetrainSubsystem mDrivetrainSubsystem;
@@ -51,7 +49,7 @@ public class AlignToScore extends CommandBase {
         xController.reset(mDrivetrainSubsystem.getPose().getX(), -mDrivetrainSubsystem.getChassisSpeeds().vxMetersPerSecond);
         yController.reset(mDrivetrainSubsystem.getPose().getY(), -mDrivetrainSubsystem.getChassisSpeeds().vyMetersPerSecond);
         thetaController.reset(mDrivetrainSubsystem.getPigeonAngle(), 0);
-        thetaController.setTolerance(0.01);
+        thetaController.setTolerance(0.1);
         mTimer.reset();
         mTimer.start();
 
@@ -61,7 +59,8 @@ public class AlignToScore extends CommandBase {
     @Override
     public void execute() {
         //ChassisSpeeds cs = new ChassisSpeeds();
-        double angleAdjust = Math.atan((mDrivetrainSubsystem.getPose().getY()-yGoal)/(mDrivetrainSubsystem.getPose().getX() - midScoreX));
+        double angleAdjust = mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) < 0.2 ?
+        Math.atan((mDrivetrainSubsystem.getPose().getY()-yGoal)/(mDrivetrainSubsystem.getPose().getX() - midScoreX)) : 0;
         //if(mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) > 0.04){
             ChassisSpeeds cs = new ChassisSpeeds(
             -xController.calculate(mDrivetrainSubsystem.getPose().getX(), xGoal),
@@ -86,6 +85,6 @@ public class AlignToScore extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return thetaController.atSetpoint() && mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) < 0.04 || mDrivetrainSubsystem.getPose().getX() > 3.6 || mDrivetrainSubsystem.getPose().getX() < 1.7;
+        return mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) < 0.03 || mDrivetrainSubsystem.getPose().getX() > 3.6 || mDrivetrainSubsystem.getPose().getX() < 1.7;
     }
 }

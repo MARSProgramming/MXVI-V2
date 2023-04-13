@@ -157,6 +157,10 @@ public class Wrist extends SubsystemBase{
     public double getWristVelocity(){
       return mWrist.getSelectedSensorVelocity() / kRadiansToNativeUnits * 10;
     }
+
+    public boolean atSetpoint(){
+        return mWrist.getClosedLoopError() < 0.1 * kRadiansToNativeUnits;
+    }
     
     @Override
     public void periodic(){

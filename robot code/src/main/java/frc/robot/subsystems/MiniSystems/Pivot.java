@@ -216,6 +216,10 @@ public class Pivot extends SubsystemBase{
         return getEncoderPos() - setpoint;
     }
 
+    public boolean atSetpoint(){
+        return Math.abs(getEncoderPos() - mController.getGoal().position) < 0.1;
+    }
+
     @Override
     public void periodic(){
    

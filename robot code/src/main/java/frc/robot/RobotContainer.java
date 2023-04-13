@@ -113,9 +113,9 @@ public class RobotContainer {
     mKeypad.button(1).onTrue(mManipulator.setAlignTypeCommand(0));
 
     mPilot.y().whileTrue(new ZeroGyroscope(mDrivetrainSubsystem, 0));
-    mPilot.x().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
-    mPilot.a().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
-    mPilot.b().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore()))).alongWith(new AlignToScoreManipulator(mManipulator)));
+    mPilot.x().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.LEFT).deadlineWith(mManipulator.getGrasper().runTestCurrent())).alongWith(new AlignToScoreManipulator(mManipulator)).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore())));
+    mPilot.a().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.MID).deadlineWith(mManipulator.getGrasper().runTestCurrent())).alongWith(new AlignToScoreManipulator(mManipulator)).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore())));
+    mPilot.b().whileTrue((new AlignToScore(mDrivetrainSubsystem, AlignToScoreEnum.RIGHT).deadlineWith(mManipulator.getGrasper().runTestCurrent())).alongWith(new AlignToScoreManipulator(mManipulator)).andThen(mManipulator.getGrasper().runSpitMode().unless(() -> !mManipulator.getAutoScore())));
     //mPilot.leftTrigger().whileTrue(new RunIntakeUntilStall(mManipulator).andThen(mManipulator.getGrasper().runTestCurrent()));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().toggleOnTrue(mManipulator.getGrasper().runTestCurrent());

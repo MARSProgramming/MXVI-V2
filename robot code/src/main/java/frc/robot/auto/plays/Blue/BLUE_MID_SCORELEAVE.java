@@ -22,7 +22,7 @@ public class BLUE_MID_SCORELEAVE extends SequentialCommandGroup{
             mManipulator.swapAutoScoreCommand().withTimeout(0.1),
             mManipulator.goToScoreHigh().withTimeout(4),
             mManipulator.swapAutoScoreCommand().withTimeout(0.1),
-            new DriveAtPath(drivetrain, LeaveCommunity, false, false, 100)
+            new DriveAtPath(drivetrain, LeaveCommunity, false, false, 100).alongWith(mManipulator.goToZero())
         );
     }
 }

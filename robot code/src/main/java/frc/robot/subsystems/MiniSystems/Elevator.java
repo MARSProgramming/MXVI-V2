@@ -29,7 +29,7 @@ public class Elevator extends SubsystemBase{
 
     private TalonFX master;
     private TalonFX follower;
-    private final double kGearRatio = 25;
+    private final double kGearRatio = 20;
     private final double inchesPerRotation = 2 * Math.PI;
     private final double inchesToNativeUnits = 2048 * kGearRatio / inchesPerRotation;
     private final DigitalInput limitSwitch = new DigitalInput(Constants.Elevator.limitSwitchID);
@@ -168,6 +168,10 @@ public class Elevator extends SubsystemBase{
 
     public boolean isLimitHit(){
       return !limitSwitch.get();
+    }
+
+    public boolean atSetpoint(){
+        return master.getClosedLoopError() < 0.2 * inchesToNativeUnits;
     }
     
     @Override

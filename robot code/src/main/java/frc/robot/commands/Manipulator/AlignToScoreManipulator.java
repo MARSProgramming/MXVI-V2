@@ -42,4 +42,9 @@ public class AlignToScoreManipulator extends CommandBase{
         mManipulator.getWrist().setPercentOutput(0);
         mManipulator.getGrasper().setPercentOutput(0);
     }
+
+    @Override
+    public boolean isFinished(){
+        return mManipulator.getElevator().atSetpoint() && mManipulator.getPivot().atSetpoint() && mManipulator.getWrist().atSetpoint();
+    }
 }

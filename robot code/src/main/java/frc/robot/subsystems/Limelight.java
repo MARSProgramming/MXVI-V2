@@ -24,6 +24,10 @@ public class Limelight extends SubsystemBase{
     }
 
     public void resetPose(){
+        if(DriverStation.isDisabled()){
+            mTimerLeft.reset();
+            mTimerRight.reset();
+        }
         double distance = DriverStation.isTeleop() ? 3.7 : 2.4;
 
         if(NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("tv").getDouble(0) == 1.0 && NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("targetpose_cameraspace").getDoubleArray(new double[7])[2] < distance){
@@ -40,10 +44,10 @@ public class Limelight extends SubsystemBase{
             double z = botpose[2];
 
             if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 1 || DriverStation.isTeleop()){
-                if(!mTimerLeft.hasElapsed(0.1) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.1){
+                if(!mTimerLeft.hasElapsed(0.2) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.3){
                     dt.addVisionMeasurement(new Pose2d(x, y, dt.getGyroscopeRotation()), botpose[6]/1000);
+                    mTimerLeft.start();
                 }
-                mTimerLeft.start();
             }
         }
         else{
@@ -65,10 +69,10 @@ public class Limelight extends SubsystemBase{
             double z = botpose[2];
 
             if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 1 || DriverStation.isTeleop()){
-                if(!mTimerRight.hasElapsed(0.1) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.1){
+                if(!mTimerRight.hasElapsed(0.2) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.3){
                     dt.addVisionMeasurement(new Pose2d(x, y, dt.getGyroscopeRotation()), botpose[6]/1000);
+                    mTimerRight.start();
                 }
-                mTimerRight.start();
             }
         }
         else{

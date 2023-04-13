@@ -9,10 +9,11 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -114,15 +115,22 @@ public class Grasper extends SubsystemBase{
     public void runSuck(){
         BeltController.set(ControlMode.Current, 2.5);
     }
+    Timer mTimer = new Timer();
     @Override
     public void periodic(){
-        if(BeltController.getStatorCurrent() > 50){
-            mCoPilotRumble.setRumble(RumbleType.kBothRumble, 0.7);
-            mPilotRumble.setRumble(RumbleType.kBothRumble, 0.7);
+        if(BeltController.getStatorCurrent() > 70 && DriverStation.isTeleop() && BeltController.getMotorOutputPercent() > 0){
+            mCoPilotRumble.setRumble(RumbleType.kBothRumble, 1);
+            mPilotRumble.setRumble(RumbleType.kBothRumble, 1);
+            runTestCurrent().schedule();
+            mTimer.start();
         }
         else{
-            mCoPilotRumble.setRumble(RumbleType.kBothRumble, 0);
-            mPilotRumble.setRumble(RumbleType.kBothRumble, 0);
+            if(mTimer.get() > 0.5){
+                mCoPilotRumble.setRumble(RumbleType.kBothRumble, 0);
+                mPilotRumble.setRumble(RumbleType.kBothRumble, 0);
+                mTimer.stop();
+                mTimer.reset();
+            }
         }
         SmartDashboard.putNumber("stator", BeltController.getStatorCurrent());
         SmartDashboard.putNumber("supply", BeltController.getSupplyCurrent());
