@@ -33,7 +33,7 @@ public class SubsystemIO extends SubsystemBase{
                     catch(IllegalAccessException a){
                         System.out.println("Access Exception when reading subsystem IO");
                     }
-                    if(field.getName() != "kP" && field.getName() != "kD" && field.getName() != "kI" && field.getName() != "kF"){
+                    if(field.getName() != "kP" && field.getName() != "kD" && field.getName() != "kI" && field.getName() != "kF" && field.getName() != "zero"){
                         entries.put(field, subsystemIOTab.addPersistent(minisystem.getSimpleName() + ": " + field.getName(), "double", value).withSize(2, 1));
                     }
                 }

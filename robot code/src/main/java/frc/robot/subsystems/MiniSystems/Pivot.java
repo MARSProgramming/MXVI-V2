@@ -53,7 +53,7 @@ public class Pivot extends SubsystemBase{
             }
         }
         
-        mEncoder.setPositionOffset(Constants.Pivot.zero);
+        //mEncoder.setPositionOffset(Constants.Pivot.zero);
         pivot.setSelectedSensorPosition(0);
         mController.reset(new State(getEncoderPos(), 0));
         mController.setTolerance(0.05);
@@ -88,7 +88,7 @@ public class Pivot extends SubsystemBase{
         public void zeroPivot(boolean run) {
             if (run) {
                 mEncoder.setPositionOffset(0);
-                Constants.Pivot.zero = mEncoder.getDistance() / (Math.PI*2);
+                Constants.Pivot.zero = mEncoder.getAbsolutePosition();
                 if(Constants.Pivot.zero < 0){
                     Constants.Pivot.zero += 1;
                 }

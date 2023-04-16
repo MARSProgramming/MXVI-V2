@@ -25,9 +25,10 @@ public class BLUE_TOP_2HIGH extends SequentialCommandGroup{
             new DriveAtPath(drivetrain, P1, false, false, 5).deadlineWith(
                 mManipulator.goToCloseCubeIntake().alongWith(mManipulator.getGrasper().setPercentOutputCommand(1))
             ),
-            new DriveAtPath(drivetrain, ScoreP1, false, false, 3).alongWith(
-                mManipulator.goToZero().until(() -> drivetrain.getPose().getX() < 3.6).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.goToScoreHigh().withTimeout(2.2))
+            new DriveAtPath(drivetrain, ScoreP1, false, false, 4).deadlineWith(
+                mManipulator.goToZero().deadlineWith(mManipulator.getGrasper().runTestCurrent())
             ),
+            mManipulator.goToScoreHigh().withTimeout(2.5),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
             mManipulator.goToZero()
         );

@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import com.pathplanner.lib.auto.MecanumAutoBuilder;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -142,8 +144,9 @@ public class RobotContainer {
     new Trigger(() -> mCopilot.getLeftY() < -0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> 0.45));
     new Trigger(() -> mCopilot.getLeftY() > 0.7).whileTrue(mManipulator.getElevator().runTestMode(() -> -0.45));
 
-    mCopilot.rightTrigger().whileTrue(mManipulator.goToZero());
+    mCopilot.rightTrigger().whileTrue(mManipulator.goToZero().alongWith(mManipulator.getElevator().resetDoubleSetpoint()));
     mCopilot.back().onTrue(mManipulator.swapAutoScoreCommand());
+    mCopilot.start().onTrue(mManipulator.getElevator().moveDoubleSetpointDown());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());
     mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
     mCopilot.povLeft().whileTrue(mManipulator.goToScoreMid());

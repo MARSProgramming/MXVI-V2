@@ -118,7 +118,7 @@ public class Grasper extends SubsystemBase{
     Timer mTimer = new Timer();
     @Override
     public void periodic(){
-        if(BeltController.getStatorCurrent() > 70 && DriverStation.isTeleop() && BeltController.getMotorOutputPercent() > 0){
+        if(BeltController.getStatorCurrent() > 80 && DriverStation.isTeleop() && BeltController.getMotorOutputPercent() > 0){
             mCoPilotRumble.setRumble(RumbleType.kBothRumble, 1);
             mPilotRumble.setRumble(RumbleType.kBothRumble, 1);
             runTestCurrent().schedule();

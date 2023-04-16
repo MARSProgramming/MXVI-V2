@@ -28,13 +28,19 @@ public class Limelight extends SubsystemBase{
             mTimerLeft.reset();
             mTimerRight.reset();
         }
-        double distance = DriverStation.isTeleop() ? 3.7 : 2.4;
-
-        if(NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("tv").getDouble(0) == 1.0 && NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("targetpose_cameraspace").getDoubleArray(new double[7])[2] < distance){
-            if(dt.getPose().getX() > 13){
-                dt.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.03, 0.1, 0.07));
+        double distance = DriverStation.isTeleop() ? 3.0 : 1.2;
+        double leftTV = NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("tv").getDouble(0);
+        double rightTV = NetworkTableInstance.getDefault().getTable("limelight-right").getEntry("tv").getDouble(0);
+        double leftDist = NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("targetpose_cameraspace").getDoubleArray(new double[7])[2];
+        double rightDist = NetworkTableInstance.getDefault().getTable("limelight-right").getEntry("targetpose_cameraspace").getDoubleArray(new double[7])[2];
+        boolean resetLeft = ((leftTV == 1.0 && rightTV == 0.0) || (leftTV == 1.0 && leftDist < rightDist)) && leftDist < distance;
+        boolean resetRight = ((leftTV == 0.0 && rightTV == 1.0) || (rightTV == 1.0 && rightDist < leftDist)) && rightDist < distance;
+        
+        if(resetLeft){
+            if(DriverStation.isAutonomous()){
+                dt.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.03, 0.03, 0.07));
             }
-            if(dt.getPose().getX() < 3.4){
+            else if(dt.getPose().getX() < 3.4){
                 dt.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.01, 0.01, 0.07));
             }
             String key = DriverStation.getAlliance() == Alliance.Blue ? "botpose_wpiblue" : "botpose_wpired";
@@ -55,7 +61,7 @@ public class Limelight extends SubsystemBase{
             mTimerLeft.reset();
         }
 
-        if(NetworkTableInstance.getDefault().getTable("limelight-right").getEntry("tv").getDouble(0) == 1.0 && NetworkTableInstance.getDefault().getTable("limelight-right").getEntry("targetpose_cameraspace").getDoubleArray(new double[7])[2] < distance){
+        if(resetRight){
             if(dt.getPose().getX() > 13){
                 dt.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.03, 0.1, 0.07));
             }

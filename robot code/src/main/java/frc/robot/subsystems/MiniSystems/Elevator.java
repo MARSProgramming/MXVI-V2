@@ -34,6 +34,7 @@ public class Elevator extends SubsystemBase{
     private final double inchesToNativeUnits = 2048 * kGearRatio / inchesPerRotation;
     private final DigitalInput limitSwitch = new DigitalInput(Constants.Elevator.limitSwitchID);
     private boolean isLimitHit = false;
+    private double adjustDouble = 0.0;
     public Elevator(){
         master = new TalonFX(Constants.Elevator.masterMotorID);
         follower = new TalonFX(Constants.Elevator.followerMotorID);
@@ -69,7 +70,23 @@ public class Elevator extends SubsystemBase{
           master.configReverseSoftLimitEnable(false);
         }
         ).withName("Disable Elevator Limits");
-  }
+    }
+    
+    public CommandBase moveDoubleSetpointDown() {
+        return runOnce(
+          () -> {
+            adjustDouble = -3;
+          }
+          );
+    }
+
+    public CommandBase resetDoubleSetpoint() {
+        return runOnce(
+          () -> {
+            adjustDouble = 0;
+          }
+          );
+    }
 
     public double getPosition(){
       return master.getSelectedSensorPosition() / inchesToNativeUnits;
@@ -99,7 +116,7 @@ public class Elevator extends SubsystemBase{
       setPosition(Constants.Elevator.stowPos);
     }
     public void goToLoadDouble(){
-      setPosition(Constants.Elevator.loadDoublePos);
+      setPosition(Constants.Elevator.loadDoublePos + adjustDouble);
     }
     public void goToLoad(){
         setPosition(Constants.Elevator.loadPos);

@@ -20,7 +20,7 @@ public class BLUE_MID_SCORELEAVEDOCK extends SequentialCommandGroup{
         PathPlannerTrajectory Dock = AutoChooser.openTrajectoryFileForBlue("BLUE_MID_LEAVE-DOCK", new PathConstraints(1, 1));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.1),
-            new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()).withTimeout(0.1),
+            new ResetDrivePose(drivetrain, LeaveCommunity.getInitialHolonomicPose()),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
             mManipulator.goToScoreHigh().withTimeout(3),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),

@@ -87,9 +87,9 @@ public final class Constants {
         public static int limitSwitchID = 9;
 
         public static double peakOutForward = 1;
-        public static double peakOutReverse = -1;
+        public static double peakOutReverse = -0.8;
 
-        public static double intakeHighPos = 15;
+        public static double intakeHighPos = 16;
         public static double intakePos = 8.5;
         public static double intakeCloseCubePos = 8.5;
         public static double bottomPos = 0;
@@ -97,7 +97,7 @@ public final class Constants {
         public static double scoreHighPos = 35;
         public static double scoreMidPos = 13.3;
         public static double scoreLowPos = 0.1;
-        public static double loadDoublePos = 17;
+        public static double loadDoublePos = 13;
         public static double stowPos = 1;
         public static double loadPos = 0;
     }
@@ -111,17 +111,17 @@ public final class Constants {
         public static double forwardLimit = 10.75;
         public static double reverseLimit = -10.75;
 
-        public static double intakeBackPos = 3.3;
-        public static double intakeUpPos = 3.8;
+        public static double intakeBackPos = 3.5;
+        public static double intakeUpPos = 4.3;
         public static double intakeCubePos = 5.5;
         public static double intakeCloseCubePos = 4.0;
-        public static double loadDoublePos = -5.3;
+        public static double loadDoublePos = -5.15;
         public static double scoreHighPos = -4.9;
         public static double scoreMidPos = -5.0;
-        public static double scoreLowPos = -4.0;
-        public static double carryPos = -1.0;
+        public static double scoreLowPos = -5.6;
+        public static double carryPos = -1.5;
         public static double shootPos = -2.9;
-        public static double shootHighPos = -3.3;
+        public static double shootHighPos = -3.6;
         public static double loadPos = -2.8;
         public static double stowPos = 1.7;
         
@@ -135,17 +135,17 @@ public final class Constants {
 
         public static double forwardLimit = 1000;
         public static double reverseLimit = -1000;
-        public static double zero = 0.84086;
+        public static double zero = 0.4194;
 
         public static double intakeBackPos = 2.2;
-        public static double intakeCloseCubePos = 2.0;
-        public static double scoreHighPos = -1.1;
+        public static double intakeCloseCubePos = 2.15;
+        public static double scoreHighPos = -1.2;
         public static double scoreMidPos = -1.0;
         public static double scoreLowPos = -1.1;
         public static double cubePos = 1.60;
-        public static double intakeHighPos = 2.08;
-        public static double loadPos = -1.3;
-        public static double loadDoublePos = -0.5;
+        public static double intakeHighPos = 2.17;
+        public static double loadPos = -1.15;
+        public static double loadDoublePos = -0.3;
 
         public static double shootHighPos = -0.8;
         public static double stowPos = -0.75;

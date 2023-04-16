@@ -36,6 +36,8 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -59,6 +61,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public static final double MAX_VOLTAGE = 12.0;
     private ProfiledPIDController mSnapController;
+    private XboxController mCoPilotRumble = new XboxController(1);
     // The formula for calculating the theoretical maximum velocity is:
     // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
     // pi
@@ -255,9 +258,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("X", getPose().getX());
         SmartDashboard.putNumber("Y", getPose().getY());
-        SmartDashboard.putNumber("roll", m_pigeon.getRoll());
         //System.out.print("x speed: " + m_chassisSpeeds.vxMetersPerSecond + "     ");
         //System.out.println("y speed: " + m_chassisSpeeds.vyMetersPerSecond);
+        if(getPose().getX() > 15.6){
+            mCoPilotRumble.setRumble(RumbleType.kRightRumble, 1);
+        }
+        else{
+            mCoPilotRumble.setRumble(RumbleType.kRightRumble, 0);
+        }
     }
 
     public Pose2d getPose() {
@@ -287,7 +295,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private double[] rightYBlueScoringPos = { 3.86, 2.19, 0.51 };
 
     private double[] leftYRedScoringPos = { 4.15, 5.82, 7.50 };
-    private double[] midYRedScoringPos = { 3.59, 5.27, 6.98 };
+    private double[] midYRedScoringPos = { 3.59, 5.27, 6.94 };
     private double[] rightYRedScoringPos = { 3.03, 4.71, 6.38 };
 
     private double adjust = 0;

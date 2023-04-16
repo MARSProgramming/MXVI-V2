@@ -12,8 +12,8 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.util.AutoChooser;
 
-public class BLUE_BOT_2CONESHIGHDOCK extends SequentialCommandGroup{
-    public BLUE_BOT_2CONESHIGHDOCK(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
+public class BLUE_BOT_2HIGHDOCK extends SequentialCommandGroup{
+    public BLUE_BOT_2HIGHDOCK(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain);
 
         PathPlannerTrajectory P1 = AutoChooser.openTrajectoryFileForBlue("BLUE_BOT_G-P4", new PathConstraints(2, 1.5));

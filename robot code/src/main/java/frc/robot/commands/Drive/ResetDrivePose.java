@@ -30,8 +30,8 @@ public class ResetDrivePose extends CommandBase{
     }
     @Override
     public void initialize(){
-        if(NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("tv").getDouble(0) == 1.0 && NetworkTableInstance.getDefault().getTable("limelight-right").getEntry("tv").getDouble(0) == 1.0 && 
-        mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(mX, mY)) < 1){
+        if(NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("tv").getDouble(0) == 0.0 && NetworkTableInstance.getDefault().getTable("limelight-right").getEntry("tv").getDouble(0) == 0.0 && 
+        mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(mX, mY)) > 1){
             mDrivetrainSubsystem.setPose(pose, mRotation);    
         }
     }   
