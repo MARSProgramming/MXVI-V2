@@ -97,7 +97,7 @@ public final class Constants {
         public static double scoreHighPos = 35;
         public static double scoreMidPos = 13.3;
         public static double scoreLowPos = 0.1;
-        public static double loadDoublePos = 13;
+        public static double loadDoublePos = 13.5;
         public static double stowPos = 1;
         public static double loadPos = 0;
     }
@@ -111,7 +111,7 @@ public final class Constants {
         public static double forwardLimit = 10.75;
         public static double reverseLimit = -10.75;
 
-        public static double intakeBackPos = 3.5;
+        public static double intakeBackPos = 3.8;
         public static double intakeUpPos = 4.3;
         public static double intakeCubePos = 5.5;
         public static double intakeCloseCubePos = 4.0;
@@ -137,7 +137,7 @@ public final class Constants {
         public static double reverseLimit = -1000;
         public static double zero = 0.4194;
 
-        public static double intakeBackPos = 2.2;
+        public static double intakeBackPos = 2.1;
         public static double intakeCloseCubePos = 2.15;
         public static double scoreHighPos = -1.2;
         public static double scoreMidPos = -1.0;

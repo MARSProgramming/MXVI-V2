@@ -18,7 +18,7 @@
   {
     "name": "/Shuffleboard/Pivot/Pivot: intakeBackPos",
     "type": "double",
-    "value": 2.2,
+    "value": 2.1,
     "properties": {
       "persistent": true,
       "retained": true
@@ -209,7 +209,7 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: loadDoublePos",
     "type": "double",
-    "value": 13.0,
+    "value": 13.5,
     "properties": {
       "persistent": true,
       "retained": true
@@ -250,7 +250,7 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: intakeBackPos",
     "type": "double",
-    "value": 3.5,
+    "value": 3.8,
     "properties": {
       "persistent": true
     }
