@@ -16,19 +16,21 @@
     }
   },
   {
-    "name": "/Shuffleboard/Pivot/Pivot: zero",
+    "name": "/Shuffleboard/Pivot/Pivot: intakeBackPos",
     "type": "double",
-    "value": 0.95,
+    "value": 2.1,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   },
   {
-    "name": "/Shuffleboard/Pivot/Pivot: intakeBackPos",
+    "name": "/Shuffleboard/Pivot/Pivot: intakeCloseCubePos",
     "type": "double",
-    "value": 2.2,
+    "value": 2.15,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   },
   {
@@ -36,7 +38,8 @@
     "type": "double",
     "value": -1.2,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   },
   {
@@ -45,6 +48,15 @@
     "value": -1.0,
     "properties": {
       "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Pivot/Pivot: scoreLowPos",
+    "type": "double",
+    "value": -1.1,
+    "properties": {
+      "persistent": true,
+      "retained": true
     }
   },
   {
@@ -58,15 +70,16 @@
   {
     "name": "/Shuffleboard/Pivot/Pivot: intakeHighPos",
     "type": "double",
-    "value": 2.13,
+    "value": 2.17,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   },
   {
     "name": "/Shuffleboard/Pivot/Pivot: loadPos",
     "type": "double",
-    "value": -1.0,
+    "value": -1.2,
     "properties": {
       "persistent": true
     }
@@ -74,17 +87,19 @@
   {
     "name": "/Shuffleboard/Pivot/Pivot: loadDoublePos",
     "type": "double",
-    "value": -0.5,
+    "value": -0.4,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   },
   {
     "name": "/Shuffleboard/Pivot/Pivot: shootHighPos",
     "type": "double",
-    "value": -0.5,
+    "value": -0.8,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   },
   {
@@ -122,7 +137,7 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: peakOutForward",
     "type": "double",
-    "value": 1,
+    "value": 1.0,
     "properties": {
       "persistent": true
     }
@@ -130,7 +145,7 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: peakOutReverse",
     "type": "double",
-    "value": -1,
+    "value": -0.8,
     "properties": {
       "persistent": true
     }
@@ -138,13 +153,21 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: intakeHighPos",
     "type": "double",
-    "value": 15.0,
+    "value": 16.0,
     "properties": {
       "persistent": true
     }
   },
   {
     "name": "/Shuffleboard/Elevator/Elevator: intakePos",
+    "type": "double",
+    "value": 8.5,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Elevator/Elevator: intakeCloseCubePos",
     "type": "double",
     "value": 8.5,
     "properties": {
@@ -170,7 +193,15 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: scoreMidPos",
     "type": "double",
-    "value": 13.3,
+    "value": 13.8,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Elevator/Elevator: scoreLowPos",
+    "type": "double",
+    "value": 0.1,
     "properties": {
       "persistent": true
     }
@@ -178,15 +209,24 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: loadDoublePos",
     "type": "double",
-    "value": 17.0,
+    "value": 14.9,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   },
   {
     "name": "/Shuffleboard/Elevator/Elevator: stowPos",
     "type": "double",
     "value": 1.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Elevator/Elevator: loadPos",
+    "type": "double",
+    "value": 0.0,
     "properties": {
       "persistent": true
     }
@@ -210,7 +250,7 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: intakeBackPos",
     "type": "double",
-    "value": 3.3,
+    "value": 4.0,
     "properties": {
       "persistent": true
     }
@@ -218,7 +258,7 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: intakeUpPos",
     "type": "double",
-    "value": 4.01,
+    "value": 4.3,
     "properties": {
       "persistent": true
     }
@@ -232,17 +272,26 @@
     }
   },
   {
-    "name": "/Shuffleboard/Wrist/Wrist: loadDoublePos",
+    "name": "/Shuffleboard/Wrist/Wrist: intakeCloseCubePos",
     "type": "double",
-    "value": -5.3,
+    "value": 4.0,
     "properties": {
       "persistent": true
     }
   },
   {
+    "name": "/Shuffleboard/Wrist/Wrist: loadDoublePos",
+    "type": "double",
+    "value": -4.8,
+    "properties": {
+      "persistent": true,
+      "retained": true
+    }
+  },
+  {
     "name": "/Shuffleboard/Wrist/Wrist: scoreHighPos",
     "type": "double",
-    "value": -4.7,
+    "value": -4.9,
     "properties": {
       "persistent": true
     }
@@ -258,15 +307,16 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: scoreLowPos",
     "type": "double",
-    "value": -2.63,
+    "value": -5.0,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   },
   {
     "name": "/Shuffleboard/Wrist/Wrist: carryPos",
     "type": "double",
-    "value": -1.0,
+    "value": -1.5,
     "properties": {
       "persistent": true
     }
@@ -282,7 +332,7 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: shootHighPos",
     "type": "double",
-    "value": -3.3,
+    "value": -3.6,
     "properties": {
       "persistent": true
     }
@@ -290,7 +340,7 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: loadPos",
     "type": "double",
-    "value": -1.5,
+    "value": -2.8,
     "properties": {
       "persistent": true
     }
@@ -301,6 +351,15 @@
     "value": 1.7,
     "properties": {
       "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Elevator/Elevator: shootHighPos",
+    "type": "double",
+    "value": 19.0,
+    "properties": {
+      "persistent": true,
+      "retained": true
     }
   }
 ]

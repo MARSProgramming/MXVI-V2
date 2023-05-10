@@ -15,9 +15,9 @@ public class BLUE_BOT_3PIECE extends SequentialCommandGroup{
     public BLUE_BOT_3PIECE(DrivetrainSubsystem drivetrain, Manipulator mManipulator){
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory P1 = AutoChooser.openTrajectoryFileForBlue("BLUE_BOT_G-P4", new PathConstraints(2, 2));
+        PathPlannerTrajectory P1 = AutoChooser.openTrajectoryFileForBlue("BLUE_BOT_G-P4", new PathConstraints(2.1, 2.1));
         PathPlannerTrajectory ScoreP1 = AutoChooser.openTrajectoryFileForBlue("BLUE_BOT_P4-G", new PathConstraints(2, 2));
-        PathPlannerTrajectory P2 = AutoChooser.openTrajectoryFileForBlue("BLUE_BOT_G-P3", new PathConstraints(2, 2));
+        PathPlannerTrajectory P2 = AutoChooser.openTrajectoryFileForBlue("BLUE_BOT_G-P3", new PathConstraints(2.1, 2.1));
         PathPlannerTrajectory ScoreP2 = AutoChooser.openTrajectoryFileForBlue("BLUE_BOT_P3-G", new PathConstraints(2, 2));
         addCommands(
             new ZeroGyroscope(drivetrain, 180).withTimeout(0.03),
@@ -35,7 +35,7 @@ public class BLUE_BOT_3PIECE extends SequentialCommandGroup{
                 mManipulator.goToZero().until(() -> drivetrain.getPose().getX() > 3.6).andThen(mManipulator.goToCloseCubeIntake().alongWith(mManipulator.getGrasper().setPercentOutputCommand(1)))
             ),
             new DriveAtPath(drivetrain, ScoreP2, false, false, 4).alongWith(
-                mManipulator.goToZero().until(() -> drivetrain.getPose().getX() < 3.6).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.goToScoreMid().withTimeout(1.5))
+                mManipulator.goToZero().until(() -> drivetrain.getPose().getX() < 3.6).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.goToScoreMid().withTimeout(1.8))
             ),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
             mManipulator.goToZero()

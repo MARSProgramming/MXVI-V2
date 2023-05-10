@@ -35,7 +35,7 @@ public class RED_BOT_3PIECE extends SequentialCommandGroup{
                 mManipulator.goToZero().until(() -> drivetrain.getPose().getX() > 3.6).andThen(mManipulator.goToCloseCubeIntake().alongWith(mManipulator.getGrasper().setPercentOutputCommand(1)))
             ),
             new DriveAtPath(drivetrain, ScoreP2, false, false, 4).alongWith(
-                mManipulator.goToZero().until(() -> drivetrain.getPose().getX() < 3.6).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.goToScoreMid().withTimeout(1.5))
+                mManipulator.goToZero().until(() -> drivetrain.getPose().getX() < 3.6).deadlineWith(mManipulator.getGrasper().runTestCurrent()).andThen(mManipulator.goToScoreMid().withTimeout(1.8))
             ),
             mManipulator.swapAutoScoreCommand().withTimeout(0.03),
             mManipulator.goToZero()

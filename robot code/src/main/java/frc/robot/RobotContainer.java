@@ -165,11 +165,7 @@ public class RobotContainer {
     mTestCtrl.povRight().whileTrue(mManipulator.getWrist().runTestMode(() -> 0.2));
     mTestCtrl.povLeft().whileTrue(mManipulator.getWrist().runTestMode(() -> -0.2));
     mTestCtrl.start().whileTrue(mManipulator.getElevator().disableSoftLimits());
-    mTestCtrl.a().whileTrue(mManipulator.getWrist().testIntake());
     mTestCtrl.x().whileTrue(new ElevatorScoreMid(mManipulator));
-    mTestCtrl.y().whileTrue(new PivotToIntake(mManipulator));
-    mTestCtrl.b().whileTrue(mManipulator.goToZero());
-
 
     System.out.println("Test Bindings Configured");
   }

@@ -260,7 +260,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Y", getPose().getY());
         //System.out.print("x speed: " + m_chassisSpeeds.vxMetersPerSecond + "     ");
         //System.out.println("y speed: " + m_chassisSpeeds.vyMetersPerSecond);
-        if(getPose().getX() > 15.6){
+        if(getPose().getX() > 15.7){
             mCoPilotRumble.setRumble(RumbleType.kRightRumble, 1);
         }
         else{
