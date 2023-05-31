@@ -23,6 +23,12 @@ public class Limelight extends SubsystemBase{
         mTimerRight.reset();
     }
 
+    public boolean hasTarget(){
+        double leftTV = NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("tv").getDouble(0);
+        double rightTV = NetworkTableInstance.getDefault().getTable("limelight-right").getEntry("tv").getDouble(0);
+        return leftTV == 1.0 || rightTV == 1.0;
+    }
+
     public void resetPose(){
         if(DriverStation.isDisabled()){
             mTimerLeft.reset();

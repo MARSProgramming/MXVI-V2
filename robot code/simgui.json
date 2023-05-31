@@ -8,6 +8,7 @@
       "/Shuffleboard/Match/Zero Swerves": "Command",
       "/Shuffleboard/Pre-Match/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Scheduler": "Scheduler",
+      "/SmartDashboard/Zero Pivot": "Command",
       "/SmartDashboard/Zero Swerves": "Command"
     }
   },

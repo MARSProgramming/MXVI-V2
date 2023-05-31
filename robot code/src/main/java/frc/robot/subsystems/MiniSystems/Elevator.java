@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,11 +30,12 @@ public class Elevator extends SubsystemBase{
 
     private TalonFX master;
     private TalonFX follower;
-    private final double kGearRatio = 20;
+    private final double kGearRatio = 12;
     private final double inchesPerRotation = 2 * Math.PI;
     private final double inchesToNativeUnits = 2048 * kGearRatio / inchesPerRotation;
     private final DigitalInput limitSwitch = new DigitalInput(Constants.Elevator.limitSwitchID);
     private boolean isLimitHit = false;
+    private PIDController mController;
     private double adjustDouble = 0.0;
     public Elevator(){
         master = new TalonFX(Constants.Elevator.masterMotorID);
@@ -55,6 +57,8 @@ public class Elevator extends SubsystemBase{
         master.config_kP(0, Constants.Elevator.kP);
         master.config_kI(0, Constants.Elevator.kI);
         master.config_kD(0, Constants.Elevator.kD);
+
+        mController = new PIDController(Constants.Elevator.kP, Constants.Elevator.kI, Constants.Elevator.kD);
 
         master.configPeakOutputForward(Constants.Elevator.peakOutForward);
         master.configPeakOutputReverse(Constants.Elevator.peakOutReverse);
@@ -126,8 +130,9 @@ public class Elevator extends SubsystemBase{
         //master.set(ControlMode.PercentOutput, 0);
       //}
       //else{
-        master.set(ControlMode.Position, inches * inchesToNativeUnits, DemandType.ArbitraryFeedForward, 0.05);
+        master.set(ControlMode.Position, inches * inchesToNativeUnits);
       //}
+      //master.set(ControlMode.PercentOutput, mController.calculate(master.getSelectedSensorPosition(), inches * inchesToNativeUnits));
     }
     public void setPercentOutput(double v){
       if(isLimitHit && v < 0){

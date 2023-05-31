@@ -147,6 +147,7 @@ public class RobotContainer {
     mCopilot.rightTrigger().whileTrue(mManipulator.goToZero().alongWith(mManipulator.getElevator().resetDoubleSetpoint()));
     mCopilot.back().onTrue(mManipulator.swapAutoScoreCommand());
     mCopilot.start().onTrue(mManipulator.getElevator().moveDoubleSetpointDown());
+    new Trigger(() -> (mDrivetrainSubsystem.getPose().getX() > 15.7 && mLimelight.hasTarget())).onTrue(mManipulator.getElevator().moveDoubleSetpointDown()).onFalse(mManipulator.getElevator().resetDoubleSetpoint());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());
     mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
     mCopilot.povLeft().whileTrue(mManipulator.goToScoreMid());

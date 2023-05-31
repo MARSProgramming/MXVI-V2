@@ -258,5 +258,5 @@ public class Manipulator extends SubsystemBase{
                 mPivot.Run(0);
             }
         );
-    }
+        }
 }
