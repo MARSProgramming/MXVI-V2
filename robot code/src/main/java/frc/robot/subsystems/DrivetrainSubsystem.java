@@ -78,6 +78,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
             SdsModuleConfigurations.MK4I_L3.getDriveReduction() *
             SdsModuleConfigurations.MK4I_L3.getWheelDiameter() * Math.PI
             * Constants.Drive.MAX_SPEED_MULTIPLIER;
+    
+    private static double max_speed_factor = 1.0;
     /**
      * The maximum angular velocity of the robot in radians per second.
      * <p>
@@ -241,7 +243,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND * max_speed_factor);
         m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 states[0].angle.getRadians());
         m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
@@ -306,6 +308,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public CommandBase resetAlign(){
         return runOnce(() -> {setAlignAdjust(0);});
+    }
+
+    public void limitSpeed(){
+        max_speed_factor = 0.08;
+    }
+
+    public CommandBase unlimitSpeed(){
+        return runOnce(() -> {
+            max_speed_factor = 1.0;
+        });
     }
 
     public double getAlignLeftY() {

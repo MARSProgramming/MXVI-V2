@@ -43,7 +43,7 @@ import frc.robot.subsystems.Manipulator;
 
 public class AutoChooser {
     private ShuffleboardTab preMatch;
-    private SendableChooser<Command> autoChooser = new SendableChooser();
+    private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     public AutoChooser(DrivetrainSubsystem mDrivetrainSubsystem, Manipulator mManipulator){
         preMatch = Shuffleboard.getTab("Match");

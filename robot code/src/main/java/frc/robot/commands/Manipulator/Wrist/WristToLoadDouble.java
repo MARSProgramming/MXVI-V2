@@ -11,7 +11,7 @@ public class WristToLoadDouble extends CommandBase{
 
     @Override
     public void execute(){
-        if(manipulator.getElevator().getPosition() > 2){
+        if(manipulator.getPivot().getEncoderPos() < 0){
             manipulator.getWrist().goToLoadDouble();
         }
     }

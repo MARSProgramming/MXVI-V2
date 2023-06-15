@@ -162,7 +162,13 @@ public class Wrist extends SubsystemBase{
         return mWrist.getClosedLoopError() < 0.1 * kRadiansToNativeUnits;
     }
     
+    public void configureLimits(double forward, double reverse){
+        mWrist.configForwardSoftLimitThreshold(forward * kRadiansToNativeUnits);
+        mWrist.configReverseSoftLimitThreshold(reverse * kRadiansToNativeUnits);
+    }
+
     @Override
     public void periodic(){
+
     }
 }

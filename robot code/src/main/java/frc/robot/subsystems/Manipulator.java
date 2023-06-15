@@ -259,4 +259,11 @@ public class Manipulator extends SubsystemBase{
             }
         );
         }
+
+    @Override
+    public void periodic(){
+        double forward = Constants.Wrist.forwardLimit + mPivot.getEncoderPos() * 2;
+        double reverse = Constants.Wrist.reverseLimit + mPivot.getEncoderPos() * 2;
+        mWrist.configureLimits(forward, reverse);
+    }
 }

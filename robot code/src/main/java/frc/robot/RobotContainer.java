@@ -121,14 +121,12 @@ public class RobotContainer {
     //mPilot.leftTrigger().whileTrue(new RunIntakeUntilStall(mManipulator).andThen(mManipulator.getGrasper().runTestCurrent()));
     mPilot.leftTrigger().whileTrue(mManipulator.getGrasper().runTestMode());
     mPilot.rightBumper().toggleOnTrue(mManipulator.getGrasper().runTestCurrent());
-    mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode().alongWith(mDrivetrainSubsystem.resetAlign()));
+    mPilot.rightTrigger().whileTrue(mManipulator.getGrasper().runSpitMode().withTimeout(0.3).andThen(mManipulator.goToZero()));
+    mPilot.rightTrigger().onTrue(mDrivetrainSubsystem.unlimitSpeed());
     mPilot.leftBumper().onTrue(mLED.swapYellowPurple().andThen(mLED.setFlashingCommand(true).withTimeout(1)).andThen(mLED.setFlashingCommand(false).withTimeout(0.05)));
     mPilot.rightStick().onTrue(new AlignToLoadDouble(mDrivetrainSubsystem, mLED));
     mPilot.povDown().whileTrue(mManipulator.goToStow());
     mPilot.start().onTrue(mBottomSolenoids.toggleBottomSolenoid());
-
-    mPilot.povLeft().whileTrue(new AutoAlignAdjust(mDrivetrainSubsystem, 0.05));
-    mPilot.povRight().whileTrue(new AutoAlignAdjust(mDrivetrainSubsystem, -0.05));
 
     mCopilot.a().whileTrue(mManipulator.goToLoadDouble());
     mCopilot.b().whileTrue(mManipulator.goToCloseCubeIntake());
@@ -147,7 +145,7 @@ public class RobotContainer {
     mCopilot.rightTrigger().whileTrue(mManipulator.goToZero().alongWith(mManipulator.getElevator().resetDoubleSetpoint()));
     mCopilot.back().onTrue(mManipulator.swapAutoScoreCommand());
     mCopilot.start().onTrue(mManipulator.getElevator().moveDoubleSetpointDown());
-    new Trigger(() -> (mDrivetrainSubsystem.getPose().getX() > 15.7 && mLimelight.hasTarget())).onTrue(mManipulator.getElevator().moveDoubleSetpointDown()).onFalse(mManipulator.getElevator().resetDoubleSetpoint());
+    new Trigger(() -> (mDrivetrainSubsystem.getPose().getX() > 15.72)).onTrue(mManipulator.getElevator().moveDoubleSetpointDown()).onFalse(mManipulator.getElevator().resetDoubleSetpoint());
     mCopilot.leftStick().onTrue(mManipulator.goToShoot());
     mCopilot.rightStick().onTrue(mManipulator.goToCubeShootHigh());
     mCopilot.povLeft().whileTrue(mManipulator.goToScoreMid());

@@ -79,7 +79,7 @@ public class Elevator extends SubsystemBase{
     public CommandBase moveDoubleSetpointDown() {
         return runOnce(
           () -> {
-            adjustDouble = -3;
+            adjustDouble = -0;
           }
           );
     }

@@ -209,7 +209,7 @@
   {
     "name": "/Shuffleboard/Elevator/Elevator: loadDoublePos",
     "type": "double",
-    "value": 14.9,
+    "value": 12.9,
     "properties": {
       "persistent": true,
       "retained": true
@@ -234,7 +234,7 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: forwardLimit",
     "type": "double",
-    "value": 10.75,
+    "value": 3.75,
     "properties": {
       "persistent": true
     }
@@ -242,7 +242,7 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: reverseLimit",
     "type": "double",
-    "value": -10.75,
+    "value": -4.75,
     "properties": {
       "persistent": true
     }
@@ -282,7 +282,7 @@
   {
     "name": "/Shuffleboard/Wrist/Wrist: loadDoublePos",
     "type": "double",
-    "value": -4.8,
+    "value": -4.7,
     "properties": {
       "persistent": true,
       "retained": true
