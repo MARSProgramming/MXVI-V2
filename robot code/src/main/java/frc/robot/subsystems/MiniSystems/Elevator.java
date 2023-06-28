@@ -79,7 +79,7 @@ public class Elevator extends SubsystemBase{
     public CommandBase moveDoubleSetpointDown() {
         return runOnce(
           () -> {
-            adjustDouble = -0;
+            adjustDouble = 3;
           }
           );
     }
@@ -193,7 +193,7 @@ public class Elevator extends SubsystemBase{
     }
 
     public boolean atSetpoint(){
-        return master.getClosedLoopError() < 0.2 * inchesToNativeUnits;
+        return master.getClosedLoopError() < 0.4 * inchesToNativeUnits;
     }
     
     @Override
