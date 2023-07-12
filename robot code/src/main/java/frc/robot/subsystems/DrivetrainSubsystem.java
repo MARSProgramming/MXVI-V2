@@ -311,7 +311,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void limitSpeed(){
-        max_speed_factor = 0.08;
+        max_speed_factor = 0.1;
     }
 
     public CommandBase unlimitSpeed(){

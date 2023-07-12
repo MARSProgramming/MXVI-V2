@@ -86,8 +86,8 @@ public final class Constants {
         public static int followerMotorID = 9;
         public static int limitSwitchID = 9;
 
-        public static double peakOutForward = 0.9;
-        public static double peakOutReverse = -0.6;
+        public static double peakOutForward = 0.95;
+        public static double peakOutReverse = -0.7;
 
         public static double intakeHighPos = 16;
         public static double intakePos = 8.5;
@@ -97,7 +97,7 @@ public final class Constants {
         public static double scoreHighPos = 35;
         public static double scoreMidPos = 13.8;
         public static double scoreLowPos = 0.1;
-        public static double loadDoublePos = 3.5;
+        public static double loadDoublePos = 13.5;
         public static double stowPos = 1;
         public static double loadPos = 0;
     }
@@ -115,7 +115,7 @@ public final class Constants {
         public static double intakeUpPos = 4.3;
         public static double intakeCubePos = 5.5;
         public static double intakeCloseCubePos = 4.0;
-        public static double loadDoublePos = -3;
+        public static double loadDoublePos = -5;
         public static double scoreHighPos = -4.9;
         public static double scoreMidPos = -5.0;
         public static double scoreLowPos = -6;
@@ -145,7 +145,7 @@ public final class Constants {
         public static double cubePos = 1.60;
         public static double intakeHighPos = 2.17;
         public static double loadPos = -1.2;
-        public static double loadDoublePos = -0.85;
+        public static double loadDoublePos = -0.3;
 
         public static double shootHighPos = -0.8;
         public static double stowPos = -0.75;

@@ -110,6 +110,7 @@ public class RobotContainer {
    */
 
   public void configureTeleopBindings() {
+    mKeypad.button(4).onTrue(mBottomSolenoids.toggleBottomSolenoid());
     mKeypad.button(3).onTrue(mManipulator.setAlignTypeCommand(2));
     mKeypad.button(2).onTrue(mManipulator.setAlignTypeCommand(1));
     mKeypad.button(1).onTrue(mManipulator.setAlignTypeCommand(0));
@@ -126,7 +127,8 @@ public class RobotContainer {
     mPilot.leftBumper().onTrue(mLED.swapYellowPurple().andThen(mLED.setFlashingCommand(true).withTimeout(1)).andThen(mLED.setFlashingCommand(false).withTimeout(0.05)));
     mPilot.rightStick().onTrue(new AlignToLoadDouble(mDrivetrainSubsystem, mLED));
     mPilot.povDown().whileTrue(mManipulator.goToStow());
-    mPilot.start().onTrue(mBottomSolenoids.toggleBottomSolenoid());
+    mPilot.start().onTrue(mDrivetrainSubsystem.unlimitSpeed());
+    //mPilot.back().onTrue(mBottomSolenoids.toggleBottomSolenoid());
 
     mCopilot.a().whileTrue(mManipulator.goToLoadDouble());
     mCopilot.b().whileTrue(mManipulator.goToCloseCubeIntake());
