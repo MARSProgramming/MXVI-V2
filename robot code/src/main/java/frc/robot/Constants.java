@@ -97,7 +97,7 @@ public final class Constants {
         public static double scoreHighPos = 35;
         public static double scoreMidPos = 13.8;
         public static double scoreLowPos = 0.1;
-        public static double loadDoublePos = 13.5;
+        public static double loadDoublePos = 13.8;
         public static double stowPos = 1;
         public static double loadPos = 0;
     }
