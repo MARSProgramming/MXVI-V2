@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,7 +16,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class DriveAtPath extends CommandBase {
     private final DrivetrainSubsystem mDrivetrainSubsystem;
     private PathPlannerTrajectory mTrajectory;
-    private PathPlannerTrajectory transformedTrajectory;
+    // private PathPlannerTrajectory transformedTrajectory; (not used)
     private HolonomicDriveController mController;
     private Timer mTimer;
     private double timeout;

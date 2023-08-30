@@ -1,7 +1,6 @@
 package frc.robot.commands.Manipulator.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.Manipulator;
 
 public class ElevatorIntakeHigh extends CommandBase{

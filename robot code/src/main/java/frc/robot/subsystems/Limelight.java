@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import java.sql.Driver;
 
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
@@ -53,7 +52,7 @@ public class Limelight extends SubsystemBase{
             botpose = NetworkTableInstance.getDefault().getTable("limelight-left").getEntry(key).getDoubleArray(new double[7]);
             double x = botpose[0];
             double y = botpose[1];
-            double z = botpose[2];
+            // double z = botpose[2]; (not used)
 
             if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 1 || DriverStation.isTeleop() || DriverStation.isDisabled()){
                 if(!mTimerLeft.hasElapsed(0.3) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.3){
@@ -78,7 +77,7 @@ public class Limelight extends SubsystemBase{
             botpose = NetworkTableInstance.getDefault().getTable("limelight-right").getEntry(key).getDoubleArray(new double[7]);
             double x = botpose[0];
             double y = botpose[1];
-            double z = botpose[2];
+            // double z = botpose[2]; (not used)
 
             if(dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 1 || DriverStation.isTeleop() || DriverStation.isDisabled()){
                 if(!mTimerRight.hasElapsed(0.3) || dt.getPose().getTranslation().getDistance(new Translation2d(x, y)) < 0.3){

@@ -18,8 +18,8 @@ public class AlignToScore extends CommandBase {
     private AlignToScoreEnum mPos = AlignToScoreEnum.LEFT;
     private double yGoal = 0;
     private double xGoal = 1.84;
-    private double highScoreX = 0.37;
-    private double midScoreX = 0.79;
+   // private double highScoreX = 0.37; (not used)
+   // private double midScoreX = 0.79; (not used)
 
     public AlignToScore(DrivetrainSubsystem subsystem, AlignToScoreEnum pos) {
         mPos = pos;
@@ -59,8 +59,8 @@ public class AlignToScore extends CommandBase {
     @Override
     public void execute() {
         //ChassisSpeeds cs = new ChassisSpeeds();
-        double angleAdjust = mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) < 0.2 ?
-        Math.atan((mDrivetrainSubsystem.getPose().getY()-yGoal)/(mDrivetrainSubsystem.getPose().getX() - midScoreX)) : 0;
+       // double angleAdjust = mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) < 0.2 ?
+       // Math.atan((mDrivetrainSubsystem.getPose().getY()-yGoal)/(mDrivetrainSubsystem.getPose().getX() - midScoreX)) : 0; (not used)
         //if(mDrivetrainSubsystem.getPose().getTranslation().getDistance(new Translation2d(xGoal, yGoal)) > 0.04){
             ChassisSpeeds cs = new ChassisSpeeds(
             -xController.calculate(mDrivetrainSubsystem.getPose().getX(), xGoal),
