@@ -46,7 +46,7 @@ import frc.robot.Constants;
 import frc.robot.util.MoreMath;
 
 public class DrivetrainSubsystem extends SubsystemBase {
-    private ShuffleboardTab Match = Shuffleboard.getTab("Match");
+   // private ShuffleboardTab Match = Shuffleboard.getTab("Match");
 
     // private GenericEntry XPos = Match.add("Robot X Position",
     // 0).withSize(2,1).withPosition(0, 3).getEntry();
@@ -340,12 +340,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 + adjust;
     }
 
-    private double lastRoll = m_pigeon.getRoll();
+   //private double lastRoll = m_pigeon.getRoll();
 
     public boolean finishedBalanceFar() {
         System.out.println(m_pigeon.getRoll());
         boolean finish = m_pigeon.getRoll() - lastRollClose > 0.5;
-        lastRoll = m_pigeon.getRoll();
+       // lastRoll = m_pigeon.getRoll();
         return finish;
     }
 

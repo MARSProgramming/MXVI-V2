@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -18,7 +17,6 @@ import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
 import frc.robot.commands.Manipulator.Elevator.ElevatorShootHigh;
 import frc.robot.commands.Manipulator.Elevator.ElevatorStow;
 import frc.robot.commands.Manipulator.Grasper.ScoreAtPivotElevatorSetpoint;
-import frc.robot.commands.Manipulator.Grasper.ScoreAtPivotSetpoint;
 import frc.robot.commands.Manipulator.Pivot.PivotToCubeCloseIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToCubeIntake;
 import frc.robot.commands.Manipulator.Pivot.PivotToHighIntake;

@@ -5,7 +5,6 @@
 package frc.robot;
 
 
-import com.pathplanner.lib.auto.MecanumAutoBuilder;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -19,22 +18,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Drive.AlignToLoadDouble;
 import frc.robot.commands.Drive.AlignToScore;
 import frc.robot.commands.Drive.AlignToScoreEnum;
-import frc.robot.commands.Drive.AutoAlignAdjust;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.ZeroGyroscope;
 import frc.robot.commands.Drive.ZeroSwerves;
 import frc.robot.commands.Manipulator.AlignToScoreManipulator;
 import frc.robot.commands.Manipulator.Elevator.ElevatorScoreMid;
-import frc.robot.commands.Manipulator.Grasper.RunIntakeUntilStall;
-import frc.robot.commands.Manipulator.Pivot.PivotToIntake;
 import frc.robot.commands.Manipulator.Pivot.ZeroPivot;
 import frc.robot.subsystems.BottomSolenoids;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.SubsystemIO;
-import frc.robot.subsystems.MiniSystems.Pivot;
 import frc.robot.util.AutoChooser;
 import frc.robot.util.MatchTab;
 
@@ -57,7 +51,7 @@ public class RobotContainer {
   private final BottomSolenoids mBottomSolenoids = new BottomSolenoids();
   private final Limelight mLimelight = new Limelight(mDrivetrainSubsystem);
   private final Manipulator mManipulator = new Manipulator();
-  private final SubsystemIO mSubsystemIO = new SubsystemIO();
+ // private final SubsystemIO mSubsystemIO = new SubsystemIO();
   private MatchTab matchtab;
   private AutoChooser autoChooser = new AutoChooser(mDrivetrainSubsystem, mManipulator);
   private LED mLED = new LED();
